@@ -54,7 +54,7 @@ int main()
     printVector(-v2, "-v2");
     printDashes();
     v2 = {1.5, -9.22};
-    printVector(v2);
+    printVector(v2, "v2");
     std::cout << "You can also convert sfex::Vector2<T> to sf::Vector2<T> or vice versa very easily!" << std::endl;
     std::cout << "Check the source code to understand this part better." << std::endl;
     sf::Vector2f vecf = v2;
