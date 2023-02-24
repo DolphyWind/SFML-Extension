@@ -49,4 +49,4 @@ private:
 
 }
 
-#endif // _SFEX_GENERAL_STOPWATCH_HPP_
+#endif // !_SFEX_GENERAL_STOPWATCH_HPP_

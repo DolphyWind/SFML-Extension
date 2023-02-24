@@ -27,7 +27,8 @@ namespace sfex
 
 Stopwatch::Stopwatch()
 {
-
+    m_time = sf::Time();
+    m_paused = false;
 }
 
 sf::Time Stopwatch::getElapsedTime()

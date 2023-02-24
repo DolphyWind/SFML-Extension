@@ -24,5 +24,6 @@
 #define _SFEX_NUMERIC_HPP_
 
 #include <SFEX/Config.hpp>
+#include <SFEX/Numeric/Vector2.hpp>
 
 #endif // !_SFEX_NUMERIC_HPP_

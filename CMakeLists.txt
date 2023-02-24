@@ -13,9 +13,11 @@ set( SFEX_HEADER_FILES
 	include/SFEX/Numeric.hpp
 	include/SFEX/SFEX.hpp
 	include/SFEX/General/Stopwatch.hpp
+	include/SFEX/Numeric/Vector2.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
+    src/SFEX/Numeric/Vector2.cpp
 )
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})
