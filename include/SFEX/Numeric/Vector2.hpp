@@ -27,7 +27,7 @@
 #include <array>
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/System/Vector3.hpp>
+#include <SFML/System/Angle.hpp>
 
 namespace sfex
 {
@@ -45,10 +45,12 @@ public:
     double magnitude() const;
     void setMagnitude(double magnitude);
     void normalize();
-    Vector2 normalized();
+    Vector2<T> normalized();
     T dot(const Vector2<T> &right);
     void scale(const T &scalar);
-    Vector2 scaled(const T &scalar) const;
+    Vector2<T> scaled(const T &scalar) const;
+    void rotate(double angle, const Vector2<T> &rotateAround = {0, 0});
+    Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = {0, 0});
 
     bool operator==(const Vector2 &right) const;
     bool operator!=(const Vector2 &right) const;
@@ -80,6 +82,12 @@ public:
     template<typename T2>
     Vector2<T> operator=(const sf::Vector2<T2> &right);
 
+    static const Vector2<T> one;
+    static const Vector2<T> zero;
+    static const Vector2<T> up;
+    static const Vector2<T> down;
+    static const Vector2<T> right;
+    static const Vector2<T> left;
 };
 
 typedef Vector2<float> Vec2;

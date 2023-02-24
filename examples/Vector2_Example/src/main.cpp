@@ -68,5 +68,22 @@ int main()
     printVector((v1=veci), "v1=veci ");
     printVector((v1=vecu), "v1=vecu ");
 
+    printDashes();
+    std::cout << "Static const members." << std::endl;
+    printVector(sfex::Vec2::one, "one");
+    printVector(sfex::Vec2::zero, "zero");
+    printVector(sfex::Vec2::up, "up");
+    printVector(sfex::Vec2::down, "down");
+    printVector(sfex::Vec2::left, "left");
+    printVector(sfex::Vec2::right, "right");
+    printDashes();
+    v2 = sfex::Vec2::right;
+    printVector(v2, "v2");
+    printVector(v2.rotated(3.1415926535 / 2), "v2 rotated 90 degrees");
+    printVector(v2.rotated(-3.1415926535 / 2), "v2 rotated -90 degrees");
+    printVector(v2.rotated(3.1415926535), "v2 rotated 180 degrees");
+    printVector(v2.rotated(3.1415926535 / 2, {-1, 0}), "v2 rotated 90 degrees around (-1, 0)");
+    
+
     return 0;
 }

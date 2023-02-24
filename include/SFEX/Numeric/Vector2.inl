@@ -84,6 +84,22 @@ Vector2<T> Vector2<T>::scaled(const T &scalar) const
     return resultVector;
 }
 
+template<typename T>
+void Vector2<T>::rotate(double angle, const Vector2<T> &rotateAround)
+{
+    Vector2<T> resultVector = *this - rotateAround;
+    resultVector = {resultVector.x * std::cos(angle) - resultVector.y * std::sin(angle), resultVector.x * std::sin(angle) + resultVector.y * std::cos(angle)};
+    *this = resultVector + rotateAround;
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround)
+{
+    Vector2<T> resultVector = *this;
+    resultVector.rotate(angle, rotateAround);
+    return resultVector;
+}
+
 //////////////////////////////////////////////////////////
 // Logical operators
 //////////////////////////////////////////////////////////
@@ -247,6 +263,21 @@ Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &right)
     return *this;
 }
 
+//////////////////////////////////////////////////////////
+// Static properties
+//////////////////////////////////////////////////////////
 
+template<typename T>
+const Vector2<T> Vector2<T>::one = {1, 1};
+template<typename T>
+const Vector2<T> Vector2<T>::zero = {0, 0};
+template<typename T>
+const Vector2<T> Vector2<T>::up = {0, 1};
+template<typename T>
+const Vector2<T> Vector2<T>::down = {0, -1};
+template<typename T>
+const Vector2<T> Vector2<T>::left = {-1, 0};
+template<typename T>
+const Vector2<T> Vector2<T>::right = {1, 0};
 
 } // namespace sfex
