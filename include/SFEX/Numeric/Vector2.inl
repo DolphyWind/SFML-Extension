@@ -36,7 +36,7 @@ Vector2<T>::Vector2(const T &_x, const T &_y): x(_x), y(_y)
 }
 
 template<typename T>
-double Vector2<T>::getMagnitude() const
+double Vector2<T>::magnitude() const
 {
     return std::sqrt(x*x + y*y);
 }
@@ -44,7 +44,7 @@ double Vector2<T>::getMagnitude() const
 template<typename T>
 void Vector2<T>::setMagnitude(double magnitude)
 {
-    double mag = this->getMagnitude();
+    double mag = this->magnitude();
     x *= (magnitude / mag);
     y *= (magnitude / mag);
 }
@@ -210,19 +210,19 @@ sf::Vector2<T2> Vector2<T>::toSFMLVector() const
 template<typename T>
 sf::Vector2f Vector2<T>::toVector2f() const
 {
-    return {float(x), float(y)};
+    return toSFMLVector<float>();
 }
 
 template<typename T>
 sf::Vector2i Vector2<T>::toVector2i() const
 {
-    return {int(x), int(y)};
+    return toSFMLVector<int>();
 }
 
 template<typename T>
 sf::Vector2u Vector2<T>::toVector2u() const
 {
-    return {unsigned(x), unsigned(y)};
+    return toSFMLVector<unsigned int>();
 }
 
 template<typename T>
@@ -233,28 +233,20 @@ Vector2<T>::operator sf::Vector2<T2>() const
 }
 
 template<typename T>
-Vector2<T>::operator sf::Vector2<float>() const
+Vector2<T> Vector2<T>::fromSFML(const sf::Vector2<T> &sfVec)
 {
-    return toVector2f();
+    Vector2<T> vec = {sfVec.x, sfVec.y};
+    return vec;
 }
 
 template<typename T>
-Vector2<T>::operator sf::Vector2<int>() const
+template<typename T2>
+Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &right)
 {
-    return toVector2i();
+    *this = {right.x, right.y};
+    return *this;
 }
 
-template<typename T>
-Vector2<T>::operator sf::Vector2<unsigned>() const
-{
-    return toVector2u();
-}
 
-// No need to call this TemporaryFunction() function,
-// it's just to avoid link error.
-void TemporaryFunction ()
-{
-    Vector2<int> TempObj;
-}
 
 } // namespace sfex

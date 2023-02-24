@@ -42,7 +42,7 @@ public:
     Vector2();
     Vector2(const T &x, const T &y);
 
-    double getMagnitude() const;
+    double magnitude() const;
     void setMagnitude(double magnitude);
     void normalize();
     Vector2 normalized();
@@ -75,9 +75,10 @@ public:
 
     template<typename T2>
     operator sf::Vector2<T2>() const;
-    operator sf::Vector2<float>() const;
-    operator sf::Vector2<int>() const;
-    operator sf::Vector2<unsigned>() const;
+    
+    static Vector2<T> fromSFML(const sf::Vector2<T> &sfVec);
+    template<typename T2>
+    Vector2<T> operator=(const sf::Vector2<T2> &right);
 
 };
 
