@@ -39,54 +39,131 @@ public:
     T x;
     T y;
 
+    /// @brief Default constructor. Creates a zero vector.
     Vector2();
+
+    /// @brief Default constructor. Creates a vectors with components x and y.
     Vector2(const T &x, const T &y);
 
+    /// @brief Returns magnitude (length) of the vector
+    /// @return Magnitude of the vector
     double magnitude() const;
+    
+    /// @brief Changes the vector's magnitude while keeping its direction same
+    /// @param magnitude Target magnitude
     void setMagnitude(double magnitude);
+
+    /// @brief Sets the vector's length to 1. Shorthand for setMagnitude(1) 
     void normalize();
+
+    /// @brief Returns the normalized version of the vector
+    /// @return Normalized version of vector
     Vector2<T> normalized();
-    T dot(const Vector2<T> &right);
+
+    /// @brief Calculates the dot product between this and rhs 
+    /// @param rhs rhs vector
+    /// @return Result of this . rhs
+    T dot(const Vector2<T> &rhs);
+
+    /// @brief Treats the vectors as three dimentional with z being equal to zero vectors and calculates the cross product between them. Returns the z component of the reult since x and y components are zero.
+    /// @param rhs rhs vector
+    /// @return Result of this x rhs
+    T cross(const Vector2<T> &rhs);
+
+    /// @brief Calculates component-wise product aka hadamard product between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise multiplication.
+    Vector2<T> cwiseMul(const Vector2<T> &rhs);
+
+    /// @brief Calculates component-wise division aka hadamard division between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise division.
+    Vector2<T> cwiseDiv(const Vector2<T> &rhs);
+
+    /// @brief Scales the vector with a scalar
+    /// @param scalar scalar
     void scale(const T &scalar);
+
+    /// @brief Returns a scaled version of the vector
+    /// @param scalar scalar
+    /// @return Scaled version of the vector
     Vector2<T> scaled(const T &scalar) const;
-    void rotate(double angle, const Vector2<T> &rotateAround = {0, 0});
-    Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = {0, 0});
 
-    bool operator==(const Vector2 &right) const;
-    bool operator!=(const Vector2 &right) const;
+    /// @brief Rotates the vector around "rotateAround" vector.
+    /// @param angle angle in radians
+    /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
+    void rotate(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
 
-    Vector2<T> operator+=(const Vector2 &right);
-    Vector2<T> operator+(const Vector2 &right) const;
+    /// @brief Returns Rotated version of the vector around "rotateAround" vector.
+    /// @param angle angle in radians
+    /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
+    /// @return Rotated version of vector
+    Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
 
-    Vector2<T> operator-=(const Vector2 &right);
-    Vector2<T> operator-(const Vector2 &right) const;
+    /// @brief Calculates the angle between the vector and "relativeTo" vector
+    /// @param relativeTo relativeTo vector. (Defaults to Vector2<T>::zero)
+    /// @return Angle between the vector and "relativeTo" as radians
+    float angle(const Vector2<T> &relativeTo = Vector2<T>::zero);
+
+    bool operator==(const Vector2 &rhs) const;
+    bool operator!=(const Vector2 &rhs) const;
+
+    Vector2<T> operator+=(const Vector2 &rhs);
+    Vector2<T> operator+(const Vector2 &rhs) const;
+
+    Vector2<T> operator-=(const Vector2 &rhs);
+    Vector2<T> operator-(const Vector2 &rhs) const;
     Vector2<T> operator-() const;
 
     Vector2<T> operator*=(const T &scalar);
     Vector2<T> operator*(const T &scalar) const;
-    T operator*(const Vector2 &right) const;
 
     Vector2<T> operator/=(const T &scalar);
     Vector2<T> operator/(const T &scalar) const;
 
+    /// @brief Converts sfex::Vector2<T> to sf::Vector2<T>
+    /// @return Vector converted to sf::Vector2<T2>
     template<typename T2>
     sf::Vector2<T2> toSFMLVector() const;
-    sf::Vector2f toVector2f() const;
-    sf::Vector2i toVector2i() const;
-    sf::Vector2u toVector2u() const;
 
+    /// @brief Converts sfex::Vector2<T> to sf::Vector2f
+    /// @return Vector converted to sf::Vector2f
+    sf::Vector2f toVector2f() const;
+
+    /// @brief Converts sfex::Vector2<T> to sf::Vector2i
+    /// @return Vector converted to sf::Vector2i
+    sf::Vector2i toVector2i() const;
+
+    /// @brief Converts sfex::Vector2<T> to sf::Vector2u
+    /// @return Vector converted to sf::Vector2u
+    sf::Vector2u toVector2u() const;
+    
     template<typename T2>
     operator sf::Vector2<T2>() const;
     
+    /// @brief Creates sfex::Vector2<T> from a sfml vector
+    /// @param sfVec sfml vector
+    /// @return Created vector
     static Vector2<T> fromSFML(const sf::Vector2<T> &sfVec);
     template<typename T2>
-    Vector2<T> operator=(const sf::Vector2<T2> &right);
+    Vector2<T> operator=(const sf::Vector2<T2> &rhs);
 
+    /// @brief Vector <1, 1>
     static const Vector2<T> one;
+
+    /// @brief Vector <0, 0>
     static const Vector2<T> zero;
+
+    /// @brief Vector <0, 1>
     static const Vector2<T> up;
+
+    /// @brief Vector <0, -1>
     static const Vector2<T> down;
+
+    /// @brief Vector <1, 0>
     static const Vector2<T> right;
+
+    /// @brief Vector <-1, 0>
     static const Vector2<T> left;
 };
 

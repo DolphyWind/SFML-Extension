@@ -20,11 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// Headers
 #include <SFEX/Numeric/Vector2.hpp>
 
 namespace sfex
 {
-
-
-
+// The vector implementation is in SFEX/Numeric/Vector2.inl
 } // namespace sfex

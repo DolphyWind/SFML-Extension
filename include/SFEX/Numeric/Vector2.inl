@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// Headers
 #include <SFEX/Numeric/Vector2.hpp>
 
 namespace sfex
@@ -64,16 +65,33 @@ Vector2<T> Vector2<T>::normalized()
 }
 
 template<typename T>
-T Vector2<T>::dot(const Vector2<T> &right)
+T Vector2<T>::dot(const Vector2<T> &rhs)
 {
-    return x * right.x + y * right.y;
+    return x * rhs.x + y * rhs.y;
+}
+
+template<typename T>
+T Vector2<T>::cross(const Vector2<T> &rhs)
+{
+    return x * rhs.y - y * rhs.x;
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::cwiseMul(const Vector2<T> &rhs)
+{
+    return {x * rhs.x, y * rhs.y};
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::cwiseDiv(const Vector2<T> &rhs)
+{
+    return {x / rhs.x, y / rhs.y};
 }
 
 template<typename T>
 void Vector2<T>::scale(const T &scalar)
 {
-    x *= scalar;
-    y *= scalar;
+    *this = this->cwiseMul({scalar, scalar});
 }
 
 template<typename T>
@@ -100,20 +118,27 @@ Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround)
     return resultVector;
 }
 
+template<typename T>
+float Vector2<T>::angle(const Vector2<T> &relativeTo)
+{
+    Vector2<T> vectorTransformed = *this - relativeTo;
+    return std::atan2(vectorTransformed.y, vectorTransformed.x);
+}
+
 //////////////////////////////////////////////////////////
 // Logical operators
 //////////////////////////////////////////////////////////
 
 template<typename T>
-bool Vector2<T>::operator==(const Vector2<T> &right) const
+bool Vector2<T>::operator==(const Vector2<T> &rhs) const
 {
-    return (x == right.x) && (y == right.y);
+    return (x == rhs.x) && (y == rhs.y);
 }
 
 template<typename T>
-bool Vector2<T>::operator!=(const Vector2<T> &right) const
+bool Vector2<T>::operator!=(const Vector2<T> &rhs) const
 {
-    return !(*this == right);
+    return !(*this == rhs);
 }
 
 //////////////////////////////////////////////////////////
@@ -121,18 +146,18 @@ bool Vector2<T>::operator!=(const Vector2<T> &right) const
 //////////////////////////////////////////////////////////
 
 template<typename T>
-Vector2<T> Vector2<T>::operator+=(const Vector2 &right)
+Vector2<T> Vector2<T>::operator+=(const Vector2 &rhs)
 {
-    x += right.x;
-    y += right.y;
+    x += rhs.x;
+    y += rhs.y;
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator+(const Vector2 &right) const
+Vector2<T> Vector2<T>::operator+(const Vector2 &rhs) const
 {
     Vector2<T> resultVector = *this;
-    return (resultVector += right);
+    return (resultVector += rhs);
 }
 
 //////////////////////////////////////////////////////////
@@ -140,18 +165,18 @@ Vector2<T> Vector2<T>::operator+(const Vector2 &right) const
 //////////////////////////////////////////////////////////
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-=(const Vector2 &right)
+Vector2<T> Vector2<T>::operator-=(const Vector2 &rhs)
 {
-    x -= right.x;
-    y -= right.y;
+    x -= rhs.x;
+    y -= rhs.y;
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-(const Vector2 &right) const
+Vector2<T> Vector2<T>::operator-(const Vector2 &rhs) const
 {
     Vector2<T> resultVector = *this;
-    return (resultVector -= right);
+    return (resultVector -= rhs);
 }
 
 template<typename T>
@@ -179,13 +204,6 @@ Vector2<T> Vector2<T>::operator*(const T &scalar) const
 {
     Vector2<T> resultVector = *this;
     return (resultVector *= scalar);
-}
-
-template<typename T>
-T Vector2<T>::operator*(const Vector2 &right) const
-{
-    return this->dot(right);
-    return T(0);
 }
 
 template<typename T>
@@ -257,9 +275,9 @@ Vector2<T> Vector2<T>::fromSFML(const sf::Vector2<T> &sfVec)
 
 template<typename T>
 template<typename T2>
-Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &right)
+Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &rhs)
 {
-    *this = {right.x, right.y};
+    *this = {rhs.x, rhs.y};
     return *this;
 }
 
