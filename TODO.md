@@ -1,7 +1,8 @@
 + Remove Vector2<T>::operator*(const Vector2<T> &right)
 + Add cross product, component-wise product and component-wise division
-+ Create Vector3<T> class
 
-+ Create Math class
-+ Create Audio Manager class
-+ Create Texture Manager class (Name can change)
++ Numeric/Vector3
++ Numeric/Math
++ Numeric/Random
++ Managers/AudioManager
++ Managers/TextureManager (Name could change)
