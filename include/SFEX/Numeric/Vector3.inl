@@ -21,108 +21,110 @@
 // SOFTWARE.
 
 // Headers
-#include <SFEX/Numeric/Vector2.hpp>
+#include <SFEX/Numeric/Vector3.hpp>
 
 namespace sfex
 {
 
 template<typename T>
-Vector2<T>::Vector2(): x(T()), y(T())
+Vector3<T>::Vector3(): x(T()), y(T()), z(T())
 {
 }
 
 template<typename T>
-Vector2<T>::Vector2(const T &_x, const T &_y): x(_x), y(_y) 
+Vector3<T>::Vector3(const T &_x, const T &_y, const T &_z): x(_x), y(_y), z(_z) 
 {
 }
 
 template<typename T>
-double Vector2<T>::magnitude() const
+double Vector3<T>::magnitude() const
 {
-    return std::sqrt(x*x + y*y);
+    return std::sqrt(x*x + y*y + z*z);
 }
 
 template<typename T>
-void Vector2<T>::setMagnitude(double magnitude)
+void Vector3<T>::setMagnitude(double magnitude)
 {
     double mag = this->magnitude();
     x *= (magnitude / mag);
     y *= (magnitude / mag);
+    z *= (magnitude / mag);
 }
 
 template<typename T>
-void Vector2<T>::normalize()
+void Vector3<T>::normalize()
 {
     this->setMagnitude(1);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::normalized()
+Vector3<T> Vector3<T>::normalized()
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     resultVector.normalize();
     return resultVector;
 }
 
 template<typename T>
-T Vector2<T>::dot(const Vector2<T> &rhs)
+T Vector3<T>::dot(const Vector3<T> &rhs)
 {
-    return x * rhs.x + y * rhs.y;
+    return x * rhs.x + y * rhs.y + z * rhs.z;
 }
 
 template<typename T>
-T Vector2<T>::cross(const Vector2<T> &rhs)
+Vector3<T> Vector3<T>::cross(const Vector3<T> &rhs)
 {
-    return x * rhs.y - y * rhs.x;
+    return {
+        y * rhs.z - z * rhs.y,
+        z * rhs.x - x * rhs.z,
+        x * rhs.y - y * rhs.x,
+    };
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::cwiseMul(const Vector2<T> &rhs)
+Vector3<T> Vector3<T>::cwiseMul(const Vector3<T> &rhs)
 {
-    return {x * rhs.x, y * rhs.y};
+    return {x * rhs.x, y * rhs.y, z * rhs.z};
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::cwiseDiv(const Vector2<T> &rhs)
+Vector3<T> Vector3<T>::cwiseDiv(const Vector3<T> &rhs)
 {
-    return {x / rhs.x, y / rhs.y};
+    return {x / rhs.x, y / rhs.y, z / rhs.z};
 }
 
 template<typename T>
-void Vector2<T>::scale(const T &scalar)
+void Vector3<T>::scale(const T &scalar)
 {
-    *this = this->cwiseMul({scalar, scalar});
+    *this = this->cwiseMul({scalar, scalar, scalar});
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::scaled(const T &scalar) const 
+Vector3<T> Vector3<T>::scaled(const T &scalar) const 
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     resultVector.scale(scalar);
     return resultVector;
 }
 
 template<typename T>
-void Vector2<T>::rotate(double angle, const Vector2<T> &rotateAround)
+void Vector3<T>::rotate(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround)
 {
-    Vector2<T> resultVector = *this - rotateAround;
-    resultVector = {resultVector.x * std::cos(angle) - resultVector.y * std::sin(angle), resultVector.x * std::sin(angle) + resultVector.y * std::cos(angle)};
-    *this = resultVector + rotateAround;
+    // TODO: Do some math here
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround)
+Vector3<T> Vector3<T>::rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround)
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     resultVector.rotate(angle, rotateAround);
     return resultVector;
 }
 
 template<typename T>
-float Vector2<T>::angle(const Vector2<T> &relativeTo)
+float Vector3<T>::angle(const Vector3<T> &other)
 {
-    Vector2<T> vectorTransformed = *this - relativeTo;
-    return std::atan2(vectorTransformed.y, vectorTransformed.x);
+    return std::acos(this->dot(other) / (this->magnitude() * other.magnitude()));
 }
 
 //////////////////////////////////////////////////////////
@@ -130,13 +132,13 @@ float Vector2<T>::angle(const Vector2<T> &relativeTo)
 //////////////////////////////////////////////////////////
 
 template<typename T>
-bool Vector2<T>::operator==(const Vector2<T> &rhs) const
+bool Vector3<T>::operator==(const Vector3<T> &rhs) const
 {
-    return (x == rhs.x) && (y == rhs.y);
+    return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
 }
 
 template<typename T>
-bool Vector2<T>::operator!=(const Vector2<T> &rhs) const
+bool Vector3<T>::operator!=(const Vector3<T> &rhs) const
 {
     return !(*this == rhs);
 }
@@ -146,17 +148,18 @@ bool Vector2<T>::operator!=(const Vector2<T> &rhs) const
 //////////////////////////////////////////////////////////
 
 template<typename T>
-Vector2<T> Vector2<T>::operator+=(const Vector2 &rhs)
+Vector3<T> Vector3<T>::operator+=(const Vector3 &rhs)
 {
     x += rhs.x;
     y += rhs.y;
+    z += rhs.z;
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator+(const Vector2 &rhs) const
+Vector3<T> Vector3<T>::operator+(const Vector3 &rhs) const
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     return (resultVector += rhs);
 }
 
@@ -165,26 +168,28 @@ Vector2<T> Vector2<T>::operator+(const Vector2 &rhs) const
 //////////////////////////////////////////////////////////
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-=(const Vector2 &rhs)
+Vector3<T> Vector3<T>::operator-=(const Vector3 &rhs)
 {
     x -= rhs.x;
     y -= rhs.y;
+    z -= rhs.z;
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-(const Vector2 &rhs) const
+Vector3<T> Vector3<T>::operator-(const Vector3 &rhs) const
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     return (resultVector -= rhs);
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator-() const
+Vector3<T> Vector3<T>::operator-() const
 {
-    Vector2<T> resultVector;
+    Vector3<T> resultVector;
     resultVector.x = -x;
     resultVector.y = -y;
+    resultVector.z = -z;
     return resultVector;
 }
 
@@ -193,21 +198,21 @@ Vector2<T> Vector2<T>::operator-() const
 //////////////////////////////////////////////////////////
 
 template<typename T>
-Vector2<T> Vector2<T>::operator*=(const T &scalar)
+Vector3<T> Vector3<T>::operator*=(const T &scalar)
 {
     this->scale(scalar);
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator*(const T &scalar) const
+Vector3<T> Vector3<T>::operator*(const T &scalar) const
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     return (resultVector *= scalar);
 }
 
 template<typename T>
-Vector2<T> operator*(const T &scalar, const Vector2<T> &vec)
+Vector3<T> operator*(const T &scalar, const Vector3<T> &vec)
 {
     return vec.scaled(scalar);
 }
@@ -217,16 +222,16 @@ Vector2<T> operator*(const T &scalar, const Vector2<T> &vec)
 //////////////////////////////////////////////////////////
 
 template<typename T>
-Vector2<T> Vector2<T>::operator/=(const T &scalar)
+Vector3<T> Vector3<T>::operator/=(const T &scalar)
 {
     this->scale(1 / scalar);
     return *this;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::operator/(const T &scalar) const
+Vector3<T> Vector3<T>::operator/(const T &scalar) const
 {
-    Vector2<T> resultVector = *this;
+    Vector3<T> resultVector = *this;
     return (resultVector /= scalar);
 }
 
@@ -236,48 +241,42 @@ Vector2<T> Vector2<T>::operator/(const T &scalar) const
 
 template<typename T>
 template<typename T2>
-sf::Vector2<T2> Vector2<T>::toSFMLVector() const
+sf::Vector3<T2> Vector3<T>::toSFMLVector() const
 {
-    return sf::Vector2<T2>(T2(x), T2(y));
+    return sf::Vector3<T2>(T2(x), T2(y), T2(z));
 }
 
 template<typename T>
-sf::Vector2f Vector2<T>::toVector2f() const
+sf::Vector3f Vector3<T>::toVector3f() const
 {
     return toSFMLVector<float>();
 }
 
 template<typename T>
-sf::Vector2i Vector2<T>::toVector2i() const
+sf::Vector3i Vector3<T>::toVector3i() const
 {
     return toSFMLVector<int>();
 }
 
 template<typename T>
-sf::Vector2u Vector2<T>::toVector2u() const
-{
-    return toSFMLVector<unsigned int>();
-}
-
-template<typename T>
 template<typename T2>
-Vector2<T>::operator sf::Vector2<T2>() const
+Vector3<T>::operator sf::Vector3<T2>() const
 {
     return toSFMLVector<T2>();
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::fromSFML(const sf::Vector2<T> &sfVec)
+Vector3<T> Vector3<T>::fromSFML(const sf::Vector3<T> &sfVec)
 {
-    Vector2<T> vec = {sfVec.x, sfVec.y};
+    Vector3<T> vec = {sfVec.x, sfVec.y, sfVec.z};
     return vec;
 }
 
 template<typename T>
 template<typename T2>
-Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &rhs)
+Vector3<T> Vector3<T>::operator=(const sf::Vector3<T2> &rhs)
 {
-    *this = {rhs.x, rhs.y};
+    *this = {rhs.x, rhs.y, rhs.z};
     return *this;
 }
 
@@ -286,16 +285,20 @@ Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &rhs)
 //////////////////////////////////////////////////////////
 
 template<typename T>
-const Vector2<T> Vector2<T>::one = {1, 1};
+const Vector3<T> Vector3<T>::one = {1, 1, 1};
 template<typename T>
-const Vector2<T> Vector2<T>::zero = {0, 0};
+const Vector3<T> Vector3<T>::zero = {0, 0, 0};
 template<typename T>
-const Vector2<T> Vector2<T>::up = {0, 1};
+const Vector3<T> Vector3<T>::up = {0, 1, 0};
 template<typename T>
-const Vector2<T> Vector2<T>::down = {0, -1};
+const Vector3<T> Vector3<T>::down = {0, -1, 0};
 template<typename T>
-const Vector2<T> Vector2<T>::left = {-1, 0};
+const Vector3<T> Vector3<T>::left = {-1, 0, 0};
 template<typename T>
-const Vector2<T> Vector2<T>::right = {1, 0};
+const Vector3<T> Vector3<T>::right = {1, 0, 0};
+template<typename T>
+const Vector3<T> Vector3<T>::forward = {0, 0, 1};
+template<typename T>
+const Vector3<T> Vector3<T>::back = {0, 0, -1};
 
 } // namespace sfex

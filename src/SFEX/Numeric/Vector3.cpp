@@ -20,11 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_NUMERIC_HPP_
-#define _SFEX_NUMERIC_HPP_
-
-#include <SFEX/Config.hpp>
-#include <SFEX/Numeric/Vector2.hpp>
+// Headers
 #include <SFEX/Numeric/Vector3.hpp>
 
-#endif // !_SFEX_NUMERIC_HPP_
+namespace sfex
+{
+// The vector implementation is in SFEX/Numeric/Vector3.inl
+} // namespace sfex

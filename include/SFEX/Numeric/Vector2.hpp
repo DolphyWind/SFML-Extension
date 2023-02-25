@@ -20,8 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_NUMERIC_VECTOR_HPP_
-#define _SFEX_NUMERIC_VECTOR_HPP_
+#ifndef _SFEX_NUMERIC_VECTOR2_HPP_
+#define _SFEX_NUMERIC_VECTOR2_HPP_
 
 // Headers
 #include <array>
@@ -42,7 +42,7 @@ public:
     /// @brief Default constructor. Creates a zero vector.
     Vector2();
 
-    /// @brief Default constructor. Creates a vectors with components x and y.
+    /// @brief Default constructor. Creates a vectors with components x and y
     Vector2(const T &x, const T &y);
 
     /// @brief Returns magnitude (length) of the vector
@@ -60,22 +60,22 @@ public:
     /// @return Normalized version of vector
     Vector2<T> normalized();
 
-    /// @brief Calculates the dot product between this and rhs 
+    /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
     /// @return Result of this . rhs
     T dot(const Vector2<T> &rhs);
 
-    /// @brief Treats the vectors as three dimentional with z being equal to zero vectors and calculates the cross product between them. Returns the z component of the reult since x and y components are zero.
+    /// @brief Treats the vectors as three dimentional with z being equal to zero vectors and Computates the cross product between them. Returns the z component of the reult since x and y components are zero.
     /// @param rhs rhs vector
     /// @return Result of this x rhs
     T cross(const Vector2<T> &rhs);
 
-    /// @brief Calculates component-wise product aka hadamard product between two vectors
+    /// @brief Computates component-wise product aka hadamard product between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise multiplication.
     Vector2<T> cwiseMul(const Vector2<T> &rhs);
 
-    /// @brief Calculates component-wise division aka hadamard division between two vectors
+    /// @brief Computates component-wise division aka hadamard division between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise division.
     Vector2<T> cwiseDiv(const Vector2<T> &rhs);
@@ -89,30 +89,30 @@ public:
     /// @return Scaled version of the vector
     Vector2<T> scaled(const T &scalar) const;
 
-    /// @brief Rotates the vector around "rotateAround" vector.
+    /// @brief Rotates the vector around "rotateAround" vector by given angle.
     /// @param angle angle in radians
     /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
     void rotate(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
 
-    /// @brief Returns Rotated version of the vector around "rotateAround" vector.
+    /// @brief Returns Rotated version of the vector around "rotateAround" vector by given angle.
     /// @param angle angle in radians
     /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
     /// @return Rotated version of vector
     Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
 
-    /// @brief Calculates the angle between the vector and "relativeTo" vector
+    /// @brief Computates the angle between the vector and "relativeTo" vector
     /// @param relativeTo relativeTo vector. (Defaults to Vector2<T>::zero)
     /// @return Angle between the vector and "relativeTo" as radians
     float angle(const Vector2<T> &relativeTo = Vector2<T>::zero);
 
-    bool operator==(const Vector2 &rhs) const;
-    bool operator!=(const Vector2 &rhs) const;
+    bool operator==(const Vector2<T> &rhs) const;
+    bool operator!=(const Vector2<T> &rhs) const;
 
-    Vector2<T> operator+=(const Vector2 &rhs);
-    Vector2<T> operator+(const Vector2 &rhs) const;
+    Vector2<T> operator+=(const Vector2<T> &rhs);
+    Vector2<T> operator+(const Vector2<T> &rhs) const;
 
-    Vector2<T> operator-=(const Vector2 &rhs);
-    Vector2<T> operator-(const Vector2 &rhs) const;
+    Vector2<T> operator-=(const Vector2<T> &rhs);
+    Vector2<T> operator-(const Vector2<T> &rhs) const;
     Vector2<T> operator-() const;
 
     Vector2<T> operator*=(const T &scalar);
@@ -173,4 +173,4 @@ typedef Vector2<float> Vec2;
 
 #include <SFEX/Numeric/Vector2.inl>
 
-#endif // !_SFEX_NUMERIC_VECTOR_HPP_
+#endif // !_SFEX_NUMERIC_VECTOR2_HPP_
