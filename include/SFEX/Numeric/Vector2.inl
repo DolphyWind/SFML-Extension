@@ -37,15 +37,15 @@ Vector2<T>::Vector2(const T &_x, const T &_y): x(_x), y(_y)
 }
 
 template<typename T>
-double Vector2<T>::magnitude() const
+float Vector2<T>::magnitude() const
 {
     return std::sqrt(x*x + y*y);
 }
 
 template<typename T>
-void Vector2<T>::setMagnitude(double magnitude)
+void Vector2<T>::setMagnitude(float magnitude)
 {
-    double mag = this->magnitude();
+    float mag = this->magnitude();
     x *= (magnitude / mag);
     y *= (magnitude / mag);
 }
@@ -103,7 +103,7 @@ Vector2<T> Vector2<T>::scaled(const T &scalar) const
 }
 
 template<typename T>
-void Vector2<T>::rotate(double angle, const Vector2<T> &rotateAround)
+void Vector2<T>::rotate(float angle, const Vector2<T> &rotateAround)
 {
     Vector2<T> resultVector = *this - rotateAround;
     resultVector = {resultVector.x * std::cos(angle) - resultVector.y * std::sin(angle), resultVector.x * std::sin(angle) + resultVector.y * std::cos(angle)};
@@ -111,7 +111,7 @@ void Vector2<T>::rotate(double angle, const Vector2<T> &rotateAround)
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround) const
+Vector2<T> Vector2<T>::rotated(float angle, const Vector2<T> &rotateAround) const
 {
     Vector2<T> resultVector = *this;
     resultVector.rotate(angle, rotateAround);
@@ -127,7 +127,7 @@ float Vector2<T>::angle(const Vector2<T> &other)
 template<typename T>
 void Vector2<T>::projectOnto(const Vector2<T> &rhs)
 {
-    double magnitude_squared = rhs.magnitude() * rhs.magnitude();
+    float magnitude_squared = rhs.magnitude() * rhs.magnitude();
     *this = rhs * this->dot(rhs)/magnitude_squared;
 }
 

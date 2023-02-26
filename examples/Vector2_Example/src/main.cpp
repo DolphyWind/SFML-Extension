@@ -93,11 +93,11 @@ int main()
     std::cout << "Angle of v2: " << v2.angle() << std::endl;
     std::cout << "Angle between v2 and <1, -1>: " << v2.angle({1, -1}) << std::endl;
     printDashes();
-    sfex::Vec2 v_right = sfex::Vec2::right;
-    sfex::Vec2 v_one = sfex::Vec2::one;
-    printVector(v_right, "v_right");
-    printVector(v_one, "v_one");
-    printVector(v_right.projectedOnto(v_one), "v_right.projectedOnto(v_one)");
+    sfex::Vec2 v_first = {1, 0};
+    sfex::Vec2 v_second = {3, 4};
+    printVector(v_first, "v_first");
+    printVector(v_second, "v_second");
+    printVector(v_first.projectedOnto(v_second), "v_first.projectedOnto(v_second)");
 
     return 0;
 }

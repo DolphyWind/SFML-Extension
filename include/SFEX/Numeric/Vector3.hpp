@@ -48,11 +48,11 @@ public:
 
     /// @brief Returns magnitude (length) of the vector
     /// @return Magnitude of the vector
-    double magnitude() const;
+    float magnitude() const;
     
     /// @brief Changes the vector's magnitude while keeping its direction same
     /// @param magnitude Target magnitude
-    void setMagnitude(double magnitude);
+    void setMagnitude(float magnitude);
 
     /// @brief Sets the vector's length to 1. Shorthand for setMagnitude(1) 
     void normalize();
@@ -95,7 +95,7 @@ public:
     /// @param y_angle rotation in y axis
     /// @param z_angle rotation in z axis
     /// @param rotateAround rotateAround vector (Defaults to Vector3<T>::zero)
-    void rotate(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero);
+    void rotate(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero);
 
     /// TODO: Add quarternion rotation and quarternion class
 
@@ -105,21 +105,43 @@ public:
     /// @param z_angle rotation in z axis
     /// @param rotateAround rotateAround vector (Defaults to Vector3<T>::zero)
     /// @return Rotated version of vector
-    Vector3<T> rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero) const;
+    Vector3<T> rotated(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero) const;
 
     /// @brief Computates the angle between the vector and "other" vector. 
-    /// @param relativeTo other vector. (Defaults to Vector3<T>::right)
+    /// @param relativeTo other vector.
     /// @return Angle between the vector and "other" as radians
-    float angle(const Vector3<T> &other = Vector3<T>::right);
+    float angle(const Vector3<T> &other);
 
     /// @brief Projects this vector onto rhs vector
     /// @param rhs rhs vector
     void projectOnto(const Vector3<T> &rhs);
 
+    /// @brief Projects this vector onto plane ax + by + c
+    /// @param a coefficent of x
+    /// @param b coefficent of y
+    /// @param c constant term
+    void projectOnto(float a, float b, float c);
+
+    /// @brief Projects this vector onto plane by given point and normal vector
+    /// @param point random point on the plane
+    /// @param normal normal vector of the plane
+    void projectOnto(const Vector3<T> &point, const Vector3<T> &normal);
+
     /// @brief Returns projected version of this vector onto rhs vector
     /// @param rhs rhs vector
     /// @return Projected vector
     Vector3<T> projectedOnto(const Vector3<T> &rhs) const;
+
+    /// @brief Returns projected version of this vector onto plane ax + by + c
+    /// @param a coefficent of x
+    /// @param b coefficent of y
+    /// @param c constant term
+    Vector3<T> projectedOnto(float a, float b, float c) const;
+
+    /// @brief Returns projected version of this vector onto plane by given point and normal vector
+    /// @param point random point on the plane
+    /// @param normal normal vector of the plane
+    Vector3<T> projectedOnto(const Vector3<T> &point, const Vector3<T> &normal) const;
 
     bool operator==(const Vector3<T> &rhs) const;
     bool operator!=(const Vector3<T> &rhs) const;

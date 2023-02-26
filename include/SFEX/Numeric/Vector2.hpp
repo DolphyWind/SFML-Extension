@@ -47,11 +47,11 @@ public:
 
     /// @brief Returns magnitude (length) of the vector
     /// @return Magnitude of the vector
-    double magnitude() const;
+    float magnitude() const;
     
     /// @brief Changes the vector's magnitude while keeping its direction same
     /// @param magnitude Target magnitude
-    void setMagnitude(double magnitude);
+    void setMagnitude(float magnitude);
 
     /// @brief Sets the vector's length to 1. Shorthand for setMagnitude(1) 
     void normalize();
@@ -92,13 +92,13 @@ public:
     /// @brief Rotates the vector around "rotateAround" vector by given angle.
     /// @param angle angle in radians
     /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
-    void rotate(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
+    void rotate(float angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
 
     /// @brief Returns Rotated version of the vector around "rotateAround" vector by given angle.
     /// @param angle angle in radians
     /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
     /// @return Rotated version of vector
-    Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero) const;
+    Vector2<T> rotated(float angle, const Vector2<T> &rotateAround = Vector2<T>::zero) const;
 
     /// @brief Computates the angle between the vector and other vector
     /// @param relativeTo other vector. (Defaults to Vector2<T>::right)

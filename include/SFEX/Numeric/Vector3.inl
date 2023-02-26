@@ -37,15 +37,15 @@ Vector3<T>::Vector3(const T &_x, const T &_y, const T &_z): x(_x), y(_y), z(_z)
 }
 
 template<typename T>
-double Vector3<T>::magnitude() const
+float Vector3<T>::magnitude() const
 {
     return std::sqrt(x*x + y*y + z*z);
 }
 
 template<typename T>
-void Vector3<T>::setMagnitude(double magnitude)
+void Vector3<T>::setMagnitude(float magnitude)
 {
-    double mag = this->magnitude();
+    float mag = this->magnitude();
     x *= (magnitude / mag);
     y *= (magnitude / mag);
     z *= (magnitude / mag);
@@ -108,13 +108,13 @@ Vector3<T> Vector3<T>::scaled(const T &scalar) const
 }
 
 template<typename T>
-void Vector3<T>::rotate(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround)
+void Vector3<T>::rotate(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround)
 {
     // TODO: Do some math here
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround) const
+Vector3<T> Vector3<T>::rotated(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround) const
 {
     Vector3<T> resultVector = *this;
     resultVector.rotate(angle, rotateAround);
@@ -130,8 +130,20 @@ float Vector3<T>::angle(const Vector3<T> &other)
 template<typename T>
 void Vector3<T>::projectOnto(const Vector3<T> &rhs)
 {
-    double magnitude_squared = rhs.magnitude() * rhs.magnitude();
+    float magnitude_squared = rhs.magnitude() * rhs.magnitude();
     *this = rhs * this->dot(rhs)/magnitude_squared;
+}
+
+template<typename T>
+void Vector3<T>::projectOnto(float a, float b, float c)
+{
+    // TODO: Implement this function
+}
+
+template<typename T>
+void Vector3<T>::projectOnto(const Vector3<T> &point, const Vector3<T> &normal)
+{
+    // TODO: Implement this function
 }
 
 template<typename T>
@@ -142,6 +154,21 @@ Vector3<T> Vector3<T>::projectedOnto(const Vector3<T> &rhs) const
     return resultVector;
 }
 
+template<typename T>
+Vector3<T> Vector3<T>::projectedOnto(float a, float b, float c) const
+{
+    Vector3<T> resultVector = *this;
+    resultVector.projectOnto(a, b, c);
+    return resultVector;
+}
+
+template<typename T>
+Vector3<T> Vector3<T>::projectedOnto(const Vector3<T> &point, const Vector3<T> &normal) const
+{
+    Vector3<T> resultVector = *this;
+    resultVector.projectOnto(point, normal);
+    return resultVector;
+}
 
 //////////////////////////////////////////////////////////
 // Logical operators

@@ -15,6 +15,7 @@ set( SFEX_HEADER_FILES
 	include/SFEX/General/Stopwatch.hpp
 	include/SFEX/Numeric/Vector2.hpp
 	include/SFEX/Numeric/Vector3.hpp
+	include/SFEX/Numeric/Math.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
