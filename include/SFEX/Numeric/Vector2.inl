@@ -57,7 +57,7 @@ void Vector2<T>::normalize()
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::normalized()
+Vector2<T> Vector2<T>::normalized() const
 {
     Vector2<T> resultVector = *this;
     resultVector.normalize();
@@ -111,7 +111,7 @@ void Vector2<T>::rotate(double angle, const Vector2<T> &rotateAround)
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround)
+Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround) const
 {
     Vector2<T> resultVector = *this;
     resultVector.rotate(angle, rotateAround);
@@ -119,10 +119,24 @@ Vector2<T> Vector2<T>::rotated(double angle, const Vector2<T> &rotateAround)
 }
 
 template<typename T>
-float Vector2<T>::angle(const Vector2<T> &relativeTo)
+float Vector2<T>::angle(const Vector2<T> &other)
 {
-    Vector2<T> vectorTransformed = *this - relativeTo;
-    return std::atan2(vectorTransformed.y, vectorTransformed.x);
+    return std::acos(this->dot(other) / (this->magnitude() * other.magnitude()));
+}
+
+template<typename T>
+void Vector2<T>::projectOnto(const Vector2<T> &rhs)
+{
+    double magnitude_squared = rhs.magnitude() * rhs.magnitude();
+    *this = rhs * this->dot(rhs)/magnitude_squared;
+}
+
+template<typename T>
+Vector2<T> Vector2<T>::projectedOnto(const Vector2<T> &rhs) const
+{
+    Vector2<T> resultVector = *this;
+    resultVector.projectOnto(rhs);
+    return resultVector;
 }
 
 //////////////////////////////////////////////////////////

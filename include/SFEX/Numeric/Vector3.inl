@@ -58,7 +58,7 @@ void Vector3<T>::normalize()
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::normalized()
+Vector3<T> Vector3<T>::normalized() const
 {
     Vector3<T> resultVector = *this;
     resultVector.normalize();
@@ -114,7 +114,7 @@ void Vector3<T>::rotate(double x_angle, double y_angle, double z_angle, const Ve
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround)
+Vector3<T> Vector3<T>::rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround) const
 {
     Vector3<T> resultVector = *this;
     resultVector.rotate(angle, rotateAround);
@@ -126,6 +126,22 @@ float Vector3<T>::angle(const Vector3<T> &other)
 {
     return std::acos(this->dot(other) / (this->magnitude() * other.magnitude()));
 }
+
+template<typename T>
+void Vector3<T>::projectOnto(const Vector3<T> &rhs)
+{
+    double magnitude_squared = rhs.magnitude() * rhs.magnitude();
+    *this = rhs * this->dot(rhs)/magnitude_squared;
+}
+
+template<typename T>
+Vector3<T> Vector3<T>::projectedOnto(const Vector3<T> &rhs) const
+{
+    Vector3<T> resultVector = *this;
+    resultVector.projectOnto(rhs);
+    return resultVector;
+}
+
 
 //////////////////////////////////////////////////////////
 // Logical operators

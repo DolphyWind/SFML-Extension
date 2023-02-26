@@ -59,7 +59,7 @@ public:
 
     /// @brief Returns the normalized version of the vector
     /// @return Normalized version of vector
-    Vector3<T> normalized();
+    Vector3<T> normalized() const;
 
     /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
@@ -105,12 +105,21 @@ public:
     /// @param z_angle rotation in z axis
     /// @param rotateAround rotateAround vector (Defaults to Vector3<T>::zero)
     /// @return Rotated version of vector
-    Vector3<T> rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero);
+    Vector3<T> rotated(double x_angle, double y_angle, double z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero) const;
 
     /// @brief Computates the angle between the vector and "other" vector. 
-    /// @param relativeTo other vector.
+    /// @param relativeTo other vector. (Defaults to Vector3<T>::right)
     /// @return Angle between the vector and "other" as radians
-    float angle(const Vector3<T> &other);
+    float angle(const Vector3<T> &other = Vector3<T>::right);
+
+    /// @brief Projects this vector onto rhs vector
+    /// @param rhs rhs vector
+    void projectOnto(const Vector3<T> &rhs);
+
+    /// @brief Returns projected version of this vector onto rhs vector
+    /// @param rhs rhs vector
+    /// @return Projected vector
+    Vector3<T> projectedOnto(const Vector3<T> &rhs) const;
 
     bool operator==(const Vector3<T> &rhs) const;
     bool operator!=(const Vector3<T> &rhs) const;
@@ -176,7 +185,7 @@ public:
     static const Vector3<T> back;
 };
 
-typedef Vector3<float> Vec2;
+typedef Vector3<float> Vec3;
 
 } // namespace sfex
 

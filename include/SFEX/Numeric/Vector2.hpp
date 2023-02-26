@@ -58,7 +58,7 @@ public:
 
     /// @brief Returns the normalized version of the vector
     /// @return Normalized version of vector
-    Vector2<T> normalized();
+    Vector2<T> normalized() const;
 
     /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
@@ -98,12 +98,21 @@ public:
     /// @param angle angle in radians
     /// @param rotateAround rotateAround vector (Defaults to Vector2<T>::zero)
     /// @return Rotated version of vector
-    Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero);
+    Vector2<T> rotated(double angle, const Vector2<T> &rotateAround = Vector2<T>::zero) const;
 
-    /// @brief Computates the angle between the vector and "relativeTo" vector
-    /// @param relativeTo relativeTo vector. (Defaults to Vector2<T>::zero)
-    /// @return Angle between the vector and "relativeTo" as radians
-    float angle(const Vector2<T> &relativeTo = Vector2<T>::zero);
+    /// @brief Computates the angle between the vector and other vector
+    /// @param relativeTo other vector. (Defaults to Vector2<T>::right)
+    /// @return Angle between the vector and "other" as radians
+    float angle(const Vector2<T> &other = Vector2<T>::right);
+
+    /// @brief Projects this vector onto rhs vector
+    /// @param rhs rhs vector
+    void projectOnto(const Vector2<T> &rhs);
+
+    /// @brief Returns projected version of this vector onto rhs vector
+    /// @param rhs rhs vector
+    /// @return Projected vector
+    Vector2<T> projectedOnto(const Vector2<T> &rhs) const;
 
     bool operator==(const Vector2<T> &rhs) const;
     bool operator!=(const Vector2<T> &rhs) const;

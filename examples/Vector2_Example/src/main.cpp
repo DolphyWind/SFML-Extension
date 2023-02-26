@@ -70,9 +70,9 @@ int main()
     printVector(sfex::Vector2<int>::fromSFML(veci), "veci");
     printVector(sfex::Vector2<unsigned int>::fromSFML(vecu), "vecu");
 
-    printVector((v1=vecf), "v1=vecf ");
-    printVector((v1=veci), "v1=veci ");
-    printVector((v1=vecu), "v1=vecu ");
+    printVector((v1=vecf), "v1=vecf");
+    printVector((v1=veci), "v1=veci");
+    printVector((v1=vecu), "v1=vecu");
     printDashes();
 
     std::cout << "Static const members." << std::endl;
@@ -84,17 +84,20 @@ int main()
     printVector(sfex::Vec2::right, "right");
     printDashes();
 
-    v2 = sfex::Vec2::right;
+    v2 = sfex::Vec2::up;
     printVector(v2, "v2");
     printVector(v2.rotated(3.1415926535 / 2), "v2 rotated 90 degrees");
     printVector(v2.rotated(-3.1415926535 / 2), "v2 rotated -90 degrees");
     printVector(v2.rotated(3.1415926535), "v2 rotated 180 degrees");
     printVector(v2.rotated(3.1415926535 / 2, {-1, 0}), "v2 rotated 90 degrees around (-1, 0)");
     std::cout << "Angle of v2: " << v2.angle() << std::endl;
-    std::cout << "Angle of v2 relative to <1, -1>: " << v2.angle({1, -1}) << std::endl;
+    std::cout << "Angle between v2 and <1, -1>: " << v2.angle({1, -1}) << std::endl;
     printDashes();
-
-
+    sfex::Vec2 v_right = sfex::Vec2::right;
+    sfex::Vec2 v_one = sfex::Vec2::one;
+    printVector(v_right, "v_right");
+    printVector(v_one, "v_one");
+    printVector(v_right.projectedOnto(v_one), "v_right.projectedOnto(v_one)");
 
     return 0;
 }
