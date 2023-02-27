@@ -66,13 +66,13 @@ Vector3<T> Vector3<T>::normalized() const
 }
 
 template<typename T>
-T Vector3<T>::dot(const Vector3<T> &rhs)
+T Vector3<T>::dot(const Vector3<T> &rhs) const
 {
     return x * rhs.x + y * rhs.y + z * rhs.z;
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::cross(const Vector3<T> &rhs)
+Vector3<T> Vector3<T>::cross(const Vector3<T> &rhs) const
 {
     return {
         y * rhs.z - z * rhs.y,
@@ -82,13 +82,13 @@ Vector3<T> Vector3<T>::cross(const Vector3<T> &rhs)
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::cwiseMul(const Vector3<T> &rhs)
+Vector3<T> Vector3<T>::cwiseMul(const Vector3<T> &rhs) const
 {
     return {x * rhs.x, y * rhs.y, z * rhs.z};
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::cwiseDiv(const Vector3<T> &rhs)
+Vector3<T> Vector3<T>::cwiseDiv(const Vector3<T> &rhs) const
 {
     return {x / rhs.x, y / rhs.y, z / rhs.z};
 }
@@ -110,19 +110,50 @@ Vector3<T> Vector3<T>::scaled(const T &scalar) const
 template<typename T>
 void Vector3<T>::rotate(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround)
 {
-    // TODO: Do some math here
+    // To make computation faster
+    float cos_alpha = std::cos(x_angle);
+    float sin_alpha = std::sin(x_angle);
+    float cos_beta = std::cos(y_angle);
+    float sin_beta = std::sin(y_angle);
+    float cos_gamma = std::cos(z_angle);
+    float sin_gamma = std::sin(z_angle);
+
+    *this -= rotateAround;
+
+    // Where x goes
+    T x_prime = T(
+        (cos_beta * cos_gamma) * x +
+        (sin_alpha * sin_beta * cos_gamma - cos_alpha * sin_gamma) * y +
+        (cos_alpha * sin_beta * cos_gamma + sin_alpha * sin_gamma) * z
+    );
+
+    // Where y goes
+    T y_prime = T(
+        (cos_beta * sin_gamma) * x +
+        (sin_alpha * sin_beta * sin_gamma + cos_alpha * cos_gamma) * y +
+        (cos_alpha * sin_beta * sin_gamma - sin_alpha * cos_gamma) * z
+    );
+
+    // Where z goes
+    T z_prime = T(
+        (-sin_beta) * x +
+        (sin_alpha * cos_beta) * y +
+        (cos_alpha * cos_beta) * z
+    );
+
+    *this = Vector3<T>(x_prime, y_prime, z_prime) + rotateAround;
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::rotated(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround) const
 {
     Vector3<T> resultVector = *this;
-    resultVector.rotate(angle, rotateAround);
+    resultVector.rotate(x_angle, y_angle, z_angle, rotateAround);
     return resultVector;
 }
 
 template<typename T>
-float Vector3<T>::angle(const Vector3<T> &other)
+float Vector3<T>::angle(const Vector3<T> &other) const
 {
     return std::acos(this->dot(other) / (this->magnitude() * other.magnitude()));
 }
@@ -135,15 +166,17 @@ void Vector3<T>::projectOnto(const Vector3<T> &rhs)
 }
 
 template<typename T>
-void Vector3<T>::projectOnto(float a, float b, float c)
+void Vector3<T>::projectOntoPlane(float a, float b, float c)
 {
-    // TODO: Implement this function
+    // A normal vector of a plane is the coefficents of x, y and z as a vector
+    this->projectOntoPlane({a, b, c});
 }
 
 template<typename T>
-void Vector3<T>::projectOnto(const Vector3<T> &point, const Vector3<T> &normal)
+void Vector3<T>::projectOntoPlane(const Vector3<T> &normal)
 {
-    // TODO: Implement this function
+    Vector3<T> normal_porjected = this->projectedOnto(normal);
+    *this -= normal_porjected;
 }
 
 template<typename T>
@@ -155,18 +188,18 @@ Vector3<T> Vector3<T>::projectedOnto(const Vector3<T> &rhs) const
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::projectedOnto(float a, float b, float c) const
+Vector3<T> Vector3<T>::projectedOntoPlane(float a, float b, float c) const
 {
     Vector3<T> resultVector = *this;
-    resultVector.projectOnto(a, b, c);
+    resultVector.projectOntoPlane(a, b, c);
     return resultVector;
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::projectedOnto(const Vector3<T> &point, const Vector3<T> &normal) const
+Vector3<T> Vector3<T>::projectedOntoPlane(const Vector3<T> &normal) const
 {
     Vector3<T> resultVector = *this;
-    resultVector.projectOnto(point, normal);
+    resultVector.projectOntoPlane(normal);
     return resultVector;
 }
 

@@ -27,7 +27,6 @@
 #include <array>
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/System/Angle.hpp>
 
 namespace sfex
 {
@@ -113,7 +112,7 @@ public:
     /// @param rhs rhs vector
     /// @return Projected vector
     Vector2<T> projectedOnto(const Vector2<T> &rhs) const;
-
+    
     bool operator==(const Vector2<T> &rhs) const;
     bool operator!=(const Vector2<T> &rhs) const;
 

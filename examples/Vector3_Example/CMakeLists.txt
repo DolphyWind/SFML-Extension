@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(MathExample VERSION 1.0.0)
+project(Vector3Example VERSION 1.0.0)
 
-set(PROGRAM_NAME math_example)
+set(PROGRAM_NAME vector3_example)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
 file(GLOB CPP_FILES "./src/*.cpp")

@@ -27,7 +27,6 @@
 #include <array>
 #include <cmath>
 #include <SFML/System/Vector3.hpp>
-#include <SFML/System/Angle.hpp>
 
 namespace sfex
 {
@@ -64,22 +63,22 @@ public:
     /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
     /// @return Result of this . rhs
-    T dot(const Vector3<T> &rhs);
+    T dot(const Vector3<T> &rhs) const;
 
     /// @brief Computates cross product between this and rhs
     /// @param rhs rhs vector
     /// @return Result of this x rhs
-    Vector3<T> cross(const Vector3<T> &rhs);
+    Vector3<T> cross(const Vector3<T> &rhs) const;
 
     /// @brief Computates component-wise product aka hadamard product between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise multiplication.
-    Vector3<T> cwiseMul(const Vector3<T> &rhs);
+    Vector3<T> cwiseMul(const Vector3<T> &rhs) const;
 
     /// @brief Computates component-wise division aka hadamard division between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise division.
-    Vector3<T> cwiseDiv(const Vector3<T> &rhs);
+    Vector3<T> cwiseDiv(const Vector3<T> &rhs) const;
 
     /// @brief Scales the vector with a scalar
     /// @param scalar scalar
@@ -91,18 +90,18 @@ public:
     Vector3<T> scaled(const T &scalar) const;
 
     /// @brief Rotates the vector around "rotateAround" by given angles.
-    /// @param x_angle rotation in x axis
-    /// @param y_angle rotation in y axis
-    /// @param z_angle rotation in z axis
+    /// @param x_angle rotation in x axis (Euler angles)
+    /// @param y_angle rotation in y axis (Euler angles)
+    /// @param z_angle rotation in z axis (Euler angles)
     /// @param rotateAround rotateAround vector (Defaults to Vector3<T>::zero)
     void rotate(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero);
 
     /// TODO: Add quarternion rotation and quarternion class
 
     /// @brief Returns Rotated version of the vector around "rotateAround" vector.
-    /// @param x_angle rotation in x axis
-    /// @param y_angle rotation in y axis
-    /// @param z_angle rotation in z axis
+    /// @param x_angle rotation in x axis (Euler angles)
+    /// @param y_angle rotation in y axis (Euler angles)
+    /// @param z_angle rotation in z axis (Euler angles)
     /// @param rotateAround rotateAround vector (Defaults to Vector3<T>::zero)
     /// @return Rotated version of vector
     Vector3<T> rotated(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero) const;
@@ -110,38 +109,36 @@ public:
     /// @brief Computates the angle between the vector and "other" vector. 
     /// @param relativeTo other vector.
     /// @return Angle between the vector and "other" as radians
-    float angle(const Vector3<T> &other);
+    float angle(const Vector3<T> &other) const;
 
     /// @brief Projects this vector onto rhs vector
     /// @param rhs rhs vector
     void projectOnto(const Vector3<T> &rhs);
 
-    /// @brief Projects this vector onto plane ax + by + c
+    /// @brief Projects this vector onto plane ax + by + cz = k
     /// @param a coefficent of x
     /// @param b coefficent of y
-    /// @param c constant term
-    void projectOnto(float a, float b, float c);
+    /// @param c coefficent of z
+    void projectOntoPlane(float a, float b, float c);
 
     /// @brief Projects this vector onto plane by given point and normal vector
-    /// @param point random point on the plane
     /// @param normal normal vector of the plane
-    void projectOnto(const Vector3<T> &point, const Vector3<T> &normal);
+    void projectOntoPlane(const Vector3<T> &normal);
 
     /// @brief Returns projected version of this vector onto rhs vector
     /// @param rhs rhs vector
     /// @return Projected vector
     Vector3<T> projectedOnto(const Vector3<T> &rhs) const;
 
-    /// @brief Returns projected version of this vector onto plane ax + by + c
+    /// @brief Returns projected version of this vector onto plane ax + by + cz = k
     /// @param a coefficent of x
     /// @param b coefficent of y
-    /// @param c constant term
-    Vector3<T> projectedOnto(float a, float b, float c) const;
+    /// @param c coefficent of z
+    Vector3<T> projectedOntoPlane(float a, float b, float c) const;
 
-    /// @brief Returns projected version of this vector onto plane by given point and normal vector
-    /// @param point random point on the plane
+    /// @brief Returns projected version of this vector onto plane given a normal vector
     /// @param normal normal vector of the plane
-    Vector3<T> projectedOnto(const Vector3<T> &point, const Vector3<T> &normal) const;
+    Vector3<T> projectedOntoPlane(const Vector3<T> &normal) const;
 
     bool operator==(const Vector3<T> &rhs) const;
     bool operator!=(const Vector3<T> &rhs) const;
