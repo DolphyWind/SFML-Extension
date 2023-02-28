@@ -1,6 +1,6 @@
 #include <SFEX/SFEX.hpp>
 #include <iostream>
-#include <SFML/Graphics/Color.hpp>
+#include <SFEX/Graphics/Color.hpp>
 
 void printDashes(std::size_t n = 30)
 {
@@ -13,9 +13,9 @@ void printVector(const sfex::Vec2 &v, const std::string &name = std::string())
     std::cout << name << ": <" << v.x << ", " << v.y << ">" << std::endl;
 }
 
-void printVector(const sf::Color &c, const std::string &name = std::string())
+void printColor(const sf::Color &c, const std::string &name = std::string())
 {
-    std::cout << name << ": (" << c.r << ", " << c.g << ", " << c.b << ", " << c.a << ")" << std::endl;
+    std::cout << name << ": (" << +c.r << ", " << +c.g << ", " << +c.b << ", " << +c.a << ")" << std::endl;
 }
 
 int main()
@@ -26,18 +26,18 @@ int main()
     gradient.setKey(2, sfex::Vec2::left);
     gradient.setKey(3, sfex::Vec2::down);
 
-    for(float i = 0; !sfex::Math::isClose(i, 3.1f, 0.001f); i += 0.1)
+    for(float i = 0; !sfex::Math::isClose(i, 3.1f, 0.01f); i += 0.1)
     {
         printVector(gradient.evaluate(i), std::string("Gradient at t=") + std::to_string(i));
     }
     printDashes();
-    sfex::Gradient<sf::Color> colorGradient;
-    colorGradient.setKey(0, sf::Color::Red);
-    colorGradient.setKey(1, sf::Color::Blue);
+    sfex::Gradient<sfex::Color> colorGradient;
+    colorGradient.setKey(0, sfex::Color::Red);
+    colorGradient.setKey(1, sfex::Color::Blue);
 
     for(float i = 0; !sfex::Math::isClose(i, 1.1f, 0.001f); i += 0.1)
     {
-        printVector(colorGradient.evaluate(i), std::string("Gradient at t=") + std::to_string(i));
+        printColor(colorGradient.evaluate(i), std::string("Gradient at t=") + std::to_string(i));
     }
 
     return 0;

@@ -11,12 +11,14 @@ set( SFEX_HEADER_FILES
 	include/SFEX/General.hpp
 	include/SFEX/Managers.hpp
 	include/SFEX/Numeric.hpp
+	include/SFEX/Graphics.hpp
 	include/SFEX/SFEX.hpp
 	include/SFEX/General/Stopwatch.hpp
 	include/SFEX/Numeric/Vector2.hpp
 	include/SFEX/Numeric/Vector3.hpp
 	include/SFEX/Numeric/Math.hpp
 	include/SFEX/Numeric/Gradient.hpp
+	include/SFEX/Graphics/Color.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
@@ -24,6 +26,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Numeric/Vector3.cpp
     src/SFEX/Numeric/Math.cpp
     src/SFEX/Numeric/Gradient.cpp
+    src/SFEX/Graphics/Color.cpp
 )
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})

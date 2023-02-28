@@ -20,13 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_HPP_
-#define _SFEX_HPP_
+#ifndef _SFEX_GRAPHICS_COLOR_HPP_
+#define _SFEX_GRAPHICS_COLOR_HPP_
 
-#include <SFEX/Config.hpp>
-#include <SFEX/General.hpp>
-#include <SFEX/Managers.hpp>
-#include <SFEX/Numeric.hpp>
-#include <SFEX/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 
-#endif // !_SFEX_HPP_
+namespace sfex
+{
+
+/// @brief Extends sf::Color class. Overloads a lot of operators.
+class Color : public sf::Color
+{
+public:
+
+Color();
+Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a=255);
+
+Color operator+=(const Color &rhs);
+Color operator+(const Color &rhs) const;
+
+Color operator-=(const Color &rhs);
+Color operator-(const Color &rhs) const;
+
+Color operator*=(float scalar);
+Color operator*(float scalar) const;
+
+Color operator/=(float scalar);
+Color operator/(float scalar) const;
+
+const static Color Black;
+const static Color Blue;
+const static Color Cyan;
+const static Color Magenta;
+const static Color Green;
+const static Color Red;
+const static Color White;
+const static Color Yellow;
+const static Color Transparent;
+
+private:
+};
+
+} // namespace sfex
+
+
+#endif // !_SFEX_GRAPHICS_COLOR_HPP_

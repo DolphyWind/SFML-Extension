@@ -20,13 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_HPP_
-#define _SFEX_HPP_
+#ifndef _SFEX_GRAPHICS_HPP_
+#define _SFEX_GRAPHICS_HPP_
 
 #include <SFEX/Config.hpp>
-#include <SFEX/General.hpp>
-#include <SFEX/Managers.hpp>
-#include <SFEX/Numeric.hpp>
-#include <SFEX/Graphics.hpp>
+#include <SFEX/Graphics/Color.hpp>
 
-#endif // !_SFEX_HPP_
+#endif // !_SFEX_GRAPHICS_HPP_
