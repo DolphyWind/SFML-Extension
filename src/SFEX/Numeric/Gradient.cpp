@@ -20,13 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_NUMERIC_HPP_
-#define _SFEX_NUMERIC_HPP_
-
-#include <SFEX/Config.hpp>
-#include <SFEX/Numeric/Vector2.hpp>
-#include <SFEX/Numeric/Vector3.hpp>
-#include <SFEX/Numeric/Math.hpp>
+// Headers
 #include <SFEX/Numeric/Gradient.hpp>
 
-#endif // !_SFEX_NUMERIC_HPP_
+namespace sfex
+{
+// The gradient implementation is in SFEX/Numeric/Gradient.inl
+} // namespace sfex

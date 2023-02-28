@@ -20,13 +20,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_NUMERIC_HPP_
-#define _SFEX_NUMERIC_HPP_
+#ifndef _SFEX_NUMERIC_GRADIENT_HPP_
+#define _SFEX_NUMERIC_GRADIENT_HPP_
 
-#include <SFEX/Config.hpp>
-#include <SFEX/Numeric/Vector2.hpp>
-#include <SFEX/Numeric/Vector3.hpp>
+#include <map>
 #include <SFEX/Numeric/Math.hpp>
-#include <SFEX/Numeric/Gradient.hpp>
 
-#endif // !_SFEX_NUMERIC_HPP_
+namespace sfex
+{
+
+/// @brief A gradient class that allows you to create gradients between anything that supports addition and multiplication
+template<typename T>
+class Gradient
+{
+public:
+
+/// @brief Adds time,key pair to objects if ti
+void setKey(float time, const T& key);
+
+/// @brief Removes a key by value
+/// @param val the key you want to remove
+void removeKey(const T& val);
+
+/// @brief Removes a key by time
+void removeKey(float time);
+
+/// @brief Returns all time and key pairs as a map
+/// @return Time and key pairs
+std::map<float, T> getKeys();
+
+/// @brief Calculates a key based on given time value
+/// @param time time value
+/// @return key corresponding to that time value
+T evaluate(float time);
+
+private:
+std::map<float, T> m_keys;
+};
+
+} // namespace sfex
+
+#include <SFEX/Numeric/Gradient.inl>
+
+#endif // !_SFEX_NUMERIC_GRADIENT_HPP_

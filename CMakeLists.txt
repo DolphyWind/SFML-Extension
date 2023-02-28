@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 1.0.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.5.0)
 include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -16,11 +16,14 @@ set( SFEX_HEADER_FILES
 	include/SFEX/Numeric/Vector2.hpp
 	include/SFEX/Numeric/Vector3.hpp
 	include/SFEX/Numeric/Math.hpp
+	include/SFEX/Numeric/Gradient.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
     src/SFEX/Numeric/Vector2.cpp
     src/SFEX/Numeric/Vector3.cpp
+    src/SFEX/Numeric/Math.cpp
+    src/SFEX/Numeric/Gradient.cpp
 )
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})
