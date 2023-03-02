@@ -1,6 +1,5 @@
 #include <SFEX/SFEX.hpp>
 #include <iostream>
-#include <SFEX/Graphics/Color.hpp>
 
 void printDashes(std::size_t n = 30)
 {
@@ -39,6 +38,6 @@ int main()
     {
         printColor(colorGradient.evaluate(i), std::string("Gradient at t=") + std::to_string(i));
     }
-
+    
     return 0;
 }

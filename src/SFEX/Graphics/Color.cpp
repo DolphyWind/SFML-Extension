@@ -30,6 +30,10 @@ Color::Color(): sf::Color()
 {
 }
 
+Color::Color(const sf::Color &color): sf::Color(color)
+{
+}
+
 Color::Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a): sf::Color(r, g, b, a)
 {
 }
@@ -106,6 +110,11 @@ Color Color::operator*(float scalar) const
     return (result *= scalar);
 }
 
+Color operator*(float scalar, const Color &color)
+{
+    return color * scalar;
+}
+
 Color Color::operator/=(float scalar)
 {
     return (*this) *= (1/scalar);
@@ -115,6 +124,24 @@ Color Color::operator/(float scalar) const
 {
     Color result = *this;
     return (result /= scalar);
+}
+
+bool Color::operator==(const Color &rhs)
+{
+    return (this->r == rhs.r) &&
+           (this->g == rhs.g) &&
+           (this->b == rhs.b) &&
+           (this->a == rhs.a);
+}
+
+bool Color::operator!=(const Color &rhs)
+{
+    return !(*this == rhs);
+}
+
+Color Color::mixColors(const Color &a, const Color &b)
+{
+    return Math::lerp(a, b, 0.5);
 }
 
 const Color Color::Black = Color(0, 0, 0, 255);

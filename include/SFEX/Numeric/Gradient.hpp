@@ -29,13 +29,13 @@
 namespace sfex
 {
 
-/// @brief A gradient class that allows you to create gradients between anything that supports addition and multiplication
+/// @brief A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
 template<typename T>
 class Gradient
 {
 public:
 
-/// @brief Adds time,key pair to objects if ti
+/// @brief Adds time,key pair to map.
 void setKey(float time, const T& key);
 
 /// @brief Removes a key by value

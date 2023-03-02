@@ -31,6 +31,7 @@
 namespace sfex
 {
 
+/// @brief 3D Vector Class
 template<typename T>
 class Vector3
 {
@@ -205,6 +206,9 @@ public:
 };
 
 typedef Vector3<float> Vec3;
+
+template<typename T>
+sfex::Vector3<T> operator*(const T &scalar, const sfex::Vector3<T> &vec);
 
 } // namespace sfex
 

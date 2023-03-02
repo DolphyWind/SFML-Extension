@@ -34,52 +34,52 @@ namespace sfex
 namespace Math
 {
 /// @brief Ratio of a circle's circumference to its diameter.
-extern const float pi;
+extern const inline float pi;
 
 /// @brief Ratio of a circle's circumference to its radius. Equals to 2*pi.
-extern const float tau;
+extern const inline float tau;
 
 /// @brief Euler's number
-extern const float e;
+extern const inline float e;
 
 /// @brief The golden ratio. Namely (1+sqrt(5))/2
-extern const float phi;
+extern const inline float phi;
 
 /// @brief The smallest positive number that can be represented as double
-extern const float positiveMin;
+extern const inline float positiveMin;
 
 /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a double
-extern const float epsilon;
+extern const inline float epsilon;
 
 /// @brief Returns the sign of val.
 template<typename T>
-int sign(const T &val);
+inline int sign(const T &val);
 
 /// @brief Returns the absoulte value of val.
 template<typename T>
-T abs(const T &val);
+inline T abs(const T &val);
 
 /// @brief Returns true if abs(first - second) is < tolerance
 template<typename T>
-bool isClose(const T &first, const T &second, const T &tolerance);
+inline bool isClose(const T &first, const T &second, const T &tolerance);
 
 /// @brief Converts value from degrees to radians
 /// @param value value you want to convert
 /// @returns value in radians
-float deg2rad(float value);
+inline float deg2rad(float value);
 
 /// @brief Converts value from radians to degrees
 /// @param value value you want to convert
 /// @returns value in degrees
-float rad2deg(float value);
+inline float rad2deg(float value);
 
 /// @brief Linear interpolation between A and B.
 template<typename T>
-T lerp(const T &A, const T &B, float t, bool bounded=true);
+inline T lerp(const T &A, const T &B, float t, bool bounded=true);
 
 /// @brief Recursive bezier curve computation function
 template<typename T>
-T bezier(const std::vector<T> &points, float t, bool bounded=true);
+inline T bezier(const std::vector<T> &points, float t, bool bounded=true);
 
 } // namespace Math
 } // namespace sfex
