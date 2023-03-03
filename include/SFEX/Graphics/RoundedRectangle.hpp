@@ -20,11 +20,46 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_GRAPHICS_HPP_
-#define _SFEX_GRAPHICS_HPP_
+#ifndef _SFEX_GRAPHICS_ROUNDEDRECTANGLE_HPP_
+#define _SFEX_GRAPHICS_ROUNDEDRECTANGLE_HPP_
 
-#include <SFEX/Config.hpp>
-#include <SFEX/Graphics/Color.hpp>
-#include <SFEX/Graphics/RoundedRectangle.hpp>
+#include <SFML/Graphics/ConvexShape.hpp>
+#include <SFEX/Numeric/Vector2.hpp>
+#include <SFEX/Numeric/Math.hpp>
+#include <vector>
 
-#endif // !_SFEX_GRAPHICS_HPP_
+namespace sfex
+{
+
+class RoundedRectangle : public sf::Shape
+{
+public:
+
+    explicit RoundedRectangle(const sfex::Vec2 &size = sfex::Vec2::zero, float cornerRadius=5);
+
+    void setSize(const sfex::Vec2 &size);
+    sfex::Vec2 getSize() const;
+
+    void setCornerRadius(float radius);
+    float getCornerRadius() const;
+
+    void setCornerPointCount(std::size_t cornerPointCount);
+    std::size_t getCornerPointCount() const;
+
+    virtual std::size_t getPointCount() const override;
+    virtual sf::Vector2f getPoint(std::size_t index) const override;
+
+private:
+
+    sfex::Vec2 m_size;
+    float m_cornerRadius;
+    std::size_t m_cornerPointCount;
+    std::vector<sf::Vector2f> m_points;
+    void updatePoints();
+
+};
+
+} // namespace sfex
+
+
+#endif // !_SFEX_GRAPHICS_ROUNDEDRECTANGLE_HPP_
