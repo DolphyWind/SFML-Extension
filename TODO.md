@@ -4,7 +4,7 @@
 
 + Managers/AudioManager
 + Managers/TextureManager (Name could change)
-+ Graphics/Ellipse
++ Graphics/Squircle
 
 # Ideas might get implemented
 + Numeric/Matrix -> Requires Numeric/VectorN<T> to be implemented (N dimentional vectors)

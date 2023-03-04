@@ -18,9 +18,15 @@ int main()
     rect.setFillColor(sfex::Color::White);
     rect.setOutlineThickness(2);
     rect.setOutlineColor(sfex::Color::White);
-    rect.setPosition(200, 200);
+    rect.setPosition(200, 120);
     rect.setCornerPointCount(25);
     rect.setTexture(&lennaTexture);
+
+    sfex::Ellipse ellipse(200, 120);
+    ellipse.setOutlineThickness(2);
+    ellipse.setOutlineColor(sfex::Color::White);
+    ellipse.setPosition(800, 120);
+    ellipse.setTexture(&lennaTexture);
 
     while(window.isOpen())
     {
@@ -33,6 +39,7 @@ int main()
         window.clear();
 
         window.draw(rect);
+        window.draw(ellipse);
 
         window.display();
     }

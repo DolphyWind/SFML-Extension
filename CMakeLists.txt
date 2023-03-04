@@ -20,6 +20,7 @@ set( SFEX_HEADER_FILES
 	include/SFEX/Numeric/Gradient.hpp
 	include/SFEX/Graphics/Color.hpp
 	include/SFEX/Graphics/RoundedRectangle.hpp
+	include/SFEX/Graphics/Ellipse.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
@@ -29,6 +30,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Numeric/Gradient.cpp
     src/SFEX/Graphics/Color.cpp
     src/SFEX/Graphics/RoundedRectangle.cpp
+    src/SFEX/Graphics/Ellipse.cpp
 )
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})

@@ -26,7 +26,7 @@
 namespace sfex
 {
 
-RoundedRectangle::RoundedRectangle(const sfex::Vec2 &size, float cornerRadius): m_size(size), m_cornerPointCount(5)
+RoundedRectangle::RoundedRectangle(const sfex::Vec2 &size, float cornerRadius, std::size_t cornerPointCount): m_size(size), m_cornerPointCount(cornerPointCount)
 {
     setCornerRadius(cornerRadius);
     updatePoints();

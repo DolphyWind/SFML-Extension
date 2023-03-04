@@ -26,5 +26,6 @@
 #include <SFEX/Config.hpp>
 #include <SFEX/Graphics/Color.hpp>
 #include <SFEX/Graphics/RoundedRectangle.hpp>
+#include <SFEX/Graphics/Ellipse.hpp>
 
 #endif // !_SFEX_GRAPHICS_HPP_

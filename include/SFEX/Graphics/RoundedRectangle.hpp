@@ -23,7 +23,7 @@
 #ifndef _SFEX_GRAPHICS_ROUNDEDRECTANGLE_HPP_
 #define _SFEX_GRAPHICS_ROUNDEDRECTANGLE_HPP_
 
-#include <SFML/Graphics/ConvexShape.hpp>
+#include <SFML/Graphics/Shape.hpp>
 #include <SFEX/Numeric/Vector2.hpp>
 #include <SFEX/Numeric/Math.hpp>
 #include <vector>
@@ -31,6 +31,7 @@
 namespace sfex
 {
 
+/// @brief A class for rectangles whose corners are rounded.
 class RoundedRectangle : public sf::Shape
 {
 public:
@@ -38,7 +39,8 @@ public:
     /// @brief Default contructor
     /// @param size Size of the rounded rectangle
     /// @param cornerRadius Number of ponits of each corner
-    explicit RoundedRectangle(const sfex::Vec2 &size = sfex::Vec2::zero, float cornerRadius=5);
+    /// @param cornerPointCount Point count of each corner
+    explicit RoundedRectangle(const sfex::Vec2 &size = sfex::Vec2::zero, float cornerRadius=5, std::size_t cornerPointCount=12);
 
     /// @brief Changes the size of the rounded rectangle
     /// @param size New size of the rounded rectangle
@@ -73,9 +75,9 @@ public:
     /// @return The number of the points in the shape
     virtual std::size_t getPointCount() const override;
 
-    /// @brief Returns the coordinates of point corresponding to the index
-    /// @param index The index of the point
-    /// @return Coordinates of point corresponding to the index
+    /// @brief Returns the coordinates of point corresponding to the index in local coordinates
+    /// @param index The index of the point to get
+    /// @return Coordinates of index-th point on the shape
     virtual sf::Vector2f getPoint(std::size_t index) const override;
 
 private:
