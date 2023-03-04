@@ -35,18 +35,47 @@ class RoundedRectangle : public sf::Shape
 {
 public:
 
+    /// @brief Default contructor
+    /// @param size Size of the rounded rectangle
+    /// @param cornerRadius Number of ponits of each corner
     explicit RoundedRectangle(const sfex::Vec2 &size = sfex::Vec2::zero, float cornerRadius=5);
 
+    /// @brief Changes the size of the rounded rectangle
+    /// @param size New size of the rounded rectangle
     void setSize(const sfex::Vec2 &size);
+
+    /// @brief Changes the size of the rounded rectangle
+    /// @param width New width of the rounded rectangle
+    /// @param height New height of the rounded rectangle
+    void setSize(float width, float height);
+
+    /// @brief Returns the size of the rounded rectangle
+    /// @return Size of the rounded rectangle
     sfex::Vec2 getSize() const;
 
+    /// @brief Changes the radius of the rounded rectangle
+    /// @param radius New radius of the rounded rectangle
     void setCornerRadius(float radius);
+
+    /// @brief Returns the radius of the rounded rectangle
+    /// @return The radius of the rounded rectangle
     float getCornerRadius() const;
 
+    /// @brief Changes the point count of each corner
+    /// @param cornerPointCount New point count of each corner
     void setCornerPointCount(std::size_t cornerPointCount);
+
+    /// @brief Returns the point count of each corner
+    /// @return The point count of each corner
     std::size_t getCornerPointCount() const;
 
+    /// @brief Returns the number of points in the shape
+    /// @return The number of the points in the shape
     virtual std::size_t getPointCount() const override;
+
+    /// @brief Returns the coordinates of point corresponding to the index
+    /// @param index The index of the point
+    /// @return Coordinates of point corresponding to the index
     virtual sf::Vector2f getPoint(std::size_t index) const override;
 
 private:

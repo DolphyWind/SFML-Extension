@@ -38,6 +38,11 @@ void RoundedRectangle::setSize(const sfex::Vec2 &size)
     updatePoints();
 }
 
+void RoundedRectangle::setSize(float width, float height)
+{
+    setSize({width, height});
+}
+
 sfex::Vec2 RoundedRectangle::getSize() const
 {
     return m_size;
