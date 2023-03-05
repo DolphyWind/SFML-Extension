@@ -38,21 +38,25 @@ Ellipse::Ellipse(float horizontalRadius, float verticalRadius, std::size_t point
 void Ellipse::setRadius(const sfex::Vec2 &radius)
 {
     m_radius = radius;
+    this->update();
 }
 
 void Ellipse::setRadius(float horizontalRadius, float verticalRadius)
 {
     m_radius = {horizontalRadius, verticalRadius};
+    this->update();
 }
 
 void Ellipse::setHorizontalRadius(float horizontalRadius)
 {
     m_radius.x = horizontalRadius;
+    this->update();
 }
 
 void Ellipse::setVerticalRadius(float verticalRadius)
 {
     m_radius.y = verticalRadius;
+    this->update();
 }
 
 sfex::Vec2 Ellipse::getRadius() const
@@ -73,6 +77,7 @@ float Ellipse::getVerticalRadius() const
 void Ellipse::setPointCount(std::size_t pointCount)
 {
     m_pointCount = pointCount;
+    this->update();
 }
 
 std::size_t Ellipse::getPointCount() const
@@ -82,7 +87,7 @@ std::size_t Ellipse::getPointCount() const
 
 sf::Vector2f Ellipse::getPoint(std::size_t index) const
 {
-    float angle = index * 2 * Math::pi / getPointCount() - Math::pi / 2;
+    float angle = index * 2 * Math::pi / m_pointCount - Math::pi / 2;
     sfex::Vec2 coords;
     coords.x = m_radius.x + m_radius.x * std::cos(angle);
     coords.y = m_radius.y + m_radius.y * std::sin(angle);

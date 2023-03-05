@@ -14,19 +14,29 @@ int main()
         return 1;
     }
 
-    sfex::RoundedRectangle rect({200, 200}, 20);
+    sfex::RoundedRectangle rect({200, 200}, 25);
     rect.setFillColor(sfex::Color::White);
     rect.setOutlineThickness(2);
     rect.setOutlineColor(sfex::Color::White);
     rect.setPosition(200, 120);
-    rect.setCornerPointCount(25);
+    rect.setCornerPointCount(5);
     rect.setTexture(&lennaTexture);
 
-    sfex::Ellipse ellipse(200, 120);
+    sfex::Ellipse ellipse(150, 100);
     ellipse.setOutlineThickness(2);
     ellipse.setOutlineColor(sfex::Color::White);
     ellipse.setPosition(800, 120);
+    ellipse.setPointCount(60);
     ellipse.setTexture(&lennaTexture);
+
+    std::cout << ellipse.getPointCount() << std::endl;
+
+    sfex::Squircle squircle(100);
+    squircle.setOutlineThickness(2);
+    squircle.setOutlineColor(sfex::Color::White);
+    squircle.setPointCount(60);
+    squircle.setPosition(500, 120);
+    squircle.setTexture(&lennaTexture);
 
     while(window.isOpen())
     {
@@ -39,6 +49,7 @@ int main()
         window.clear();
 
         window.draw(rect);
+        window.draw(squircle);
         window.draw(ellipse);
 
         window.display();

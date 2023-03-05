@@ -20,11 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_CONFIG_HPP_
-#define _SFEX_CONFIG_HPP_
+// Headers
+#include <SFEX/Graphics/Squircle.hpp>
 
-#define SFEX_VERSION_MAJOR 0
-#define SFEX_VERSION_MINOR 8
-#define SFEX_VERSION_PATCH 0
+namespace sfex
+{
 
-#endif // !_SFEX_CONFIG_HPP_
+Squircle::Squircle(float radius, std::size_t pointCount): m_radius(radius), m_pointCount(pointCount)
+{
+}
+
+void Squircle::setRadius(float radius)
+{
+    m_radius = radius;
+    this->update();
+}
+
+float Squircle::getRadius() const
+{
+    return m_radius;
+}
+
+void Squircle::setPointCount(std::size_t pointCount)
+{
+    m_pointCount = pointCount;
+    this->update();
+}
+
+std::size_t Squircle::getPointCount() const
+{
+    return m_pointCount;
+}
+
+sf::Vector2f Squircle::getPoint(std::size_t index) const
+{
+    float angle = index * 2 * Math::pi / m_pointCount - Math::pi / 2;
+    float ro = (std::pow(2.f, 0.25f) * m_radius) / std::pow(2 - std::sin(2 * angle) * std::sin(2 * angle), 0.25f);
+
+    sfex::Vec2 coords(std::cos(angle), std::sin(angle));
+    coords *= ro;
+    coords += sfex::Vec2::one * m_radius;
+
+    return coords;
+}
+
+} // namespace sfex

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.5.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.8.0)
 include(GNUInstallDirs)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -21,6 +21,7 @@ set( SFEX_HEADER_FILES
 	include/SFEX/Graphics/Color.hpp
 	include/SFEX/Graphics/RoundedRectangle.hpp
 	include/SFEX/Graphics/Ellipse.hpp
+	include/SFEX/Graphics/Squircle.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
@@ -31,6 +32,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Graphics/Color.cpp
     src/SFEX/Graphics/RoundedRectangle.cpp
     src/SFEX/Graphics/Ellipse.cpp
+    src/SFEX/Graphics/Squircle.cpp
 )
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})
