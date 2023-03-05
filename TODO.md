@@ -4,7 +4,7 @@
 - Add CTest tests
 
 # Ideas might get implemented
-+ Numeric/Matrix -> Requires 'Numeric/VectorN<T>' to be implemented (N dimentional vectors)
++ Numeric/Matrix -> Requires Numeric/VectorN\<T\> to be implemented (N dimentional vectors)
 + Numeric/Quaternion -> I have to learn how quaternions represent 3d rotations.
 + Numeric/Math/Slerp -> Requires quaternions to be implemented
 
