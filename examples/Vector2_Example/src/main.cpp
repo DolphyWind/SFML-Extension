@@ -7,11 +7,6 @@ void printVector(const sfex::Vector2<T> &vector, const std::string &name = std::
     std::cout << name << ": <" << vector.x << ", " << vector.y << ">" << std::endl;
 }
 
-void printVector(const sfex::Vec2 &vector, const std::string &name = std::string())
-{
-    std::cout << name << ": <" << vector.x << ", " << vector.y << ">" << std::endl;
-}
-
 void printDashes(std::size_t n = 30)
 {
     for(std::size_t i = 0; i < n; i++) std::cout << "-";
@@ -66,9 +61,9 @@ int main()
     sf::Vector2f vecf = v2;
     sf::Vector2i veci = v2;
     sf::Vector2u vecu = v2;
-    printVector(sfex::Vector2<float>::fromSFML(vecf), "vecf");
-    printVector(sfex::Vector2<int>::fromSFML(veci), "veci");
-    printVector(sfex::Vector2<unsigned int>::fromSFML(vecu), "vecu");
+    printVector<float>(vecf, "vecf");
+    printVector<int>(veci, "veci");
+    printVector<unsigned int>(vecu, "vecu");
 
     printVector((v1=vecf), "v1=vecf");
     printVector((v1=veci), "v1=veci");

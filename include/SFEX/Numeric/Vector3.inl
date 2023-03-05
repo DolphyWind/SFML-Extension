@@ -32,6 +32,11 @@ Vector3<T>::Vector3(): x(T()), y(T()), z(T())
 }
 
 template<typename T>
+Vector3<T>::Vector3(const sf::Vector3<T> &sfVec): x(sfVec.x), y(sfVec.y), z(sfVec.z)
+{
+}
+
+template<typename T>
 Vector3<T>::Vector3(const T &_x, const T &_y, const T &_z): x(_x), y(_y), z(_z) 
 {
 }
@@ -339,13 +344,6 @@ template<typename T2>
 Vector3<T>::operator sf::Vector3<T2>() const
 {
     return toSFMLVector<T2>();
-}
-
-template<typename T>
-Vector3<T> Vector3<T>::fromSFML(const sf::Vector3<T> &sfVec)
-{
-    Vector3<T> vec = {sfVec.x, sfVec.y, sfVec.z};
-    return vec;
 }
 
 template<typename T>

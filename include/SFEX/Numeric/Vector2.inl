@@ -32,6 +32,11 @@ Vector2<T>::Vector2(): x(T()), y(T())
 }
 
 template<typename T>
+Vector2<T>::Vector2(const sf::Vector2<T> &sfVec): x(sfVec.x), y(sfVec.y)
+{
+}
+
+template<typename T>
 Vector2<T>::Vector2(const T &_x, const T &_y): x(_x), y(_y) 
 {
 }
@@ -278,13 +283,6 @@ template<typename T2>
 Vector2<T>::operator sf::Vector2<T2>() const
 {
     return toSFMLVector<T2>();
-}
-
-template<typename T>
-Vector2<T> Vector2<T>::fromSFML(const sf::Vector2<T> &sfVec)
-{
-    Vector2<T> vec = {sfVec.x, sfVec.y};
-    return vec;
 }
 
 template<typename T>

@@ -42,7 +42,11 @@ public:
     /// @brief Default constructor. Creates a zero vector.
     Vector2();
 
-    /// @brief Default constructor. Creates a vectors with components x and y
+    /// @brief Creates a sfex::Vector2<T> from SFML vector
+    /// @param sfVec SFML vector
+    Vector2(const sf::Vector2<T> &sfVec);
+
+    /// @brief Creates a vector with components x and y
     Vector2(const T &x, const T &y);
 
     /// @brief Returns magnitude (length) of the vector
@@ -150,10 +154,6 @@ public:
     template<typename T2>
     operator sf::Vector2<T2>() const;
     
-    /// @brief Creates sfex::Vector2<T> from a sfml vector
-    /// @param sfVec sfml vector
-    /// @return Created vector
-    static Vector2<T> fromSFML(const sf::Vector2<T> &sfVec);
     template<typename T2>
     Vector2<T> operator=(const sf::Vector2<T2> &rhs);
 
