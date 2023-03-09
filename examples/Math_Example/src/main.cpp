@@ -17,7 +17,7 @@ void printVector(const sfex::Vec2 &v, const std::string &name = std::string())
 int main()
 {
     std::cout << "180 degrees to radians: " << sfex::Math::deg2rad(180) << std::endl;
-    std::cout << "pi radians to degrees" << sfex::Math::rad2deg(sfex::Math::pi) << std::endl;
+    std::cout << "pi radians to degrees: " << sfex::Math::rad2deg(sfex::Math::pi) << std::endl;
     printDashes();
 
     sfex::Vec2 v = sfex::Math::lerp(sfex::Vec2::down, sfex::Vec2::one, 0.4f);
@@ -27,10 +27,10 @@ int main()
     printDashes();
 
     std::vector<sfex::Vec2> points = {
-        sfex::Vec2({1, 1}),
-        sfex::Vec2({5, 6}),
-        sfex::Vec2({6, 1.5}),
-        sfex::Vec2({7.5, 7}),
+        sfex::Vec2(1, 1),
+        sfex::Vec2(5, 6),
+        sfex::Vec2(6, 1.5),
+        sfex::Vec2(7.5, 7),
     };
     std::cout << "BEZIER POINTS" << std::endl;
     for(std::size_t i = 0; i < points.size(); i++)

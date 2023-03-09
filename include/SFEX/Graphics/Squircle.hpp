@@ -32,7 +32,6 @@ namespace sfex
 {
 
 /// @brief A squircle class based on x^4 + y^4 = r^4 definition.
-/// I'll post mathemathical background soon in a pdf format or maybe as a medium article. (If I don't forget)
 class Squircle : public sf::Shape
 {
 public:

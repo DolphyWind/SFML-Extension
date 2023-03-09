@@ -4,7 +4,7 @@
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "Rounded Square");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Shapes");
     window.setFramerateLimit(60);
 
     sf::Texture lennaTexture;
@@ -28,8 +28,6 @@ int main()
     ellipse.setPosition(800, 120);
     ellipse.setPointCount(60);
     ellipse.setTexture(&lennaTexture);
-
-    std::cout << ellipse.getPointCount() << std::endl;
 
     sfex::Squircle squircle(100);
     squircle.setOutlineThickness(2);
