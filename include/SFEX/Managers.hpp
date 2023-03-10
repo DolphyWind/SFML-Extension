@@ -24,5 +24,6 @@
 #define _SFEX_MANAGERS_HPP_
 
 #include <SFEX/Config.hpp>
+#include <SFEX/Managers/TextureManager.hpp>
 
 #endif // !_SFEX_MANAGERS_HPP_

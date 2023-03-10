@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(TextureManagerExample VERSION 1.0.0)
+
+set(PROGRAM_NAME texturemanager_example)
+find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
+
+file(GLOB CPP_FILES "./src/*.cpp")
+
+add_executable(${PROGRAM_NAME} ${CPP_FILES})
+target_include_directories(${PROGRAM_NAME} PUBLIC include)
+target_link_libraries(${PROGRAM_NAME} sfml-graphics sfml-system sfml-window sfml-audio SFEX)

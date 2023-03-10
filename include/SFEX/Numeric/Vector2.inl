@@ -238,7 +238,8 @@ Vector2<T> operator*(const T &scalar, const Vector2<T> &vec)
 template<typename T>
 Vector2<T> Vector2<T>::operator/=(const T &scalar)
 {
-    this->scale(1 / scalar);
+    this->x /= scalar;
+    this->y /= scalar;
     return *this;
 }
 

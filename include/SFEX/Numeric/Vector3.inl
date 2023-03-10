@@ -305,7 +305,9 @@ Vector3<T> operator*(const T &scalar, const Vector3<T> &vec)
 template<typename T>
 Vector3<T> Vector3<T>::operator/=(const T &scalar)
 {
-    this->scale(1 / scalar);
+    this->x /= scalar;
+    this->y /= scalar;
+    this->z /= scalar;
     return *this;
 }
 

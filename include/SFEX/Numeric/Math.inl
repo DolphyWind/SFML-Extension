@@ -74,6 +74,8 @@ T Math::lerp(const T &A, const T &B, float t, bool bounded)
 template<typename T>
 T Math::bezier(const std::vector<T> &points, float t, bool bounded)
 {
+    if(points.size() == 0) return T();
+    if(points.size() == 1) return points[0];
     if(points.size() == 2) return Math::lerp(points[0], points[1], t, bounded);
     return Math::lerp(
         Math::bezier(

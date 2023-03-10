@@ -1,7 +1,5 @@
 + Managers/AudioManager
-+ Managers/TextureManager (Name could change)
-
-- Add CTest tests
++ Add CTest tests
 
 # Ideas might get implemented
 + Numeric/Matrix -> Requires Numeric/Vector\<N,T\> to be implemented (N dimentional vectors)
