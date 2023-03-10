@@ -83,10 +83,6 @@ sf::Texture &getTexture(const std::string &key);
 /// @return A reference to the sprite corresponding to key
 sf::Sprite &getSprite(const std::string &key);
 
-/// @brief Update sprite corresponding to key. Use this if you did something to sprite's texture.
-/// @param key Unique identifier of sprite
-void updateSprite(const std::string &key);
-
 private:
 
 /// @brief HashMap to store all textures

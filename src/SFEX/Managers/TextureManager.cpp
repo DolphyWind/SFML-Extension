@@ -44,7 +44,7 @@ bool TextureManager::create(const std::string &key, unsigned int width, unsigned
 
     m_textures[key] = std::move(fooTexture);
     if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    updateSprite(key);
+    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -57,7 +57,7 @@ bool TextureManager::loadFromFile(const std::string &key, const std::string &fil
 
     m_textures[key] = std::move(fooTexture);
     if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    updateSprite(key);
+    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -70,7 +70,7 @@ bool TextureManager::loadFromMemory(const std::string &key, const void *data, st
 
     m_textures[key] = std::move(fooTexture);
     if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    updateSprite(key);
+    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -83,7 +83,7 @@ bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &str
 
     m_textures[key] = std::move(fooTexture);
     if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    updateSprite(key);
+    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -96,7 +96,7 @@ bool TextureManager::loadFromImage(const std::string &key, const sf::Image &imag
 
     m_textures[key] = std::move(fooTexture);
     if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    updateSprite(key);
+    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -108,13 +108,6 @@ sf::Texture &TextureManager::getTexture(const std::string &key)
 sf::Sprite &TextureManager::getSprite(const std::string &key)
 {
     return m_sprites[key];
-}
-
-void TextureManager::updateSprite(const std::string &key)
-{
-    if(!spriteHasKey(key)) return;
-
-    m_sprites[key].setTexture(m_textures[key]);
 }
 
 } // namespace sfex
