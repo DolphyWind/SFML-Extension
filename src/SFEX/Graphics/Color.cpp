@@ -90,16 +90,16 @@ Color Color::operator*=(float scalar)
 {
     // Prevent overflowing
     if(scalar > float(255) / float(this->r)) this->r = 255;
-    else this->r *= scalar;
+    else this->r = sf::Uint8(scalar * float(this->r));
 
     if(scalar > float(255) / float(this->g)) this->g = 255;
-    else this->g *= scalar;
+    else this->g *= sf::Uint8(scalar * float(this->g));
 
     if(scalar > float(255) / float(this->b)) this->b = 255;
-    else this->b *= scalar;
+    else this->b *= sf::Uint8(scalar * float(this->b));
 
     if(scalar > float(255) / float(this->a)) this->a = 255;
-    else this->a *= scalar;
+    else this->a *= sf::Uint8(scalar * float(this->a));
 
     return *this;
 }
