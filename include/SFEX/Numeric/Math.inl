@@ -25,11 +25,11 @@
 namespace sfex
 {
 
-const float Math::pi = 3.1415926535;
-const float Math::tau = 6.2831853071;
-const float Math::e  = 2.7182818284;
-const float Math::phi = 1.6180339887;
-const float Math::positiveMin = nextafterf(0.0, 1.0);
+const float Math::pi = 3.1415926535f;
+const float Math::tau = 6.2831853071f;
+const float Math::e  = 2.7182818284f;
+const float Math::phi = 1.6180339887f;
+const float Math::positiveMin = nextafterf(0.0f, 1.0f);
 const float Math::epsilon = std::numeric_limits<float>::epsilon();
 
 template<typename T>
@@ -65,10 +65,10 @@ T Math::lerp(const T &A, const T &B, float t, bool bounded)
 {
     if(bounded)
     {
-        if(t > 1) t = 1;
-        if(t < 0) t = 0;
+        if(t > 1.0f) t = 1.0f;
+        if(t < 0.0f) t = 0.0f;
     }
-    return A * (1 - t) + B * t;
+    return A * (1.0f - t) + B * t;
 }
 
 template<typename T>
