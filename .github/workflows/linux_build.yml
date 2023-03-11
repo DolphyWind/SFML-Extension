@@ -33,7 +33,7 @@ jobs:
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
     
     - name: cat Makefile
-      run: cat Makefile
+      run: cat ${{github.workspace}}/build/Makefile
     
     - name: Build
       # Build your program with the given configuration
