@@ -53,7 +53,7 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${SFEX_CONFIGVERSI
                                  COMPATIBILITY SameMajorVersion)
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})
-target_include_directories(${SFEX_PROJECT_NAME} INTERFACE
+target_include_directories(${SFEX_PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SFEX_INCLUDE_FOLDER}>)
 target_link_libraries(${SFEX_PROJECT_NAME} sfml-graphics sfml-system sfml-window sfml-audio)
