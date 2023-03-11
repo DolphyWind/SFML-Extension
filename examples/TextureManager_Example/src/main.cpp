@@ -10,11 +10,12 @@ int main()
     sfex::TextureManager textureManager;
     textureManager.loadFromFile("lenna", "lenna.png");
     
-    sfex::Vector2<unsigned> textureSize = textureManager.getTexture("lenna").getSize();
-    textureManager.getSprite("lenna").setOrigin(textureSize / 2);
-    textureManager.getSprite("lenna").setRotation(45);
-    textureManager.getSprite("lenna").setPosition(640, 360);
+    sfex::Vector2<unsigned> textureSize = textureManager["lenna"]->getSize();
+    sf::Sprite sprite(*textureManager["lenna"]);
     
+    sprite.setOrigin(textureSize / 2);
+    sprite.setRotation(45);
+    sprite.setPosition(640, 360);
 
     while(window.isOpen())
     {
@@ -26,7 +27,7 @@ int main()
 
         window.clear();
 
-        window.draw(textureManager.getSprite("lenna"));
+        window.draw(sprite);
 
         window.display();
     }

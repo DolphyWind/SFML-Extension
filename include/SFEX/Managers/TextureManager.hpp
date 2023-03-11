@@ -26,8 +26,6 @@
 #include <unordered_map>
 #include <string>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFEX/Graphics/Color.hpp>
 
 namespace sfex
 {
@@ -36,6 +34,13 @@ namespace sfex
 class TextureManager
 {
 public:
+
+/// @brief A function to check if the key is present in the texture hashmap
+bool hasTexture(const std::string &key) const;
+
+/// @brief Get number of textures stored
+/// @return Number of textures stored
+std::size_t size() const;
 
 /// @brief Creates an empty texture
 /// @param key Unique identifier of texture
@@ -75,27 +80,21 @@ bool loadFromImage(const std::string &key, const sf::Image &image, const sf::Int
 
 /// @brief Get texture corresponding to key
 /// @param key Unique identifier of texture
-/// @return A reference to the sprite corresponding to key
-sf::Texture &getTexture(const std::string &key);
+/// @return A pointer to the sprite corresponding to key. Returns nullptr if key doesn't correspond to anything.
+sf::Texture* get(const std::string &key);
 
-/// @brief Get sprite corresponding to key
-/// @param key Unique identifier of sprite
-/// @return A reference to the sprite corresponding to key
-sf::Sprite &getSprite(const std::string &key);
+/// @brief Get all keys
+/// @return All keys in a vector
+std::vector<std::string> getKeys() const;
+
+/// @brief Get texture corresponding to key
+/// @param key Unique identifier of texture
+/// @return A pointer to the sprite corresponding to key. Returns nullptr if key doesn't correspond to anything.
+sf::Texture* operator[](const std::string &key);
 
 private:
-
 /// @brief HashMap to store all textures
 std::unordered_map<std::string, sf::Texture> m_textures;
-
-/// @brief HashMap to store all sprites
-std::unordered_map<std::string, sf::Sprite> m_sprites;
-
-/// @brief A function to check if the key is present in the texture hashmap
-bool textureHasKey(const std::string &key);
-
-/// @brief A function to check if the key is present in the sprite hashmap
-bool spriteHasKey(const std::string &key);
 
 };
 

@@ -25,14 +25,14 @@
 namespace sfex
 {
 
-bool TextureManager::textureHasKey(const std::string &key)
+bool TextureManager::hasTexture(const std::string &key) const
 {
     return (m_textures.find(key) != m_textures.end());
 }
 
-bool TextureManager::spriteHasKey(const std::string &key)
+std::size_t TextureManager::size() const
 {
-    return (m_sprites.find(key) != m_sprites.end());
+    return m_textures.size();
 }
 
 bool TextureManager::create(const std::string &key, unsigned int width, unsigned int height)
@@ -43,8 +43,6 @@ bool TextureManager::create(const std::string &key, unsigned int width, unsigned
     if(!result) return false;
 
     m_textures[key] = std::move(fooTexture);
-    if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -56,8 +54,6 @@ bool TextureManager::loadFromFile(const std::string &key, const std::string &fil
     if(!result) return false;
 
     m_textures[key] = std::move(fooTexture);
-    if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -69,8 +65,6 @@ bool TextureManager::loadFromMemory(const std::string &key, const void *data, st
     if(!result) return false;
 
     m_textures[key] = std::move(fooTexture);
-    if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -82,8 +76,6 @@ bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &str
     if(!result) return false;
 
     m_textures[key] = std::move(fooTexture);
-    if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
@@ -95,19 +87,28 @@ bool TextureManager::loadFromImage(const std::string &key, const sf::Image &imag
     if(!result) return false;
 
     m_textures[key] = std::move(fooTexture);
-    if(!spriteHasKey(key)) m_sprites[key] = sf::Sprite();
-    m_sprites[key].setTexture(m_textures[key]);
     return true;
 }
 
-sf::Texture &TextureManager::getTexture(const std::string &key)
+sf::Texture* TextureManager::get(const std::string &key)
 {
-    return m_textures[key];
+    if(!hasTexture(key)) return nullptr;
+    return &m_textures[key];
 }
 
-sf::Sprite &TextureManager::getSprite(const std::string &key)
+std::vector<std::string> TextureManager::getKeys() const
 {
-    return m_sprites[key];
+    std::vector<std::string> result;
+    for(auto &p : m_textures)
+    {
+        result.push_back(p.first);
+    }
+    return result;
+}
+
+sf::Texture* TextureManager::operator[](const std::string& key)
+{
+    return get(key);
 }
 
 } // namespace sfex
