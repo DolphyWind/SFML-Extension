@@ -3,6 +3,7 @@ project(StopwatchExample VERSION 1.0.0)
 
 set(PROGRAM_NAME stopwatch_example)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
+find_package(SFEX REQUIRED)
 
 file(GLOB CPP_FILES "./src/*.cpp")
 
