@@ -20,101 +20,56 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <SFEX/Managers/TextureManager.hpp>
+#include <SFEX/Managers/SpriteManager.hpp>
 
 namespace sfex
 {
 
-bool TextureManager::hasTexture(const std::string &key) const
+bool SpriteManager::hasSprite(const std::string &key) const
 {
-    return (m_textures.find(key) != m_textures.end());
+    return (m_sprites.find(key) != m_sprites.end());
 }
 
-std::size_t TextureManager::size() const
+std::size_t SpriteManager::size() const
 {
-    return m_textures.size();
+    return m_sprites.size();
 }
 
-bool TextureManager::create(const std::string &key, unsigned int width, unsigned int height)
+void SpriteManager::setTexture(const std::string &key, const sf::Texture& texture)
 {
-    sf::Texture fooTexture;
-
-    bool result = fooTexture.create(width, height);
-    if(!result) return false;
-
-    m_textures[key] = std::move(fooTexture);
-    return true;
+    if(hasSprite(key))
+    {
+        this->get(key)->setTexture(texture);
+        return;
+    }
+    m_sprites[key] = sf::Sprite(texture);
 }
 
-bool TextureManager::loadFromFile(const std::string &key, const std::string &filename, const sf::IntRect &area)
+sf::Sprite* SpriteManager::get(const std::string &key)
 {
-    sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromFile(filename, area);
-    if(!result) return false;
-
-    m_textures[key] = std::move(fooTexture);
-    return true;
+    if(!hasSprite(key)) return nullptr;
+    return &m_sprites[key];
 }
 
-bool TextureManager::loadFromMemory(const std::string &key, const void *data, std::size_t size, const sf::IntRect &area)
-{
-    sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromMemory(data, size);
-    if(!result) return false;
-
-    m_textures[key] = std::move(fooTexture);
-    return true;
-}
-
-bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &stream, const sf::IntRect &area)
-{
-    sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromStream(stream, area);
-    if(!result) return false;
-
-    m_textures[key] = std::move(fooTexture);
-    return true;
-}
-
-bool TextureManager::loadFromImage(const std::string &key, const sf::Image &image, const sf::IntRect &area)
-{
-    sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromImage(image, area);
-    if(!result) return false;
-
-    m_textures[key] = std::move(fooTexture);
-    return true;
-}
-
-sf::Texture* TextureManager::get(const std::string &key)
-{
-    if(!hasTexture(key)) return nullptr;
-    return &m_textures[key];
-}
-
-std::vector<std::string> TextureManager::getKeys() const
+std::vector<std::string> SpriteManager::getKeys() const
 {
     std::vector<std::string> result;
-    for(auto &p : m_textures)
+    for(auto &p : m_sprites)
     {
         result.push_back(p.first);
     }
     return result;
 }
 
-sf::Texture* TextureManager::operator[](const std::string& key)
+sf::Sprite* SpriteManager::operator[](const std::string& key)
 {
     return this->get(key);
 }
 
-std::vector<sf::Texture*> TextureManager::filter(std::string pattern, sfex::FilterType method)
+std::vector<sf::Sprite*> SpriteManager::filter(std::string pattern, sfex::FilterType method)
 {
-    std::vector<sf::Texture*> result;
-    for(auto &p : m_textures)
+    std::vector<sf::Sprite*> result;
+    for(auto &p : m_sprites)
     {
         bool filtered = false;
         switch (method)

@@ -20,11 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_CONFIG_HPP_
-#define _SFEX_CONFIG_HPP_
+#ifndef _SFEX_MANAGERS_FILTERING_HPP_
+#define _SFEX_MANAGERS_FILTERING_HPP_
 
-#define SFEX_VERSION_MAJOR 0
-#define SFEX_VERSION_MINOR 10
-#define SFEX_VERSION_PATCH 0
+namespace sfex
+{
 
-#endif // !_SFEX_CONFIG_HPP_
+enum class FilterType
+{
+    Starts_with,
+    Ends_with,
+    Contains,
+    Does_not_contain,
+};
+
+} // namespace sfex
+
+
+#endif // !_SFEX_MANAGERS_FILTERING_HPP_
