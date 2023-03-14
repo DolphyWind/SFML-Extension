@@ -20,101 +20,120 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <SFEX/Managers/TextureManager.hpp>
+#include <SFEX/Managers/SoundManager.hpp>
 
 namespace sfex
 {
 
-bool TextureManager::contains(const std::string &key) const
+bool SoundManager::contains(const std::string &key) const
 {
-    return (m_textures.find(key) != m_textures.end());
+    return (m_sounds.find(key) != m_sounds.end());
 }
 
-std::size_t TextureManager::size() const
+std::size_t SoundManager::size() const
 {
-    return m_textures.size();
+    return m_sounds.size();
 }
 
-bool TextureManager::create(const std::string &key, unsigned int width, unsigned int height)
+bool SoundManager::loadFromFile(const std::string &key, const std::string &filename)
 {
-    sf::Texture fooTexture;
+    sf::SoundBuffer soundBuffer;
 
-    bool result = fooTexture.create(width, height);
+    bool result = soundBuffer.loadFromFile(filename);
     if(!result) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    sf::Sound sound;
+    sound.setBuffer(soundBuffer);
+    m_sounds[key] = std::move(sound);
     return true;
 }
 
-bool TextureManager::loadFromFile(const std::string &key, const std::string &filename, const sf::IntRect &area)
+bool SoundManager::loadFromMemory(const std::string &key, const void *data, std::size_t size)
 {
-    sf::Texture fooTexture;
+    sf::SoundBuffer soundBuffer;
 
-    bool result = fooTexture.loadFromFile(filename, area);
+    bool result = soundBuffer.loadFromMemory(data, size);
     if(!result) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    sf::Sound sound;
+    sound.setBuffer(soundBuffer);
+    m_sounds[key] = std::move(sound);
     return true;
 }
 
-bool TextureManager::loadFromMemory(const std::string &key, const void *data, std::size_t size, const sf::IntRect &area)
+bool SoundManager::loadFromStream(const std::string &key, sf::InputStream &stream)
 {
-    sf::Texture fooTexture;
+    sf::SoundBuffer soundBuffer;
 
-    bool result = fooTexture.loadFromMemory(data, size);
+    bool result = soundBuffer.loadFromStream(stream);
     if(!result) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    sf::Sound sound;
+    sound.setBuffer(soundBuffer);
+    m_sounds[key] = std::move(sound);
     return true;
 }
 
-bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &stream, const sf::IntRect &area)
+bool SoundManager::loadFromSamples(const std::string &key, const sf::Int16 *sample, sf::Uint64 sampleCount, unsigned int channelCount, unsigned int sampleRate)
 {
-    sf::Texture fooTexture;
+    sf::SoundBuffer soundBuffer;
 
-    bool result = fooTexture.loadFromStream(stream, area);
+    bool result = soundBuffer.loadFromSamples(sample, sampleCount, channelCount, sampleRate);
     if(!result) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    sf::Sound sound;
+    sound.setBuffer(soundBuffer);
+    m_sounds[key] = std::move(sound);
     return true;
 }
 
-bool TextureManager::loadFromImage(const std::string &key, const sf::Image &image, const sf::IntRect &area)
+void SoundManager::play(const std::string &key)
 {
-    sf::Texture fooTexture;
+    if(!this->get(key)) return;
 
-    bool result = fooTexture.loadFromImage(image, area);
-    if(!result) return false;
-
-    m_textures[key] = std::move(fooTexture);
-    return true;
+    this->get(key)->play();
 }
 
-sf::Texture* TextureManager::get(const std::string &key)
+void SoundManager::pause(const std::string &key)
+{
+    if(!this->get(key)) return;
+
+    this->get(key)->pause();
+}
+
+void SoundManager::stop(const std::string &key)
+{
+    if(!this->get(key)) return;
+
+    this->get(key)->stop();
+}
+
+sf::Sound* SoundManager::get(const std::string &key)
 {
     if(!contains(key)) return nullptr;
-    return &m_textures[key];
+
+    return &m_sounds[key];
 }
 
-std::vector<std::string> TextureManager::getKeys() const
+std::vector<std::string> SoundManager:: getKeys() const
 {
     std::vector<std::string> result;
-    for(auto &p : m_textures)
+    for(auto &p : m_sounds)
     {
         result.push_back(p.first);
     }
     return result;
 }
 
-sf::Texture* TextureManager::operator[](const std::string& key)
+sf::Sound* SoundManager::operator[](const std::string &key)
 {
     return this->get(key);
 }
 
-std::vector<sf::Texture*> TextureManager::filter(std::string pattern, sfex::FilterType method)
+std::vector<sf::Sound*> SoundManager::filter(std::string pattern, sfex::FilterType method)
 {
-    std::vector<sf::Texture*> result;
-    for(auto &p : m_textures)
+    std::vector<sf::Sound*> result;
+    for(auto &p : m_sounds)
     {
         bool filtered = false;
         switch (method)

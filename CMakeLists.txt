@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.10.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.11.0)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -32,6 +32,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/Filtering.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/TextureManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SpriteManager.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SoundManager.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
@@ -45,6 +46,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Graphics/Squircle.cpp
     src/SFEX/Managers/TextureManager.cpp
     src/SFEX/Managers/SpriteManager.cpp
+    src/SFEX/Managers/SoundManager.cpp
 )
 
 include(CMakePackageConfigHelpers)

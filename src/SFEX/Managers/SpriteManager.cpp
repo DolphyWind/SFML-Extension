@@ -25,7 +25,7 @@
 namespace sfex
 {
 
-bool SpriteManager::hasSprite(const std::string &key) const
+bool SpriteManager::contains(const std::string &key) const
 {
     return (m_sprites.find(key) != m_sprites.end());
 }
@@ -37,7 +37,7 @@ std::size_t SpriteManager::size() const
 
 void SpriteManager::setTexture(const std::string &key, const sf::Texture& texture)
 {
-    if(hasSprite(key))
+    if(contains(key))
     {
         this->get(key)->setTexture(texture);
         return;
@@ -47,7 +47,7 @@ void SpriteManager::setTexture(const std::string &key, const sf::Texture& textur
 
 sf::Sprite* SpriteManager::get(const std::string &key)
 {
-    if(!hasSprite(key)) return nullptr;
+    if(!contains(key)) return nullptr;
     return &m_sprites[key];
 }
 

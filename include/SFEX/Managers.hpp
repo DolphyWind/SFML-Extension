@@ -27,5 +27,6 @@
 #include <SFEX/Managers/Filtering.hpp>
 #include <SFEX/Managers/TextureManager.hpp>
 #include <SFEX/Managers/SpriteManager.hpp>
+#include <SFEX/Managers/SoundManager.hpp>
 
 #endif // !_SFEX_MANAGERS_HPP_

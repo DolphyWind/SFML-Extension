@@ -39,7 +39,7 @@ public:
 /// @brief A function to check if the key is present in the hashmap
 /// @param key Key to check
 /// @return true if the key is present in the hashmap
-bool hasSprite(const std::string &key) const;
+bool contains(const std::string &key) const;
 
 /// @brief Get number of sprites stored
 /// @return Number of sprites stored

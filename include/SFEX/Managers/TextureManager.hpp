@@ -39,7 +39,7 @@ public:
 /// @brief A function to check if the key is present in the hashmap
 /// @param key Key to check
 /// @return true if the key is present in the hashmap
-bool hasTexture(const std::string &key) const;
+bool contains(const std::string &key) const;
 
 /// @brief Get number of textures stored
 /// @return Number of textures stored
@@ -72,7 +72,7 @@ bool loadFromMemory(const std::string &key, const void *data, std::size_t size, 
 /// @param inputStream Source stream to read from
 /// @param area Area of the texture to load
 /// @return True if loading was successfull
-bool loadFromStream(const std::string &key, sf::InputStream& inputStream, const sf::IntRect &area=sf::IntRect());
+bool loadFromStream(const std::string &key, sf::InputStream &inputStream, const sf::IntRect &area=sf::IntRect());
 
 /// @brief Load texture from sf::Image
 /// @param key Unique identifier of texture
