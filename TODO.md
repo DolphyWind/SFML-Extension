@@ -1,4 +1,6 @@
-+ Managers/AudioManager
++ General/Listener
++ General/Singleton
++ General/Keyboard
 + Add CTest tests
 
 # Ideas might get implemented

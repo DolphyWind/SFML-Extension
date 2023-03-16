@@ -34,42 +34,40 @@ class Color : public sf::Color
 {
 public:
 
-Color();
-Color(const sf::Color &color);
-Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a=255);
+    Color();
+    Color(const sf::Color &color);
+    Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a=255);
 
-Color operator+=(const Color &rhs);
-Color operator+(const Color &rhs) const;
+    Color operator+=(const Color &rhs);
+    Color operator+(const Color &rhs) const;
 
-Color operator-=(const Color &rhs);
-Color operator-(const Color &rhs) const;
+    Color operator-=(const Color &rhs);
+    Color operator-(const Color &rhs) const;
 
-Color operator*=(float scalar);
-Color operator*(float scalar) const;
+    Color operator*=(float scalar);
+    Color operator*(float scalar) const;
 
-Color operator/=(float scalar);
-Color operator/(float scalar) const;
+    Color operator/=(float scalar);
+    Color operator/(float scalar) const;
 
-bool operator==(const Color &rhs);
-bool operator!=(const Color &rhs);
+    bool operator==(const Color &rhs);
+    bool operator!=(const Color &rhs);
 
-/// @brief Mixes two colors with each other. Shorthand for lerp(a, b, 0.5)
-/// @param a first color
-/// @param b second color
-/// @return Mixed color
-static Color mixColors(const Color &a, const Color &b);
+    /// @brief Mixes two colors with each other. Shorthand for lerp(a, b, 0.5)
+    /// @param a first color
+    /// @param b second color
+    /// @return Mixed color
+    static Color mixColors(const Color &a, const Color &b);
 
-const static Color Black;
-const static Color Blue;
-const static Color Cyan;
-const static Color Magenta;
-const static Color Green;
-const static Color Red;
-const static Color White;
-const static Color Yellow;
-const static Color Transparent;
-
-private:
+    const static Color Black;
+    const static Color Blue;
+    const static Color Cyan;
+    const static Color Magenta;
+    const static Color Green;
+    const static Color Red;
+    const static Color White;
+    const static Color Yellow;
+    const static Color Transparent;
 };
 
 sfex::Color operator*(float scalar, const sfex::Color &color);

@@ -33,6 +33,7 @@ namespace sfex
 {
 namespace Math
 {
+
 /// @brief Ratio of a circle's circumference to its diameter.
 extern const inline float pi;
 
@@ -82,6 +83,7 @@ template<typename T>
 inline T bezier(const std::vector<T> &points, float t, bool bounded=true);
 
 } // namespace Math
+
 } // namespace sfex
 
 #include <SFEX/Numeric/Math.inl>

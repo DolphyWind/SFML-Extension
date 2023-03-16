@@ -38,9 +38,7 @@ std::size_t TextureManager::size() const
 bool TextureManager::create(const std::string &key, unsigned int width, unsigned int height)
 {
     sf::Texture fooTexture;
-
-    bool result = fooTexture.create(width, height);
-    if(!result) return false;
+    if(!fooTexture.create(width, height)) return false;
 
     m_textures[key] = std::move(fooTexture);
     return true;
@@ -49,9 +47,7 @@ bool TextureManager::create(const std::string &key, unsigned int width, unsigned
 bool TextureManager::loadFromFile(const std::string &key, const std::string &filename, const sf::IntRect &area)
 {
     sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromFile(filename, area);
-    if(!result) return false;
+    if(!fooTexture.loadFromFile(filename, area)) return false;
 
     m_textures[key] = std::move(fooTexture);
     return true;
@@ -60,9 +56,7 @@ bool TextureManager::loadFromFile(const std::string &key, const std::string &fil
 bool TextureManager::loadFromMemory(const std::string &key, const void *data, std::size_t size, const sf::IntRect &area)
 {
     sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromMemory(data, size);
-    if(!result) return false;
+    if(!fooTexture.loadFromMemory(data, size)) return false;
 
     m_textures[key] = std::move(fooTexture);
     return true;
@@ -71,9 +65,7 @@ bool TextureManager::loadFromMemory(const std::string &key, const void *data, st
 bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &stream, const sf::IntRect &area)
 {
     sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromStream(stream, area);
-    if(!result) return false;
+    if(!fooTexture.loadFromStream(stream, area)) return false;
 
     m_textures[key] = std::move(fooTexture);
     return true;
@@ -82,9 +74,7 @@ bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &str
 bool TextureManager::loadFromImage(const std::string &key, const sf::Image &image, const sf::IntRect &area)
 {
     sf::Texture fooTexture;
-
-    bool result = fooTexture.loadFromImage(image, area);
-    if(!result) return false;
+    if(!fooTexture.loadFromImage(image, area)) return false;
 
     m_textures[key] = std::move(fooTexture);
     return true;

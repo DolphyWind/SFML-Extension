@@ -24,9 +24,10 @@
 #define _SFEX_MANAGERS_HPP_
 
 #include <SFEX/Config.hpp>
-#include <SFEX/Managers/Filtering.hpp>
+#include <SFEX/General/FilteringMethods.hpp>
 #include <SFEX/Managers/TextureManager.hpp>
 #include <SFEX/Managers/SpriteManager.hpp>
 #include <SFEX/Managers/SoundManager.hpp>
+#include <SFEX/Managers/MusicManager.hpp>
 
 #endif // !_SFEX_MANAGERS_HPP_

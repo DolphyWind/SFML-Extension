@@ -35,27 +35,27 @@ class Gradient
 {
 public:
 
-/// @brief Adds time,key pair to map.
-void setKey(float time, const T& key);
+    /// @brief Adds time,key pair to map.
+    void setKey(float time, const T& key);
 
-/// @brief Removes a key by value
-/// @param val the key you want to remove
-void removeKey(const T& val);
+    /// @brief Removes a key by value
+    /// @param val the key you want to remove
+    void removeKey(const T& val);
 
-/// @brief Removes a key by time
-void removeKey(float time);
+    /// @brief Removes a key by time
+    void removeKey(float time);
 
-/// @brief Returns all time and key pairs as a map
-/// @return Time and key pairs
-std::map<float, T> getKeys();
+    /// @brief Returns all time and key pairs as a map
+    /// @return Time and key pairs
+    std::map<float, T> getKeys();
 
-/// @brief Calculates a key based on given time value
-/// @param time time value
-/// @return key corresponding to that time value
-T evaluate(float time);
+    /// @brief Calculates a key based on given time value
+    /// @param time time value
+    /// @return key corresponding to that time value
+    T evaluate(float time);
 
 private:
-std::map<float, T> m_keys;
+    std::map<float, T> m_keys;
 };
 
 } // namespace sfex

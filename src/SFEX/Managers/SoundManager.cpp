@@ -37,53 +37,37 @@ std::size_t SoundManager::size() const
 
 bool SoundManager::loadFromFile(const std::string &key, const std::string &filename)
 {
-    sf::SoundBuffer soundBuffer;
+    m_buffers[key] = sf::SoundBuffer();
+    if(!m_buffers[key].loadFromFile(filename)) return false;
 
-    bool result = soundBuffer.loadFromFile(filename);
-    if(!result) return false;
-
-    sf::Sound sound;
-    sound.setBuffer(soundBuffer);
-    m_sounds[key] = std::move(sound);
+    m_sounds[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
 bool SoundManager::loadFromMemory(const std::string &key, const void *data, std::size_t size)
 {
-    sf::SoundBuffer soundBuffer;
+    m_buffers[key] = sf::SoundBuffer();
+    if(!m_buffers[key].loadFromMemory(data, size)) return false;
 
-    bool result = soundBuffer.loadFromMemory(data, size);
-    if(!result) return false;
-
-    sf::Sound sound;
-    sound.setBuffer(soundBuffer);
-    m_sounds[key] = std::move(sound);
+    m_sounds[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
 bool SoundManager::loadFromStream(const std::string &key, sf::InputStream &stream)
 {
-    sf::SoundBuffer soundBuffer;
+    m_buffers[key] = sf::SoundBuffer();
+    if(!m_buffers[key].loadFromStream(stream)) return false;
 
-    bool result = soundBuffer.loadFromStream(stream);
-    if(!result) return false;
-
-    sf::Sound sound;
-    sound.setBuffer(soundBuffer);
-    m_sounds[key] = std::move(sound);
+    m_sounds[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
 bool SoundManager::loadFromSamples(const std::string &key, const sf::Int16 *sample, sf::Uint64 sampleCount, unsigned int channelCount, unsigned int sampleRate)
 {
-    sf::SoundBuffer soundBuffer;
+    m_buffers[key] = sf::SoundBuffer();
+    if(!m_buffers[key].loadFromSamples(sample, sampleCount, channelCount, sampleRate)) return false;
 
-    bool result = soundBuffer.loadFromSamples(sample, sampleCount, channelCount, sampleRate);
-    if(!result) return false;
-
-    sf::Sound sound;
-    sound.setBuffer(soundBuffer);
-    m_sounds[key] = std::move(sound);
+    m_sounds[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -106,6 +90,20 @@ void SoundManager::stop(const std::string &key)
     if(!this->get(key)) return;
 
     this->get(key)->stop();
+}
+
+sf::Time SoundManager::getDuration(const std::string &key)
+{
+    if(!this->get(key)) return sf::Time::Zero;
+
+    return this->get(key)->getBuffer()->getDuration();
+}
+
+sf::Sound::Status SoundManager::getStatus(const std::string &key)
+{
+    if(!this->get(key)) return sf::Sound::Status::Stopped;
+
+    return this->get(key)->getStatus();
 }
 
 sf::Sound* SoundManager::get(const std::string &key)
