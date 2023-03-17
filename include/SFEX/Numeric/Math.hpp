@@ -31,58 +31,61 @@
 
 namespace sfex
 {
-namespace Math
+
+class Math
 {
+public:
+    /// @brief Ratio of a circle's circumference to its diameter.
+    static const float pi;
 
-/// @brief Ratio of a circle's circumference to its diameter.
-extern const inline float pi;
+    /// @brief Ratio of a circle's circumference to its radius. Equals to 2*pi.
+    static const float tau;
 
-/// @brief Ratio of a circle's circumference to its radius. Equals to 2*pi.
-extern const inline float tau;
+    /// @brief Euler's number
+    static const float e;
 
-/// @brief Euler's number
-extern const inline float e;
+    /// @brief The golden ratio. Namely (1+sqrt(5))/2
+    static const float phi;
 
-/// @brief The golden ratio. Namely (1+sqrt(5))/2
-extern const inline float phi;
+    /// @brief The smallest positive number that can be represented as double
+    static const float positiveMin;
 
-/// @brief The smallest positive number that can be represented as double
-extern const inline float positiveMin;
+    /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a double
+    static const float epsilon;
 
-/// @brief The difference between 1 and the smallest value greater than 1 that is representable by a double
-extern const inline float epsilon;
+    /// @brief Returns the sign of val.
+    template<typename T>
+    static int sign(const T &val);
 
-/// @brief Returns the sign of val.
-template<typename T>
-inline int sign(const T &val);
+    /// @brief Returns the absoulte value of val.
+    template<typename T>
+    static T abs(const T &val);
 
-/// @brief Returns the absoulte value of val.
-template<typename T>
-inline T abs(const T &val);
+    /// @brief Returns true if abs(first - second) is < tolerance
+    template<typename T>
+    static bool isClose(const T &first, const T &second, const T &tolerance);
 
-/// @brief Returns true if abs(first - second) is < tolerance
-template<typename T>
-inline bool isClose(const T &first, const T &second, const T &tolerance);
+    /// @brief Converts value from degrees to radians
+    /// @param value value you want to convert
+    /// @returns value in radians
+    static float deg2rad(float value);
 
-/// @brief Converts value from degrees to radians
-/// @param value value you want to convert
-/// @returns value in radians
-inline float deg2rad(float value);
+    /// @brief Converts value from radians to degrees
+    /// @param value value you want to convert
+    /// @returns value in degrees
+    static float rad2deg(float value);
 
-/// @brief Converts value from radians to degrees
-/// @param value value you want to convert
-/// @returns value in degrees
-inline float rad2deg(float value);
+    /// @brief Linear interpolation between A and B.
+    template<typename T>
+    static T lerp(const T &A, const T &B, float t, bool bounded=true);
 
-/// @brief Linear interpolation between A and B.
-template<typename T>
-inline T lerp(const T &A, const T &B, float t, bool bounded=true);
+    /// @brief Recursive bezier curve computation function
+    template<typename T>
+    static T bezier(const std::vector<T> &points, float t, bool bounded=true);
 
-/// @brief Recursive bezier curve computation function
-template<typename T>
-inline T bezier(const std::vector<T> &points, float t, bool bounded=true);
-
-} // namespace Math
+protected:
+    Math() {};
+};
 
 } // namespace sfex
 
