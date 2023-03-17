@@ -35,23 +35,23 @@ bool Keyboard::getKey(sfex::Keyboard::Key key)
 
 bool Keyboard::getKeyDown(sfex::Keyboard::Key key)
 {
-    if(m_keysForDown[key])
+    if(Keyboard::m_keysForDown[key])
     {
-        m_keysForDown[key] = Keyboard::getKey(key);
+        Keyboard::m_keysForDown[key] = Keyboard::getKey(key);
         return false;
     }
-    m_keysForDown[key] = Keyboard::getKey(key);
-    return m_keysForDown[key];
+    Keyboard::m_keysForDown[key] = Keyboard::getKey(key);
+    return sfex::Keyboard::m_keysForDown[key];
 }
 
 bool Keyboard::getKeyUp(sfex::Keyboard::Key key)
 {
-    if(m_keysForUp[key])
+    if(Keyboard::m_keysForUp[key])
     {
-        m_keysForUp[key] = Keyboard::getKey(key);
-        return !m_keysForUp[key];
+        Keyboard::m_keysForUp[key] = Keyboard::getKey(key);
+        return !Keyboard::m_keysForUp[key];
     }
-    m_keysForUp[key] = Keyboard::getKey(key);
+    Keyboard::m_keysForUp[key] = Keyboard::getKey(key);
     return false;
 }
 

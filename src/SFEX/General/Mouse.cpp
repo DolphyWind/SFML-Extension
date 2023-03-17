@@ -35,23 +35,23 @@ bool Mouse::getButton(sfex::Mouse::Button button)
 
 bool Mouse::getButtonDown(sfex::Mouse::Button button)
 {
-    if(m_buttonsForDown[button])
+    if(Mouse::m_buttonsForDown[button])
     {
-        m_buttonsForDown[button] = Mouse::getButton(button);
+        Mouse::m_buttonsForDown[button] = Mouse::getButton(button);
         return false;
     }
-    m_buttonsForDown[button] = Mouse::getButton(button);
-    return m_buttonsForDown[button];
+    Mouse::m_buttonsForDown[button] = Mouse::getButton(button);
+    return Mouse::m_buttonsForDown[button];
 }
 
 bool Mouse::getButtonUp(sfex::Mouse::Button button)
 {
-    if(m_buttonsForUp[button])
+    if(Mouse::m_buttonsForUp[button])
     {
-        m_buttonsForUp[button] = Mouse::getButton(button);
-        return !m_buttonsForUp[button];
+        Mouse::m_buttonsForUp[button] = Mouse::getButton(button);
+        return !Mouse::m_buttonsForUp[button];
     }
-    m_buttonsForUp[button] = Mouse::getButton(button);
+    Mouse::m_buttonsForUp[button] = Mouse::getButton(button);
     return false;
 }
 
