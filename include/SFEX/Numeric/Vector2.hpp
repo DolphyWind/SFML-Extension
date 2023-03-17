@@ -177,6 +177,8 @@ public:
 };
 
 typedef Vector2<float> Vec2;
+typedef Vector2<int> Vec2i;
+typedef Vector2<unsigned int> Vec2u;
 
 template<typename T>
 sfex::Vector2<T> operator*(const T &scalar, const sfex::Vector2<T> &vec);

@@ -31,11 +31,8 @@ int main()
 
     sf::Sound sound(buff);
 
-    sf::Keyboard::Key toggleKey = sf::Keyboard::Key::Space;
-    bool isToggleKeyPressed = false;
-
-    sf::Keyboard::Key jumpkey = sf::Keyboard::Key::Up;
-    bool isJumpKeyPressed = false;
+    sf::Keyboard::Key toggleKey = sfex::Keyboard::Key::Space;
+    sf::Keyboard::Key jumpkey = sfex::Keyboard::Key::Up;
 
     while(window.isOpen())
     {
@@ -45,23 +42,18 @@ int main()
             if(e.type == sf::Event::Closed) window.close();
         }
 
-        if(sf::Keyboard::isKeyPressed(toggleKey) && !isToggleKeyPressed)
+        if(sfex::Keyboard::getKeyDown(toggleKey))
         {
             if(musicManager.getStatus("mainmusic") == sf::Music::Status::Playing)
                 musicManager.pause("mainmusic");
             else musicManager.play("mainmusic");
-            isToggleKeyPressed = true;
         }
         
-        if(sf::Keyboard::isKeyPressed(jumpkey) && !isJumpKeyPressed)
+        if(sfex::Keyboard::getKeyDown(jumpkey))
         {
             soundManager.play("jump");
-            isJumpKeyPressed = true;
         }
 
-
-        isToggleKeyPressed = sf::Keyboard::isKeyPressed(toggleKey);
-        isJumpKeyPressed = sf::Keyboard::isKeyPressed(jumpkey);
         window.clear();
 
         window.display();

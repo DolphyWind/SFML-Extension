@@ -206,6 +206,8 @@ public:
 };
 
 typedef Vector3<float> Vec3;
+typedef Vector3<int> Vec3i;
+typedef Vector3<unsigned int> Vec3u;
 
 template<typename T>
 sfex::Vector3<T> operator*(const T &scalar, const sfex::Vector3<T> &vec);

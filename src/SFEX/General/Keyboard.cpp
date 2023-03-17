@@ -20,12 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_GENERAL_HPP_
-#define _SFEX_GENERAL_HPP_
-
-#include <SFEX/Config.hpp>
-#include <SFEX/General/Stopwatch.hpp>
 #include <SFEX/General/Keyboard.hpp>
-#include <SFEX/General/Mouse.hpp>
 
-#endif // !_SFEX_GENERAL_HPP_
+namespace sfex
+{
+
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keysForDown;
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keysForUp;
+
+bool Keyboard::getKey(sfex::Keyboard::Key key)
+{
+    return sf::Keyboard::isKeyPressed(key);
+}
+
+bool Keyboard::getKeyDown(sfex::Keyboard::Key key)
+{
+    if(m_keysForDown[key])
+    {
+        m_keysForDown[key] = Keyboard::getKey(key);
+        return false;
+    }
+    m_keysForDown[key] = Keyboard::getKey(key);
+    return m_keysForDown[key];
+}
+
+bool Keyboard::getKeyUp(sfex::Keyboard::Key key)
+{
+    if(m_keysForUp[key])
+    {
+        m_keysForUp[key] = Keyboard::getKey(key);
+        return !m_keysForUp[key];
+    }
+    m_keysForUp[key] = Keyboard::getKey(key);
+    return false;
+}
+
+} // namespace sfex
