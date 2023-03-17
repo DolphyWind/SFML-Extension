@@ -20,11 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_CONFIG_HPP_
-#define _SFEX_CONFIG_HPP_
+#ifndef _SFEX_GENERAL_SINGLETON_HPP_
+#define _SFEX_GENERAL_SINGLETON_HPP_
 
-#define SFEX_VERSION_MAJOR 0
-#define SFEX_VERSION_MINOR 13
-#define SFEX_VERSION_PATCH 2
+namespace sfex
+{
 
-#endif // !_SFEX_CONFIG_HPP_
+/// @brief Simple singleton base class
+class Singleton
+{
+public:
+    Singleton(const Singleton&) = delete;
+
+    static Singleton &instance();
+
+protected:
+    Singleton() {};
+private:
+
+};
+
+} // namespace sfex
+
+
+#endif // !_SFEX_GENERAL_SINGLETON_HPP_

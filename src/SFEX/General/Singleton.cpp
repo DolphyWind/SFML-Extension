@@ -20,11 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _SFEX_CONFIG_HPP_
-#define _SFEX_CONFIG_HPP_
+#include <SFEX/General/Singleton.hpp>
 
-#define SFEX_VERSION_MAJOR 0
-#define SFEX_VERSION_MINOR 13
-#define SFEX_VERSION_PATCH 2
+namespace sfex
+{
 
-#endif // !_SFEX_CONFIG_HPP_
+Singleton &Singleton::instance()
+{
+    static Singleton m_instance;
+    return m_instance;
+}
+
+} // namespace sfex

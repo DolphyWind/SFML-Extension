@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.13.1)
+project(${SFEX_PROJECT_NAME} VERSION 0.13.2)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -24,6 +24,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/FilteringMethods.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Keyboard.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Mouse.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/Singleton.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector2.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector3.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Math.hpp
@@ -41,6 +42,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
     src/SFEX/General/Keyboard.cpp
     src/SFEX/General/Mouse.cpp
+    src/SFEX/General/Singleton.cpp
     src/SFEX/Numeric/Vector2.cpp
     src/SFEX/Numeric/Vector3.cpp
     src/SFEX/Numeric/Math.cpp

@@ -1,5 +1,5 @@
 + General/Listener
-+ General/Singleton
++ General/Math make it a singleton
 + General/Joystick
 + Add CTest tests
 
