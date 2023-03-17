@@ -7,6 +7,8 @@ int main()
     sf::RenderWindow window(sf::VideoMode(360, 360), "Input");
     window.setFramerateLimit(60);
 
+    bool one_time = true;
+
     while(window.isOpen())
     {
         sf::Event e;
@@ -48,6 +50,18 @@ int main()
         window.clear();
 
         window.display();
+
+        if(one_time)
+        {
+            one_time = false;
+            sfex::Mouse::setPosition({100, 100}, &window);
+
+            sfex::Vec2i pos_global = sfex::Mouse::getPosition();
+            sfex::Vec2i pos_relative = sfex::Mouse::getPosition(&window);
+
+            std::cout << "Global mouse position: (" << pos_global.x << ", " << pos_global.y << ")" << std::endl;
+            std::cout << "Mouse position relative to window: (" << pos_relative.x << ", " << pos_relative.y << ")" << std::endl;
+        }
     }
 
     return 0;

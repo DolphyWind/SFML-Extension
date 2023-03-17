@@ -58,14 +58,14 @@ bool Mouse::getButtonUp(sfex::Mouse::Button button)
 
 sfex::Vec2i Mouse::getPosition(const sf::Window *relativeTo)
 {
-    if(!relativeTo) return sf::Mouse::getPosition();
-    return sf::Mouse::getPosition(*relativeTo);
+    if(relativeTo) return sf::Mouse::getPosition(*relativeTo);
+    return sf::Mouse::getPosition();
 }
 
 void Mouse::setPosition(const sfex::Vec2i &position, const sf::Window *relativeTo)
 {
-    if(!relativeTo) sf::Mouse::setPosition(position);
-    else sf::Mouse::setPosition(position, *relativeTo);
+    if(relativeTo) sf::Mouse::setPosition(position, *relativeTo);
+    else sf::Mouse::setPosition(position);
 }
 
 } // namespace sfex
