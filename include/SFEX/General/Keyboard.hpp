@@ -29,25 +29,25 @@
 namespace sfex
 {
 
-/// @brief Keyboard class that extends sf::Keybord class
+/// @brief Simple keyboard class for detecting and proccessing the keyboard input. Only contains static methods.
 class Keyboard
 {
 public:
     typedef sf::Keyboard::Key Key;
 
-    /// @brief Returns if the given key is held down
+    /// @brief Returns true if the given key is held down
     /// @param key Key to check
-    /// @return true if key is being held down, false otherwise.
+    /// @return True if key is being held down, false otherwise
     static bool getKey(sfex::Keyboard::Key key);
     
-    /// @brief Returns if the given key started being held down in the current frame
+    /// @brief Returns true if the given key started being held down in the current frame
     /// @param key Key to check
-    /// @return true if key is started being held down in the current frame, false otherwise
+    /// @return True if key is started being held down in the current frame, false otherwise
     static bool getKeyDown(sfex::Keyboard::Key key);
     
-    /// @brief Returns if the given key is released in the current frame
+    /// @brief Returns true if the given key is released in the current frame
     /// @param key Key to check
-    /// @return true if key is released in the current frame, false otherwise
+    /// @return True if key is released in the current frame, false otherwise
     static bool getKeyUp(sfex::Keyboard::Key key);
 
 protected:

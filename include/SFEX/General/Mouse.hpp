@@ -30,25 +30,26 @@
 namespace sfex
 {
 
+/// @brief Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
 class Mouse
 {
 public:
     typedef sf::Mouse::Wheel Wheel;
     typedef sf::Mouse::Button Button;
 
-    /// @brief Returns if the given mouse button is held down
+    /// @brief Returns true if the given mouse button is held down
     /// @param button Mouse button to check
-    /// @return true if mouse button is being held down, false otherwise.
+    /// @return True if mouse button is being held down, false otherwise
     static bool getButton(sfex::Mouse::Button button);
     
-    /// @brief Returns if the given mouse button started being held down in the current frame
+    /// @brief Returns true if the given mouse button started being held down in the current frame
     /// @param button Mouse button to check
-    /// @return true if mouse button is started being held down in the current frame, false otherwise
+    /// @return True if mouse button is started being held down in the current frame, false otherwise
     static bool getButtonDown(sfex::Mouse::Button button);
     
-    /// @brief Returns if the given mouse button is released in the current frame
+    /// @brief Returns true if the given mouse button is released in the current frame
     /// @param button Mouse button to check
-    /// @return true if mouse button is released in the current frame, false otherwise
+    /// @return True if mouse button is released in the current frame, false otherwise
     static bool getButtonUp(sfex::Mouse::Button button);
 
     

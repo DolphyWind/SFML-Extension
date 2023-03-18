@@ -1,5 +1,5 @@
-+ General/Listener
-+ General/Joystick
+# TODO
++ Make some classes printable
 + Add CTest tests
 
 # Ideas might get implemented
@@ -8,5 +8,5 @@
 + Numeric/Math/Slerp -> Requires quaternions to be implemented
 
 # Ideas probably won't be implemented
-+ Numeric/Random -> There are a lot of random libraries already written for c++ 
++ Numeric/Random -> There are a lot of random libraries already written for C++ 
 
