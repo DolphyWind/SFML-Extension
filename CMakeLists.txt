@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.14.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.14.1)
 include(GNUInstallDirs)
 
-# Find SFML and enable c++14
-set(CMAKE_CXX_STANDARD 14)
+# Find SFML and enable c++17
+set(CMAKE_CXX_STANDARD 17)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 
 set(SFEX_TARGETS_FILENAME "${SFEX_PROJECT_NAME}Targets.cmake")

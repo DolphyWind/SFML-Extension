@@ -1,17 +1,18 @@
+//
 // MIT License
-
+//
 // Copyright (c) 2023 Yunus Emre Aydın
-
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,6 +20,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+//
 
 // Headers
 #include <SFEX/Graphics/Color.hpp>
@@ -93,13 +95,13 @@ Color Color::operator*=(float scalar)
     else this->r = sf::Uint8(scalar * float(this->r));
 
     if(scalar > float(255) / float(this->g)) this->g = 255;
-    else this->g *= sf::Uint8(scalar * float(this->g));
+    else this->g = sf::Uint8(scalar * float(this->g));
 
     if(scalar > float(255) / float(this->b)) this->b = 255;
-    else this->b *= sf::Uint8(scalar * float(this->b));
+    else this->b = sf::Uint8(scalar * float(this->b));
 
     if(scalar > float(255) / float(this->a)) this->a = 255;
-    else this->a *= sf::Uint8(scalar * float(this->a));
+    else this->a = sf::Uint8(scalar * float(this->a));
 
     return *this;
 }
@@ -142,6 +144,11 @@ bool Color::operator!=(const Color &rhs)
 Color Color::mixColors(const Color &a, const Color &b)
 {
     return Math::lerp(a, b, 0.5);
+}
+
+std::ostream &operator<<(std::ostream &left, const Color &right)
+{
+    return left << "(r: " << +right.r << ", g: " << +right.g << ", b: " << +right.b << ", a: " << +right.a << ")";
 }
 
 const Color Color::Black = Color(0, 0, 0, 255);

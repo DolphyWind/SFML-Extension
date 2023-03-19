@@ -4,13 +4,12 @@
 template<typename T>
 void printVector(const sfex::Vector3<T> &vector, const std::string &name = std::string())
 {
-    std::cout << name << ": <" << vector.x << ", " << vector.y << ", " << vector.z << ">" << std::endl;
+    std::cout << name << ": " << vector << std::endl;
 }
 
 void printDashes(std::size_t n = 30)
 {
-    for(std::size_t i = 0; i < n; i++) std::cout << "-";
-    std::cout << std::endl;
+    std::cout << std::string(n, '-') << std::endl;
 }
 
 int main()

@@ -3,18 +3,7 @@
 
 void printDashes(std::size_t n = 30)
 {
-    for(std::size_t i = 0; i < n; i++) std::cout << '-';
-    std::cout << std::endl;
-}
-
-void printVector(const sfex::Vec2 &v, const std::string &name = std::string())
-{
-    std::cout << name << ": <" << v.x << ", " << v.y << ">" << std::endl;
-}
-
-void printColor(const sf::Color &c, const std::string &name = std::string())
-{
-    std::cout << name << ": (" << +c.r << ", " << +c.g << ", " << +c.b << ", " << +c.a << ")" << std::endl;
+    std::cout << std::string(n, '-') << std::endl;
 }
 
 int main()
@@ -27,7 +16,7 @@ int main()
 
     for(float i = 0; !sfex::Math::isClose(i, 3.1f, 0.01f); i += 0.1)
     {
-        printVector(gradient.evaluate(i), std::string("Gradient at t=") + std::to_string(i));
+        std::cout << "Gradient at t=" << i << ": " << gradient(i) << std::endl; 
     }
     printDashes();
     sfex::Gradient<sfex::Color> colorGradient;
@@ -36,7 +25,7 @@ int main()
 
     for(float i = 0; !sfex::Math::isClose(i, 1.1f, 0.001f); i += 0.1)
     {
-        printColor(colorGradient.evaluate(i), std::string("Gradient at t=") + std::to_string(i));
+        std::cout << "Gradient at t=" << i << ": " << colorGradient(i) << std::endl;
     }
     
     return 0;

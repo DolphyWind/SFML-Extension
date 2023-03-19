@@ -5,13 +5,12 @@ using namespace std::chrono_literals;
 
 void printDashes(std::size_t n = 30)
 {
-    for(std::size_t i = 0; i < n; i++) std::cout << '-';
-    std::cout << std::endl;
+    std::cout << std::string(n, '-') << std::endl;
 }
 
 void printVector(const sfex::Vec2 &v, const std::string &name = std::string())
 {
-    std::cout << name << ": <" << v.x << ", " << v.y << ">" << std::endl;
+    std::cout << name << ": " << v << std::endl;
 }
 
 int main()

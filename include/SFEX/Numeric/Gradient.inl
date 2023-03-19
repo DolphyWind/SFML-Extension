@@ -1,17 +1,18 @@
+//
 // MIT License
-
+//
 // Copyright (c) 2023 Yunus Emre Aydın
-
+//
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
 // in the Software without restriction, including without limitation the rights
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,9 +20,11 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+//
 
 #include <SFEX/Numeric/Gradient.hpp>
 #include <iostream>
+
 namespace sfex
 {
 
@@ -78,6 +81,12 @@ T Gradient<T>::evaluate(float time)
     float rightDistance = pairAfter.first - time;
     float lerpTime = leftDistance / (leftDistance + rightDistance);
     return sfex::Math::lerp(pairBefore.second, pairAfter.second, lerpTime);
+}
+
+template<typename T>
+T Gradient<T>::operator()(float time)
+{
+    return this->evaluate(time);
 }
 
 } // namespace sfex

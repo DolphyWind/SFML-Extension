@@ -4,13 +4,12 @@
 template<typename T>
 void printVector(const sfex::Vector2<T> &vector, const std::string &name = std::string())
 {
-    std::cout << name << ": <" << vector.x << ", " << vector.y << ">" << std::endl;
+    std::cout << name << ": " << vector << std::endl;
 }
 
 void printDashes(std::size_t n = 30)
 {
-    for(std::size_t i = 0; i < n; i++) std::cout << "-";
-    std::cout << std::endl;
+    std::cout << std::string(n, '-') << std::endl;
 }
 
 int main()
@@ -86,7 +85,7 @@ int main()
     printVector(v2.rotated(3.1415926535), "v2 rotated 180 degrees");
     printVector(v2.rotated(3.1415926535 / 2, {-1, 0}), "v2 rotated 90 degrees around (-1, 0)");
     std::cout << "Angle of v2: " << v2.angle() << std::endl;
-    std::cout << "Angle between v2 and <1, -1>: " << v2.angle({1, -1}) << std::endl;
+    std::cout << "Angle between v2 and (1, -1): " << v2.angle({1, -1}) << std::endl;
     printDashes();
     sfex::Vec2 v_first = {1, 0};
     sfex::Vec2 v_second = {3, 4};
