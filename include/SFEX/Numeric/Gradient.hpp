@@ -37,7 +37,7 @@ class Gradient
 {
 public:
 
-    /// @brief Adds time,key pair to map.
+    /// @brief Adds time, key pair to gradient object
     void setKey(float time, const T& key);
 
     /// @brief Removes a key by value
@@ -61,8 +61,13 @@ public:
     /// @return key corresponding to that time value
     T operator()(float time);
 
+    /// @brief Get a reference to key at the given time.
+    /// @param time time value
+    /// @return A reference to key at the given time
+    T &operator[](float time);
+
 private:
-    std::map<float, T> m_keys;
+    std::map<float, T> m_gradientMap;
 };
 
 } // namespace sfex

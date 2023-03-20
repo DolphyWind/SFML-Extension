@@ -31,25 +31,25 @@ namespace sfex
 template<typename T>
 void Gradient<T>::setKey(float time, const T& key)
 {
-    m_keys[time] = key;
+    m_gradientMap[time] = key;
 }
 
 template<typename T>
 void Gradient<T>::removeKey(const T& value)
 {
-    m_keys.erase(value);
+    m_gradientMap.erase(value);
 }
 
 template<typename T>
 void Gradient<T>::removeKey(float time)
 {
-    m_keys.erase(time);
+    m_gradientMap.erase(time);
 }
 
 template<typename T>
 std::map<float, T> Gradient<T>::getKeys()
 {
-    return m_keys;
+    return m_gradientMap;
 }
 
 template<typename T>
@@ -58,12 +58,12 @@ T Gradient<T>::evaluate(float time)
     std::pair<float, T> pairBefore, pairAfter;
     bool pairFound = false;
 
-    for(auto it = m_keys.begin(); it != m_keys.end(); ++it)
+    for(auto it = m_gradientMap.begin(); it != m_gradientMap.end(); ++it)
     {
         const auto& pair = *it;
         if(pair.first >= time)
         {
-            if(it == m_keys.begin()) return m_keys[pair.first];
+            if(it == m_gradientMap.begin()) return m_gradientMap[pair.first];
             pairAfter = pair;
             pairBefore = *(--it);
             pairFound = true;
@@ -72,7 +72,7 @@ T Gradient<T>::evaluate(float time)
     }
     if(!pairFound)
     {
-        auto it = m_keys.end();
+        auto it = m_gradientMap.end();
         --it;
         return it->second;
     }
@@ -87,6 +87,12 @@ template<typename T>
 T Gradient<T>::operator()(float time)
 {
     return this->evaluate(time);
+}
+
+template<typename T>
+T &Gradient<T>::operator[](float time)
+{
+    return m_gradientMap[time];
 }
 
 } // namespace sfex
