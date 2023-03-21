@@ -58,11 +58,7 @@ float Math::rad2deg(float val)
 template<typename T>
 T Math::lerp(const T &A, const T &B, float time, bool bounded)
 {
-    if(bounded)
-    {
-        if(time > 1.0f) time = 1.0f;
-        if(time < 0.0f) time = 0.0f;
-    }
+    if(bounded) time = std::clamp(time, 0.0f, 1.0f);
     return A * (1.0f - time) + B * time;
 }
 
