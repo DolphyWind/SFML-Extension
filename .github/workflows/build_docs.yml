@@ -1,0 +1,26 @@
+name: Building Documentation
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Download Doxygen
+      run: sudo apt-get install doxygen
+    
+    - name: Change Directory
+      run: cd ${{github.workspace}}/docs
+    
+    - name: Build Documentation
+      run: doxygen .
