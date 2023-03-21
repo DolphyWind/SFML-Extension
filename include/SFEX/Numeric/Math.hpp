@@ -34,7 +34,7 @@
 namespace sfex
 {
 
-/// @brief A math class. Only contains static methods and constants so it doesn't meant to be instantiated.
+/// @brief A math class that contains math constants and some functions that are not in c++ STL. Only contains static methods and constants so it doesn't meant to be instantiated.
 class Math
 {
 public:
@@ -50,13 +50,13 @@ public:
     /// @brief The golden ratio. Namely (1+sqrt(5))/2
     static inline const float phi = 1.6180339887f;
 
-    /// @brief The smallest positive number that can be represented as double
+    /// @brief The smallest positive number that can be represented as float
     static inline const float positiveMin = std::nextafterf(0.0f, 1.0f);
 
-    /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a double
+    /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a float
     static inline const float epsilon = std::numeric_limits<float>::epsilon();
 
-    /// @brief Returns the sign of val.
+    /// @brief Returns the sign of val. Can be applied to any type as long as it supports smaller than and negation operators.
     template<typename T>
     static inline int sign(const T &val);
 
@@ -78,13 +78,22 @@ public:
     /// @returns value in degrees
     static inline float rad2deg(float value);
 
-    /// @brief Linear interpolation between A and B.
+    /// @brief Calculates linear interpolation between A and B. Namely A*(1-t) + B*t
+    /// @param A The value at time=0
+    /// @param B The value at time=1
+    /// @param time Time value
+    /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
+    /// @return Linear interpolation between A and B. Namely A*(1-t) + B*t
     template<typename T>
-    static inline T lerp(const T &A, const T &B, float t, bool bounded=true);
+    static inline T lerp(const T &A, const T &B, float time, bool bounded=true);
 
-    /// @brief Recursive bezier curve computation function
+    /// @brief Recursively calculates the point on the bézier curve based on give time
+    /// @param points Points to construct bézier curve
+    /// @param time Time value
+    /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
+    /// @return Calculated point on the bézier curve
     template<typename T>
-    static inline T bezier(const std::vector<T> &points, float t, bool bounded=true);
+    static inline T bezier(const std::vector<T> &points, float time, bool bounded=true);
 
 protected:
     Math() {};

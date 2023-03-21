@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.14.2)
+project(${SFEX_PROJECT_NAME} VERSION 0.14.3)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -60,6 +60,34 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Managers/SoundManager.cpp
     src/SFEX/Managers/MusicManager.cpp
 )
+
+# Thanks to Victoria Rudakova for the doxygen with CMake tutorial https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
+option(BUILD_DOCS "Build documentation" OFF)
+if(BUILD_DOCS)
+    # check if Doxygen is installed
+    find_package(Doxygen)
+    if (DOXYGEN_FOUND)
+	message(STATUS "Doxygen found successfully!")
+	# set input and output files
+	set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
+	set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	# request to configure the file
+	configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+	message("Doxygen build started")
+
+	# note the option ALL which allows to build the docs together with the application
+	add_custom_target( doc_doxygen ALL
+	    COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+	    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	    COMMENT "Generating API documentation with Doxygen"
+	    VERBATIM )
+    else ()
+	message(WARNING "CMake can't find Doxygen. Documentation won't be generated.")
+    endif ()
+else()
+    message(STATUS "Building documentation is disabled. Documentation won't be generated.")
+endif()
 
 include(CMakePackageConfigHelpers)
 configure_package_config_file("cmake/config.cmake.in"

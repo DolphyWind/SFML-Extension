@@ -33,7 +33,7 @@
 namespace sfex
 {
 
-/// @brief An ellipse class
+/// @brief An ellipse shape class.
 class Ellipse : public sf::Shape
 {
 public:

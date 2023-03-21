@@ -30,33 +30,33 @@ namespace sfex
 {
 
 template<typename T>
-Vector3<T>::Vector3(): x(T()), y(T()), z(T())
+Vector3<T>::Vector3(): sf::Vector3<T>(T(), T(), T())
 {
 }
 
 template<typename T>
-Vector3<T>::Vector3(const sf::Vector3<T> &sfVec): x(sfVec.x), y(sfVec.y), z(sfVec.z)
+Vector3<T>::Vector3(const sf::Vector3<T> &sfVec): sf::Vector3<T>(sfVec)
 {
 }
 
 template<typename T>
-Vector3<T>::Vector3(const T &_x, const T &_y, const T &_z): x(_x), y(_y), z(_z) 
+Vector3<T>::Vector3(const T &_x, const T &_y, const T &_z): sf::Vector3<T>(_x, _y, _z) 
 {
 }
 
 template<typename T>
 float Vector3<T>::magnitude() const
 {
-    return std::sqrt(x*x + y*y + z*z);
+    return std::sqrt(this->x*this->x + this->y*this->y + this->z*this->z);
 }
 
 template<typename T>
 void Vector3<T>::setMagnitude(float magnitude)
 {
     float mag = this->magnitude();
-    x *= (magnitude / mag);
-    y *= (magnitude / mag);
-    z *= (magnitude / mag);
+    this->x *= (magnitude / mag);
+    this->y *= (magnitude / mag);
+    this->z *= (magnitude / mag);
 }
 
 template<typename T>
@@ -76,29 +76,29 @@ Vector3<T> Vector3<T>::normalized() const
 template<typename T>
 T Vector3<T>::dot(const Vector3<T> &rhs) const
 {
-    return x * rhs.x + y * rhs.y + z * rhs.z;
+    return this->x * rhs.x + this->y * rhs.y + this->z * rhs.z;
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::cross(const Vector3<T> &rhs) const
 {
     return {
-        y * rhs.z - z * rhs.y,
-        z * rhs.x - x * rhs.z,
-        x * rhs.y - y * rhs.x,
+        this->y * rhs.z - this->z * rhs.y,
+        this->z * rhs.x - this->x * rhs.z,
+        this->x * rhs.y - this->y * rhs.x,
     };
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::cwiseMul(const Vector3<T> &rhs) const
 {
-    return {x * rhs.x, y * rhs.y, z * rhs.z};
+    return {this->x * rhs.x, this->y * rhs.y, this->z * rhs.z};
 }
 
 template<typename T>
 Vector3<T> Vector3<T>::cwiseDiv(const Vector3<T> &rhs) const
 {
-    return {x / rhs.x, y / rhs.y, z / rhs.z};
+    return {this->x / rhs.x, this->y / rhs.y, this->z / rhs.z};
 }
 
 template<typename T>
@@ -130,23 +130,23 @@ void Vector3<T>::rotate(float x_angle, float y_angle, float z_angle, const Vecto
 
     // Where x goes
     T x_prime = T(
-        (cos_beta * cos_gamma) * x +
-        (sin_alpha * sin_beta * cos_gamma - cos_alpha * sin_gamma) * y +
-        (cos_alpha * sin_beta * cos_gamma + sin_alpha * sin_gamma) * z
+        (cos_beta * cos_gamma) * this->x +
+        (sin_alpha * sin_beta * cos_gamma - cos_alpha * sin_gamma) * this->y +
+        (cos_alpha * sin_beta * cos_gamma + sin_alpha * sin_gamma) * this->z
     );
 
     // Where y goes
     T y_prime = T(
-        (cos_beta * sin_gamma) * x +
-        (sin_alpha * sin_beta * sin_gamma + cos_alpha * cos_gamma) * y +
-        (cos_alpha * sin_beta * sin_gamma - sin_alpha * cos_gamma) * z
+        (cos_beta * sin_gamma) * this->x +
+        (sin_alpha * sin_beta * sin_gamma + cos_alpha * cos_gamma) * this->y +
+        (cos_alpha * sin_beta * sin_gamma - sin_alpha * cos_gamma) * this->z
     );
 
     // Where z goes
     T z_prime = T(
-        (-sin_beta) * x +
-        (sin_alpha * cos_beta) * y +
-        (cos_alpha * cos_beta) * z
+        (-sin_beta) * this->x +
+        (sin_alpha * cos_beta) * this->y +
+        (cos_alpha * cos_beta) * this->z
     );
 
     *this = Vector3<T>(x_prime, y_prime, z_prime) + rotateAround;
@@ -218,7 +218,7 @@ Vector3<T> Vector3<T>::projectedOntoPlane(const Vector3<T> &normal) const
 template<typename T>
 bool Vector3<T>::operator==(const Vector3<T> &rhs) const
 {
-    return (x == rhs.x) && (y == rhs.y) && (z == rhs.z);
+    return (this->x == rhs.x) && (this->y == rhs.y) && (this->z == rhs.z);
 }
 
 template<typename T>
@@ -234,9 +234,9 @@ bool Vector3<T>::operator!=(const Vector3<T> &rhs) const
 template<typename T>
 Vector3<T> Vector3<T>::operator+=(const Vector3 &rhs)
 {
-    x += rhs.x;
-    y += rhs.y;
-    z += rhs.z;
+    this->x += rhs.x;
+    this->y += rhs.y;
+    this->z += rhs.z;
     return *this;
 }
 
@@ -254,9 +254,9 @@ Vector3<T> Vector3<T>::operator+(const Vector3 &rhs) const
 template<typename T>
 Vector3<T> Vector3<T>::operator-=(const Vector3 &rhs)
 {
-    x -= rhs.x;
-    y -= rhs.y;
-    z -= rhs.z;
+    this->x -= rhs.x;
+    this->y -= rhs.y;
+    this->z -= rhs.z;
     return *this;
 }
 
@@ -271,9 +271,9 @@ template<typename T>
 Vector3<T> Vector3<T>::operator-() const
 {
     Vector3<T> resultVector;
-    resultVector.x = -x;
-    resultVector.y = -y;
-    resultVector.z = -z;
+    resultVector.x = -this->x;
+    resultVector.y = -this->y;
+    resultVector.z = -this->z;
     return resultVector;
 }
 
@@ -329,7 +329,7 @@ template<typename T>
 template<typename T2>
 sf::Vector3<T2> Vector3<T>::toSFMLVector() const
 {
-    return sf::Vector3<T2>(T2(x), T2(y), T2(z));
+    return sf::Vector3<T2>(T2(this->x), T2(this->y), T2(this->z));
 }
 
 template<typename T>

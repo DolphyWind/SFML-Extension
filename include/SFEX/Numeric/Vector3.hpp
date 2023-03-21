@@ -34,14 +34,11 @@
 namespace sfex
 {
 
-/// @brief 3D Vector Class
+/// @brief 3D Vector class that adds some linear algebra functions and operators to sf::Vector3<T>
 template<typename T>
-class Vector3
+class Vector3 : public sf::Vector3<T>
 {
 public:
-    T x;
-    T y;
-    T z;
 
     /// @brief Default constructor. Creates a zero vector.
     Vector3();
@@ -97,7 +94,7 @@ public:
     /// @return Scaled version of the vector
     Vector3<T> scaled(const T &scalar) const;
 
-    /// @brief Rotates the vector around "rotateAround" by given angles.
+    /// @brief Rotates the vector around "rotateAround" by given Euler angles.
     /// @param x_angle rotation in x axis (Euler angles)
     /// @param y_angle rotation in y axis (Euler angles)
     /// @param z_angle rotation in z axis (Euler angles)
@@ -115,7 +112,7 @@ public:
     Vector3<T> rotated(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero) const;
 
     /// @brief Computates the angle between the vector and "other" vector. 
-    /// @param relativeTo other vector.
+    /// @param other other vector.
     /// @return Angle between the vector and "other" as radians
     float angle(const Vector3<T> &other) const;
 

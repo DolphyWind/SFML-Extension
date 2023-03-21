@@ -40,7 +40,7 @@ public:
     /// @brief Main constructor
     /// @param radius Radius of squircle
     /// @param pointCount Number of points composing the squircle
-    Squircle(float radius=0, std::size_t m_pointCount=30U);
+    Squircle(float radius=0, std::size_t pointCount=30U);
 
     /// @brief Change the radius of the squircle
     /// @param radius New radius of squircle

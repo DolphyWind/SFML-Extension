@@ -34,14 +34,11 @@
 namespace sfex
 {
 
-/// @brief 2D Vector Class
+/// @brief 2D Vector class that adds some linear algebra functions and operators to sf::Vector2<T>
 template<typename T>
-class Vector2
+class Vector2 : public sf::Vector2<T>
 {
 public:
-    T x;
-    T y;
-
     /// @brief Default constructor. Creates a zero vector.
     Vector2();
 
@@ -108,7 +105,7 @@ public:
     Vector2<T> rotated(float angle, const Vector2<T> &rotateAround = Vector2<T>::zero) const;
 
     /// @brief Computates the angle between the vector and other vector
-    /// @param relativeTo other vector. (Defaults to Vector2<T>::right)
+    /// @param other other vector. (Defaults to Vector2<T>::right)
     /// @return Angle between the vector and "other" as radians
     float angle(const Vector2<T> &other = Vector2<T>::right);
 

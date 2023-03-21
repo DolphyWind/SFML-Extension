@@ -31,7 +31,7 @@
 namespace sfex
 {
 
-/// @brief Listener class that can be instantiated unlike sf::Listener
+/// @brief Listener class that can be instantiated unlike sf::Listener.
 class Listener
 {
 public:

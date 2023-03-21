@@ -32,7 +32,7 @@
 namespace sfex
 {
 
-/// @brief Extends sf::Color class. Overloads a lot of operators.
+/// @brief A class that extends sf::Color
 class Color : public sf::Color
 {
 public:

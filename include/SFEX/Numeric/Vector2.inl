@@ -30,32 +30,32 @@ namespace sfex
 {
 
 template<typename T>
-Vector2<T>::Vector2(): x(T()), y(T())
+Vector2<T>::Vector2(): sf::Vector2<T>(T(), T())
 {
 }
 
 template<typename T>
-Vector2<T>::Vector2(const sf::Vector2<T> &sfVec): x(sfVec.x), y(sfVec.y)
+Vector2<T>::Vector2(const sf::Vector2<T> &sfVec): sf::Vector2<T>(sfVec)
 {
 }
 
 template<typename T>
-Vector2<T>::Vector2(const T &_x, const T &_y): x(_x), y(_y) 
+Vector2<T>::Vector2(const T &_x, const T &_y): sf::Vector2<T>(_x, _y)
 {
 }
 
 template<typename T>
 float Vector2<T>::magnitude() const
 {
-    return std::sqrt(x*x + y*y);
+    return std::sqrt(this->x*this->x + this->y*this->y);
 }
 
 template<typename T>
 void Vector2<T>::setMagnitude(float magnitude)
 {
     float mag = this->magnitude();
-    x *= (magnitude / mag);
-    y *= (magnitude / mag);
+    this->x *= (magnitude / mag);
+    this->y *= (magnitude / mag);
 }
 
 template<typename T>
@@ -75,25 +75,25 @@ Vector2<T> Vector2<T>::normalized() const
 template<typename T>
 T Vector2<T>::dot(const Vector2<T> &rhs)
 {
-    return x * rhs.x + y * rhs.y;
+    return this->x * rhs.x + this->y * rhs.y;
 }
 
 template<typename T>
 T Vector2<T>::cross(const Vector2<T> &rhs)
 {
-    return x * rhs.y - y * rhs.x;
+    return this->x * rhs.y - this->y * rhs.x;
 }
 
 template<typename T>
 Vector2<T> Vector2<T>::cwiseMul(const Vector2<T> &rhs)
 {
-    return {x * rhs.x, y * rhs.y};
+    return {this->x * rhs.x, this->y * rhs.y};
 }
 
 template<typename T>
 Vector2<T> Vector2<T>::cwiseDiv(const Vector2<T> &rhs)
 {
-    return {x / rhs.x, y / rhs.y};
+    return {this->x / rhs.x, this->y / rhs.y};
 }
 
 template<typename T>
@@ -154,7 +154,7 @@ Vector2<T> Vector2<T>::projectedOnto(const Vector2<T> &rhs) const
 template<typename T>
 bool Vector2<T>::operator==(const Vector2<T> &rhs) const
 {
-    return (x == rhs.x) && (y == rhs.y);
+    return (this->x == rhs.x) && (this->y == rhs.y);
 }
 
 template<typename T>
@@ -170,8 +170,8 @@ bool Vector2<T>::operator!=(const Vector2<T> &rhs) const
 template<typename T>
 Vector2<T> Vector2<T>::operator+=(const Vector2 &rhs)
 {
-    x += rhs.x;
-    y += rhs.y;
+    this->x += rhs.x;
+    this->y += rhs.y;
     return *this;
 }
 
@@ -189,8 +189,8 @@ Vector2<T> Vector2<T>::operator+(const Vector2 &rhs) const
 template<typename T>
 Vector2<T> Vector2<T>::operator-=(const Vector2 &rhs)
 {
-    x -= rhs.x;
-    y -= rhs.y;
+    this->x -= rhs.x;
+    this->y -= rhs.y;
     return *this;
 }
 
@@ -205,8 +205,8 @@ template<typename T>
 Vector2<T> Vector2<T>::operator-() const
 {
     Vector2<T> resultVector;
-    resultVector.x = -x;
-    resultVector.y = -y;
+    resultVector.x = -this->x;
+    resultVector.y = -this->y;
     return resultVector;
 }
 
@@ -261,7 +261,7 @@ template<typename T>
 template<typename T2>
 sf::Vector2<T2> Vector2<T>::toSFMLVector() const
 {
-    return sf::Vector2<T2>(T2(x), T2(y));
+    return sf::Vector2<T2>(T2(this->x), T2(this->y));
 }
 
 template<typename T>
@@ -293,7 +293,7 @@ template<typename T>
 template<typename T2>
 Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &rhs)
 {
-    *this = {rhs.x, rhs.y};
+    (*this) = {rhs.x, rhs.y};
     return *this;
 }
 

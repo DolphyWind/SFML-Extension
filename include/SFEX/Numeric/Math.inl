@@ -30,13 +30,13 @@ namespace sfex
 template<typename T>
 int Math::sign(const T &val)
 {
-    return (T(0) < val) - (val < T(0));
+    return (T() < val) - (val < T());
 }
 
 template<typename T>
 T Math::abs(const T &val)
 {
-    return val * T(Math::sign(val));
+    return val * Math::sign(val);
 }
 
 template<typename T>
@@ -56,34 +56,34 @@ float Math::rad2deg(float val)
 }
 
 template<typename T>
-T Math::lerp(const T &A, const T &B, float t, bool bounded)
+T Math::lerp(const T &A, const T &B, float time, bool bounded)
 {
     if(bounded)
     {
-        if(t > 1.0f) t = 1.0f;
-        if(t < 0.0f) t = 0.0f;
+        if(time > 1.0f) time = 1.0f;
+        if(time < 0.0f) time = 0.0f;
     }
-    return A * (1.0f - t) + B * t;
+    return A * (1.0f - time) + B * time;
 }
 
 template<typename T>
-T Math::bezier(const std::vector<T> &points, float t, bool bounded)
+T Math::bezier(const std::vector<T> &points, float time, bool bounded)
 {
     if(points.size() == 0) return T();
     if(points.size() == 1) return points[0];
-    if(points.size() == 2) return Math::lerp(points[0], points[1], t, bounded);
+    if(points.size() == 2) return Math::lerp(points[0], points[1], time, bounded);
     return Math::lerp(
         Math::bezier(
             std::vector<T>(points.begin(), points.end() - 1),
-            t,
+            time,
             bounded
         ),
         Math::bezier(
             std::vector<T>(points.begin() + 1, points.end()),
-            t,
+            time,
             bounded
         ),
-        t,
+        time,
         bounded
     );
 }

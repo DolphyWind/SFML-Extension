@@ -27,62 +27,63 @@
 namespace sfex
 {
 
-std::unordered_map<std::pair<unsigned int, unsigned int>, bool, PairHash> Joystick::m_buttonsForDown;
-std::unordered_map<std::pair<unsigned int, unsigned int>, bool, PairHash> Joystick::m_buttonsForUp;
+struct JoystickPairHash;
+std::unordered_map<std::pair<unsigned int, unsigned int>, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForDown;
+std::unordered_map<std::pair<unsigned int, unsigned int>, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForUp;
 
-bool Joystick::isConnected(unsigned int id)
+bool Joystick::isConnected(unsigned int joystick)
 {
-    return sf::Joystick::isConnected(id);
+    return sf::Joystick::isConnected(joystick);
 }
 
-unsigned int Joystick::getButtonCount(unsigned int id)
+unsigned int Joystick::getButtonCount(unsigned int joystick)
 {
-    return sf::Joystick::getButtonCount(id);
+    return sf::Joystick::getButtonCount(joystick);
 }
 
-bool Joystick::hasAxis(unsigned int id, Axis axis)
+bool Joystick::hasAxis(unsigned int joystick, Axis axis)
 {
-    return sf::Joystick::hasAxis(id, axis);
+    return sf::Joystick::hasAxis(joystick, axis);
 }
 
-bool Joystick::getButton(unsigned int id, unsigned int button)
+bool Joystick::getButton(unsigned int joystick, unsigned int button)
 {
-    return sf::Joystick::isButtonPressed(id, button);
+    return sf::Joystick::isButtonPressed(joystick, button);
 }
 
-bool Joystick::getButtonDown(unsigned int id, unsigned int button)
+bool Joystick::getButtonDown(unsigned int joystick, unsigned int button)
 {
-    if(Joystick::m_buttonsForDown[{id, button}])
+    if(Joystick::m_buttonsForDown[{joystick, button}])
     {
-        Joystick::m_buttonsForDown[{id, button}] = Joystick::getButton(id, button);
+        Joystick::m_buttonsForDown[{joystick, button}] = Joystick::getButton(joystick, button);
         return false;
     }
-    Joystick::m_buttonsForDown[{id, button}] = Joystick::getButton(id, button);
-    return Joystick::m_buttonsForDown[{id, button}];
+    Joystick::m_buttonsForDown[{joystick, button}] = Joystick::getButton(joystick, button);
+    return Joystick::m_buttonsForDown[{joystick, button}];
 }
 
-bool Joystick::getButtonUp(unsigned int id, unsigned int button)
+bool Joystick::getButtonUp(unsigned int joystick, unsigned int button)
 {
-    if(Joystick::m_buttonsForUp[{id, button}])
+    if(Joystick::m_buttonsForUp[{joystick, button}])
     {
-        Joystick::m_buttonsForUp[{id, button}] = Joystick::getButton(id, button);
-        return !Joystick::m_buttonsForUp[{id, button}];
+        Joystick::m_buttonsForUp[{joystick, button}] = Joystick::getButton(joystick, button);
+        return !Joystick::m_buttonsForUp[{joystick, button}];
     }
-    Joystick::m_buttonsForUp[{id, button}] = Joystick::getButton(id, button);
+    Joystick::m_buttonsForUp[{joystick, button}] = Joystick::getButton(joystick, button);
     return false;
 }
 
-float Joystick::getAxisPosition(unsigned int id, Axis axis, float minSensitivity)
+float Joystick::getAxisPosition(unsigned int joystick, Axis axis, float minSensitivity)
 {
-    if(!Joystick::hasAxis(id, axis)) return 0.0f;
-    float axisPos = sf::Joystick::getAxisPosition(id, axis) / 100.0f;
+    if(!Joystick::hasAxis(joystick, axis)) return 0.0f;
+    float axisPos = sf::Joystick::getAxisPosition(joystick, axis) / 100.0f;
     if(axisPos*axisPos < minSensitivity*minSensitivity) return 0.0f;
     return axisPos;
 }
 
-Joystick::Identification Joystick::getIdentification(unsigned int id)
+Joystick::Identification Joystick::getIdentification(unsigned int joystick)
 {
-    return sf::Joystick::getIdentification(id);
+    return sf::Joystick::getIdentification(joystick);
 }
 
 void Joystick::update()

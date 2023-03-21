@@ -31,17 +31,7 @@
 namespace sfex
 {
 
-struct PairHash 
-{
-    template <typename T1, typename T2>
-    std::size_t operator () (const std::pair<T1, T2> &p) const
-    {
-        // To make each hash unique
-        return p.first * sf::Joystick::ButtonCount + p.second;
-    }
-};
-
-/// @brief Simple joystick class for detecting and proccessing the joystick input.
+/// @brief Simple joystick class for detecting and proccessing the joystick input. Only contains static methods.
 class Joystick
 {
 public:
@@ -57,34 +47,40 @@ public:
     static unsigned int getButtonCount(unsigned int id);
 
     /// @brief Check if a joystick supports given axis
+    /// @param joystick Index of the joystick  
     /// @param axis Axis to check
     /// @return True if a joystick supports given axis, false otherwise
-    static bool hasAxis(unsigned int id, Axis axis);
+    static bool hasAxis(unsigned int joystick, Axis axis);
 
     /// @brief Returns true if the given joystick button is held down
+    /// @param joystick Index of the joystick 
     /// @param button Joystick button to check
     /// @return True if key is being held down, false otherwise
-    static bool getButton(unsigned int id, unsigned int button);
+    static bool getButton(unsigned int joystick, unsigned int button);
 
     /// @brief Returns true if the given joystick button is pressed in the current frame
+    /// @param joystick Index of the joystick 
     /// @param button Joystick button to check 
     /// @return True if joystick button is started being held down in the current frame, false otherwise
-    static bool getButtonDown(unsigned int id, unsigned int button);
+    static bool getButtonDown(unsigned int joystick, unsigned int button);
 
     /// @brief Returns true if the given joystick button is released in the current frame
+    /// @param joystick Index of the joystick 
     /// @param button Joystick button to check
     /// @return True if joystick button is released in the current frame, false otherwise
-    static bool getButtonUp(unsigned int id, unsigned int button);
+    static bool getButtonUp(unsigned int joystick, unsigned int button);
 
-    /// @brief Get the current position between -1 and 1 of the specified axis 
+    /// @brief Get the current position between -1 and 1 of the specified axis
+    /// @param joystick Index of the joystick 
     /// @param axis Axis to check
     /// @param minSensitivity Minimum sensitivity
     /// @return Current position of axis. Returns 0 If the absolute position of the axis is smaller than minimum sensitivity
-    static float getAxisPosition(unsigned int id, Axis axis, float minSensitivity=0.0f);
+    static float getAxisPosition(unsigned int joystick, Axis axis, float minSensitivity=0.0f);
 
     /// @brief Get the joystick information
+    /// @param joystick Index of the joystick 
     /// @return Structure containing joystick information
-    static Identification getIdentification(unsigned int id);
+    static Identification getIdentification(unsigned int joystick);
 
     /// @brief Update the states of all joysticks
     static void update();
@@ -94,8 +90,20 @@ protected:
     Joystick() {};
 
 private:
-    static std::unordered_map<std::pair<unsigned int, unsigned int>, bool, PairHash> m_buttonsForDown;
-    static std::unordered_map<std::pair<unsigned int, unsigned int>, bool, PairHash> m_buttonsForUp;
+
+    /// @brief Hash function to for std::pair<unsigned int, unsigned int>
+    struct JoystickPairHash 
+    {
+        template <typename T1, typename T2>
+        std::size_t operator () (const std::pair<T1, T2> &p) const
+        {
+            // To make each hash unique
+            return p.first * sf::Joystick::ButtonCount + p.second;
+        }
+    };
+
+    static std::unordered_map<std::pair<unsigned int, unsigned int>, bool, JoystickPairHash> m_buttonsForDown;
+    static std::unordered_map<std::pair<unsigned int, unsigned int>, bool, JoystickPairHash> m_buttonsForUp;
 };
 
 } // namespace sfex
