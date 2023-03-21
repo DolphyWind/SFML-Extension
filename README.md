@@ -6,7 +6,7 @@ SFML Extended is a set of classes/functions to speed up SFML development.
 [![Windows Build](https://github.com/DolphyWind/SFML-Extended/actions/workflows/windows_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/windows_build.yml)  
 [![MacOS build](https://github.com/DolphyWind/SFML-Extended/actions/workflows/mac_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/mac_build.yml)
 
-# What This Library Contains
+# What This Library Provides
 SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
 
 - **General:** Stuff that doesn't fit into other modules.
