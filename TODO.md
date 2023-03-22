@@ -1,5 +1,4 @@
 # TODO
-+ Create a manager base class
 + Add CTest tests
 
 # Ideas might get implemented
