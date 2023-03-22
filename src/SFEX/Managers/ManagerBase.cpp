@@ -22,21 +22,8 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_MANAGERS_FILTERINGMETHODS_HPP_
-#define _SFEX_MANAGERS_FILTERINGMETHODS_HPP_
+#include <SFEX/Managers/MangerBase.hpp>
 
-namespace sfex
-{
-
-enum class FilterType
-{
-    Starts_with,
-    Ends_with,
-    Contains,
-    Does_not_contain,
-};
-
-} // namespace sfex
-
-
-#endif // !_SFEX_MANAGERS_FILTERINGMETHODS_HPP_
+// The ManagerBase implementation is in SFEX/Managers/ManagerBase.inl
+// This file is to make sure compiler checks errors and warnings
+// in SFEX/Managers/ManagerBase.hpp when compiling

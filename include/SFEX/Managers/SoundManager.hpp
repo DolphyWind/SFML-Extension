@@ -29,24 +29,15 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFEX/Numeric/Vector3.hpp>
-#include <SFEX/General/FilteringMethods.hpp>
+#include <SFEX/Managers/MangerBase.hpp>
 
 namespace sfex
 {
 
-/// @brief Simple sound manager class that stores sounds and their buffers into seperate hashmaps and can play them
-class SoundManager
+/// @brief Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase<sf::Sound>
+class SoundManager : public ManagerBase<sf::Sound>
 {
 public:
-
-    /// @brief A function to check if the key is present in the hashmap
-    /// @param key Key to check
-    /// @return true if the key is present in the hashmap
-    bool contains(const std::string& key) const;
-
-    /// @brief Get number of sounds stored
-    /// @return Number of sounds stored
-    std::size_t size() const;
 
     /// @brief Loads sf::SoundBuffer from file then creates a sf::Sound from it
     /// @param key Unique identifier of sound
@@ -98,31 +89,7 @@ public:
     /// @return Duration of the sound
     sf::Sound::Status getStatus(const std::string &key);
 
-    /// @brief Get sound corresponding to key
-    /// @param key Unique identifier of sound
-    /// @return A pointer to the sound corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Sound* get(const std::string &key);
-
-    /// @brief Get all keys
-    /// @return All keys in a vector
-    std::vector<std::string> getKeys() const;
-
-    /// @brief Get sound corresponding to key
-    /// @param key Unique identifier of sound
-    /// @return A pointer to the sound corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Sound* operator[](const std::string &key);
-
-    /// @brief Filter each key by pattern and method then return matching sounds
-    /// @param pattern Pattern to look for while filtering
-    /// @param method Filtering method to use while filtering
-    /// @return Sounds that are filtered
-    std::vector<sf::Sound*> filter(std::string pattern, sfex::FilterType method);
-
-
 private:
-    /// @brief Hashmap to store all sounds
-    std::unordered_map<std::string, sf::Sound> m_sounds;
-
     /// @brief Hashmap to store all soundbuffers
     std::unordered_map<std::string, sf::SoundBuffer> m_buffers; 
 };

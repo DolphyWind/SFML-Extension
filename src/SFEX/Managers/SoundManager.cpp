@@ -27,22 +27,12 @@
 namespace sfex
 {
 
-bool SoundManager::contains(const std::string &key) const
-{
-    return (m_sounds.find(key) != m_sounds.end());
-}
-
-std::size_t SoundManager::size() const
-{
-    return m_sounds.size();
-}
-
 bool SoundManager::loadFromFile(const std::string &key, const std::string &filename)
 {
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromFile(filename)) return false;
 
-    m_sounds[key] = sf::Sound(m_buffers[key]);
+    m_hashmap[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -51,7 +41,7 @@ bool SoundManager::loadFromMemory(const std::string &key, const void *data, std:
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromMemory(data, size)) return false;
 
-    m_sounds[key] = sf::Sound(m_buffers[key]);
+    m_hashmap[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -60,7 +50,7 @@ bool SoundManager::loadFromStream(const std::string &key, sf::InputStream &strea
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromStream(stream)) return false;
 
-    m_sounds[key] = sf::Sound(m_buffers[key]);
+    m_hashmap[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -69,102 +59,38 @@ bool SoundManager::loadFromSamples(const std::string &key, const sf::Int16 *samp
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromSamples(sample, sampleCount, channelCount, sampleRate)) return false;
 
-    m_sounds[key] = sf::Sound(m_buffers[key]);
+    m_hashmap[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
 void SoundManager::play(const std::string &key)
 {
-    if(!this->get(key)) return;
-
-    this->get(key)->play();
+    if(!this->contains(key)) return;
+    m_hashmap[key].play();
 }
 
 void SoundManager::pause(const std::string &key)
 {
-    if(!this->get(key)) return;
-
-    this->get(key)->pause();
+    if(!this->contains(key)) return;
+    m_hashmap[key].pause();
 }
 
 void SoundManager::stop(const std::string &key)
 {
-    if(!this->get(key)) return;
-
-    this->get(key)->stop();
+    if(!this->contains(key)) return;
+    m_hashmap[key].stop();
 }
 
 sf::Time SoundManager::getDuration(const std::string &key)
 {
-    if(!this->get(key)) return sf::Time::Zero;
-
-    return this->get(key)->getBuffer()->getDuration();
+    if(!this->contains(key)) return sf::Time::Zero;
+    return m_hashmap[key].getBuffer()->getDuration();
 }
 
 sf::Sound::Status SoundManager::getStatus(const std::string &key)
 {
-    if(!this->get(key)) return sf::Sound::Status::Stopped;
-
-    return this->get(key)->getStatus();
-}
-
-sf::Sound* SoundManager::get(const std::string &key)
-{
-    if(!contains(key)) return nullptr;
-
-    return &m_sounds[key];
-}
-
-std::vector<std::string> SoundManager:: getKeys() const
-{
-    std::vector<std::string> result;
-    for(auto &p : m_sounds)
-    {
-        result.push_back(p.first);
-    }
-    return result;
-}
-
-sf::Sound* SoundManager::operator[](const std::string &key)
-{
-    return this->get(key);
-}
-
-std::vector<sf::Sound*> SoundManager::filter(std::string pattern, sfex::FilterType method)
-{
-    std::vector<sf::Sound*> result;
-    for(auto &p : m_sounds)
-    {
-        bool filtered = false;
-        switch (method)
-        {
-            case FilterType::Starts_with:
-            {
-                filtered = p.first.find(pattern) == 0;
-                break;
-            }
-            case FilterType::Ends_with:
-            {
-                filtered = p.first.substr(p.first.length() - pattern.length(), pattern.length()) == pattern;
-                break;
-            }
-            case FilterType::Contains:
-            {
-                filtered = p.first.find(pattern) != std::string::npos;
-                break;
-            }
-            case FilterType::Does_not_contain:
-            {
-                filtered = p.first.find(pattern) == std::string::npos;
-                break;
-            }
-            
-            default:
-                break;
-        }
-        if (filtered) result.push_back(&p.second);
-    }
-    return result;
+    if(!this->contains(key)) return sf::Sound::Status::Stopped;
+    return m_hashmap[key].getStatus();
 }
 
 } // namespace sfex

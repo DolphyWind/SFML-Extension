@@ -27,22 +27,12 @@
 namespace sfex
 {
 
-bool TextureManager::contains(const std::string &key) const
-{
-    return (m_textures.find(key) != m_textures.end());
-}
-
-std::size_t TextureManager::size() const
-{
-    return m_textures.size();
-}
-
 bool TextureManager::create(const std::string &key, unsigned int width, unsigned int height)
 {
     sf::Texture fooTexture;
     if(!fooTexture.create(width, height)) return false;
-
-    m_textures[key] = std::move(fooTexture);
+    
+    this->m_hashmap[key] = std::move(fooTexture);
     return true;
 }
 
@@ -51,7 +41,7 @@ bool TextureManager::loadFromFile(const std::string &key, const std::string &fil
     sf::Texture fooTexture;
     if(!fooTexture.loadFromFile(filename, area)) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    this->m_hashmap[key] = std::move(fooTexture);
     return true;
 }
 
@@ -60,7 +50,7 @@ bool TextureManager::loadFromMemory(const std::string &key, const void *data, st
     sf::Texture fooTexture;
     if(!fooTexture.loadFromMemory(data, size)) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    this->m_hashmap[key] = std::move(fooTexture);
     return true;
 }
 
@@ -69,7 +59,7 @@ bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &str
     sf::Texture fooTexture;
     if(!fooTexture.loadFromStream(stream, area)) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    this->m_hashmap[key] = std::move(fooTexture);
     return true;
 }
 
@@ -78,66 +68,8 @@ bool TextureManager::loadFromImage(const std::string &key, const sf::Image &imag
     sf::Texture fooTexture;
     if(!fooTexture.loadFromImage(image, area)) return false;
 
-    m_textures[key] = std::move(fooTexture);
+    this->m_hashmap[key] = std::move(fooTexture);
     return true;
-}
-
-sf::Texture* TextureManager::get(const std::string &key)
-{
-    if(!contains(key)) return nullptr;
-    return &m_textures[key];
-}
-
-std::vector<std::string> TextureManager::getKeys() const
-{
-    std::vector<std::string> result;
-    for(auto &p : m_textures)
-    {
-        result.push_back(p.first);
-    }
-    return result;
-}
-
-sf::Texture* TextureManager::operator[](const std::string& key)
-{
-    return this->get(key);
-}
-
-std::vector<sf::Texture*> TextureManager::filter(std::string pattern, sfex::FilterType method)
-{
-    std::vector<sf::Texture*> result;
-    for(auto &p : m_textures)
-    {
-        bool filtered = false;
-        switch (method)
-        {
-            case FilterType::Starts_with:
-            {
-                filtered = p.first.find(pattern) == 0;
-                break;
-            }
-            case FilterType::Ends_with:
-            {
-                filtered = p.first.substr(p.first.length() - pattern.length(), pattern.length()) == pattern;
-                break;
-            }
-            case FilterType::Contains:
-            {
-                filtered = p.first.find(pattern) != std::string::npos;
-                break;
-            }
-            case FilterType::Does_not_contain:
-            {
-                filtered = p.first.find(pattern) == std::string::npos;
-                break;
-            }
-            
-            default:
-                break;
-        }
-        if (filtered) result.push_back(&p.second);
-    }
-    return result;
 }
 
 } // namespace sfex

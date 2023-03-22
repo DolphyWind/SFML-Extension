@@ -28,55 +28,27 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
-#include <SFEX/General/FilteringMethods.hpp>
+#include <SFEX/Managers/MangerBase.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 namespace sfex
 {
 
-/// @brief Simple SpriteManager class.
-class SpriteManager
+/// @brief Simple SpriteManager class. Inherits from sfex::ManagerBase<sf::Sprite>
+class SpriteManager : public ManagerBase<sf::Sprite>
 {
 public:
 
-    /// @brief A function to check if the key is present in the hashmap
-    /// @param key Key to check
-    /// @return true if the key is present in the hashmap
-    bool contains(const std::string &key) const;
+    /// @brief Creates an empty new sprite at the specified key. Overrides existing sprite if key already has one.
+    /// @param key Key value
+    void createEmpty(const std::string &key);
 
-    /// @brief Get number of sprites stored
-    /// @return Number of sprites stored
-    std::size_t size() const;
-
-    /// @brief Creates a new sprite with its texture or modifies an existing one 
-    /// @param key Unique identifier of sprite
+    /// @brief Creates a new sprite with its texture or modifies an existing one. 
+    /// @param key Key value
     /// @param texture Texture of the sprite corresponding to key
     void setTexture(const std::string &key, const sf::Texture &texture);
 
-    /// @brief Get sprite corresponding to key
-    /// @param key Unique identifier of sprite
-    /// @return A pointer to the sprite corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Sprite* get(const std::string &key);
-
-    /// @brief Get all keys
-    /// @return All keys in a vector
-    std::vector<std::string> getKeys() const;
-
-    /// @brief Get sprite corresponding to key
-    /// @param key Unique identifier of sprite
-    /// @return A pointer to the sprite corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Sprite* operator[](const std::string &key);
-
-    /// @brief Filter each key by pattern and method then return matching sprites
-    /// @param pattern Pattern to look for while filtering
-    /// @param method Filtering method to use while filtering
-    /// @return Sprites that are filtered
-    std::vector<sf::Sprite*> filter(std::string pattern, sfex::FilterType method);
-
-
 private:
-    /// @brief Hashmap to store all sprites
-    std::unordered_map<std::string, sf::Sprite> m_sprites;
 
 };
 

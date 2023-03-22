@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.14.3)
+project(${SFEX_PROJECT_NAME} VERSION 0.15.0)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -35,6 +35,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/RoundedRectangle.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Ellipse.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Squircle.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/ManagerBase.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/TextureManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SpriteManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SoundManager.hpp
@@ -47,14 +48,15 @@ set( SFEX_SOURCE_FILES
     src/SFEX/General/Joystick.cpp
     src/SFEX/General/Singleton.cpp
     src/SFEX/General/Listener.cpp
+    src/SFEX/Numeric/Gradient.cpp
+    src/SFEX/Numeric/Math.cpp
     src/SFEX/Numeric/Vector2.cpp
     src/SFEX/Numeric/Vector3.cpp
-    src/SFEX/Numeric/Math.cpp
-    src/SFEX/Numeric/Gradient.cpp
     src/SFEX/Graphics/Color.cpp
     src/SFEX/Graphics/RoundedRectangle.cpp
     src/SFEX/Graphics/Ellipse.cpp
     src/SFEX/Graphics/Squircle.cpp
+    src/SFEX/Managers/ManagerBase.cpp
     src/SFEX/Managers/TextureManager.cpp
     src/SFEX/Managers/SpriteManager.cpp
     src/SFEX/Managers/SoundManager.cpp

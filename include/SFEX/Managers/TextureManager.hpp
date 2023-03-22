@@ -25,27 +25,16 @@
 #ifndef _SFEX_GRAPHICS_TEXTURE_MANAGER_HPP_
 #define _SFEX_GRAPHICS_TEXTURE_MANAGER_HPP_
 
-#include <unordered_map>
-#include <string>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFEX/General/FilteringMethods.hpp>
+#include <SFEX/Managers/MangerBase.hpp>
 
 namespace sfex
 {
 
-/// @brief Simple texture manager. Loads textures from various resources and stores textures into hashmaps.
-class TextureManager
+/// @brief Loads textures from various resources and stores them in a hashmap. Inherits from sfex::ManagerBase<sf::Texture>
+class TextureManager : public ManagerBase<sf::Texture>
 {
 public:
-
-    /// @brief A function to check if the key is present in the hashmap
-    /// @param key Key to check
-    /// @return true if the key is present in the hashmap
-    bool contains(const std::string &key) const;
-
-    /// @brief Get number of textures stored
-    /// @return Number of textures stored
-    std::size_t size() const;
 
     /// @brief Creates an empty texture
     /// @param key Unique identifier of texture
@@ -83,29 +72,7 @@ public:
     /// @return True if loading was successfull
     bool loadFromImage(const std::string &key, const sf::Image &image, const sf::IntRect &area=sf::IntRect());
 
-    /// @brief Get texture corresponding to key
-    /// @param key Unique identifier of texture
-    /// @return A pointer to the texture corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Texture* get(const std::string &key);
-
-    /// @brief Get all keys
-    /// @return All keys in a vector
-    std::vector<std::string> getKeys() const;
-
-    /// @brief Get texture corresponding to key
-    /// @param key Unique identifier of texture
-    /// @return A pointer to the texture corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Texture* operator[](const std::string &key);
-
-    /// @brief Filter each key by pattern and method then return matching textures
-    /// @param pattern Pattern to look for while filtering
-    /// @param method Filtering method to use while filtering
-    /// @return Textures that are filtered
-    std::vector<sf::Texture*> filter(std::string pattern, sfex::FilterType method);
-
 private:
-    /// @brief HashMap to store all textures
-    std::unordered_map<std::string, sf::Texture> m_textures;
 
 };
 

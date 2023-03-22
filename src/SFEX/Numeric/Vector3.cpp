@@ -25,7 +25,6 @@
 // Headers
 #include <SFEX/Numeric/Vector3.hpp>
 
-namespace sfex
-{
 // The Vector3 implementation is in SFEX/Numeric/Vector3.inl
-} // namespace sfex
+// This file is to make sure compiler checks errors and warnings
+// in SFEX/Numeric/Vector3.hpp when compiling

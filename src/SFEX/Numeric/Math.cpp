@@ -25,7 +25,6 @@
 // Headers
 #include <SFEX/Numeric/Math.hpp>
 
-namespace sfex
-{
-// The math implementation is in SFEX/Numeric/Math.inl
-} // namespace sfex
+// The Math implementation is in SFEX/Numeric/Math.inl
+// This file is to make sure compiler checks errors and warnings
+// in SFEX/Numeric/Math.hpp when compiling

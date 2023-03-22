@@ -11,13 +11,13 @@ int main()
     textureManager.loadFromFile("lenna", "lenna.png");
     textureManager.loadFromFile("lenna_inverted", "lenna_inverted.png");
     
-    sfex::Vector2<unsigned> textureSize = textureManager["lenna"]->getSize();
+    sfex::Vector2<unsigned> textureSize = textureManager["lenna"].getSize();
     sfex::SpriteManager spriteManager;
-    spriteManager.setTexture("lenna", *textureManager.get("lenna"));
+    spriteManager.setTexture("lenna", textureManager.at("lenna"));
     
-    spriteManager.get("lenna")->setOrigin(textureSize / 2);
-    spriteManager.get("lenna")->setRotation(45);
-    spriteManager.get("lenna")->setPosition(640, 360);
+    spriteManager["lenna"].setOrigin(textureSize / 2);
+    spriteManager["lenna"].setRotation(45);
+    spriteManager["lenna"].setPosition(640, 360);
 
     while(window.isOpen())
     {
@@ -29,7 +29,7 @@ int main()
 
         window.clear();
 
-        window.draw(*spriteManager.get("lenna"));
+        window.draw(spriteManager["lenna"]);
 
         window.display();
     }

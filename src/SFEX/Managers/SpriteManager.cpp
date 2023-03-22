@@ -27,82 +27,15 @@
 namespace sfex
 {
 
-bool SpriteManager::contains(const std::string &key) const
+void SpriteManager::createEmpty(const std::string &key)
 {
-    return (m_sprites.find(key) != m_sprites.end());
-}
-
-std::size_t SpriteManager::size() const
-{
-    return m_sprites.size();
+    m_hashmap[key] = sf::Sprite();
 }
 
 void SpriteManager::setTexture(const std::string &key, const sf::Texture& texture)
 {
-    if(contains(key))
-    {
-        this->get(key)->setTexture(texture);
-        return;
-    }
-    m_sprites[key] = sf::Sprite(texture);
-}
-
-sf::Sprite* SpriteManager::get(const std::string &key)
-{
-    if(!contains(key)) return nullptr;
-    return &m_sprites[key];
-}
-
-std::vector<std::string> SpriteManager::getKeys() const
-{
-    std::vector<std::string> result;
-    for(auto &p : m_sprites)
-    {
-        result.push_back(p.first);
-    }
-    return result;
-}
-
-sf::Sprite* SpriteManager::operator[](const std::string& key)
-{
-    return this->get(key);
-}
-
-std::vector<sf::Sprite*> SpriteManager::filter(std::string pattern, sfex::FilterType method)
-{
-    std::vector<sf::Sprite*> result;
-    for(auto &p : m_sprites)
-    {
-        bool filtered = false;
-        switch (method)
-        {
-            case FilterType::Starts_with:
-            {
-                filtered = p.first.find(pattern) == 0;
-                break;
-            }
-            case FilterType::Ends_with:
-            {
-                filtered = p.first.substr(p.first.length() - pattern.length(), pattern.length()) == pattern;
-                break;
-            }
-            case FilterType::Contains:
-            {
-                filtered = p.first.find(pattern) != std::string::npos;
-                break;
-            }
-            case FilterType::Does_not_contain:
-            {
-                filtered = p.first.find(pattern) == std::string::npos;
-                break;
-            }
-            
-            default:
-                break;
-        }
-        if (filtered) result.push_back(&p.second);
-    }
-    return result;
+    if(this->contains(key)) m_hashmap[key].setTexture(texture);
+    else m_hashmap[key] = sf::Sprite(texture);
 }
 
 } // namespace sfex

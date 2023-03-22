@@ -25,7 +25,6 @@
 // Headers
 #include <SFEX/Numeric/Gradient.hpp>
 
-namespace sfex
-{
-// The gradient implementation is in SFEX/Numeric/Gradient.inl
-} // namespace sfex
+// The Gradient implementation is in SFEX/Numeric/Gradient.inl
+// This file is to make sure compiler checks errors and warnings
+// in SFEX/Numeric/Gradient.hpp when compiling

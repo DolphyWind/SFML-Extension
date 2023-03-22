@@ -25,7 +25,6 @@
 // Headers
 #include <SFEX/Numeric/Vector2.hpp>
 
-namespace sfex
-{
 // The Vector2 implementation is in SFEX/Numeric/Vector2.inl
-} // namespace sfex
+// This file is to make sure compiler checks errors and warnings
+// in SFEX/Numeric/Vector2.hpp when compiling

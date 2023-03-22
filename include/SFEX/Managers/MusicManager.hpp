@@ -26,26 +26,17 @@
 #define _SFEX_MANAGERS_MUSICMANAGER_HPP_
 
 #include <unordered_map>
-#include <SFML/Audio/Music.hpp>
-#include <SFEX/General/FilteringMethods.hpp>
 #include <string>
+#include <SFML/Audio/Music.hpp>
+#include <SFEX/Managers/MangerBase.hpp>
 
 namespace sfex
 {
 
-/// @brief Simple music manager class that stores musics in a hashmap and can play them
-class MusicManager
+/// @brief Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase<sf::Music>
+class MusicManager : public ManagerBase<sf::Music>
 {
 public:
-
-    /// @brief A function to check if the key is present in the hashmap
-    /// @param key Key to check
-    /// @return true if the key is present in the hashmap
-    bool contains(const std::string& key) const;
-
-    /// @brief Get number of musics stored
-    /// @return Number of musics stored
-    std::size_t size() const;
 
     /// @brief Open a music from an audio file
     /// @param key Unique identifier of music
@@ -88,30 +79,8 @@ public:
     /// @return Duration of the music
     sf::Music::Status getStatus(const std::string &key);
 
-    /// @brief Get music corresponding to key
-    /// @param key Unique identifier of music
-    /// @return A pointer to the music corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Music* get(const std::string &key);
-
-    /// @brief Get all keys
-    /// @return All keys in a vector
-    std::vector<std::string> getKeys() const;
-
-    /// @brief Get music corresponding to key
-    /// @param key Unique identifier of music
-    /// @return A pointer to the music corresponding to key. Returns nullptr if key doesn't correspond to anything.
-    sf::Music* operator[](const std::string &key);
-
-    /// @brief Filter each key by pattern and method then return matching musics
-    /// @param pattern Pattern to look for while filtering
-    /// @param method Filtering method to use while filtering
-    /// @return musics that are filtered
-    std::vector<sf::Music*> filter(std::string pattern, sfex::FilterType method);
-
-
 private:
-    /// @brief Hashmap to store all musics
-    std::unordered_map<std::string, sf::Music> m_musics;
+    
 };
 
 } // namespace sfex

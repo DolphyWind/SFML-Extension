@@ -10,7 +10,7 @@ SFML Extended is a set of classes/functions to speed up SFML development.
 # What This Library Provides
 SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
 
-- **General:** Stuff that doesn't fit into other modules.
+- **General:** Classes that doesn't fit into other modules.
     - Keyboard - Simple keyboard class for detecting and proccessing the keyboard input. Only contains static methods.
     - Mouse - Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
     - Joystick - Simple joystick class for detecting and proccessing the joystick input. Only contains static methods.
@@ -22,12 +22,13 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - RoundedRectangle - A class for rectangles whose corners are rounded.
     - Squircle - A squircle class based on x^4 + y^4 = r^4 definition.
     - Ellipse - An ellipse shape class.
-- **Managers:** Managers for various SFML Objects. (How they work will change in the future)
-    - Texture Manager - Simple texture manager. Loads textures from various resources and stores textures into hashmaps.
-    - Sprite Manager - Simple SpriteManager class.
-    - Sound Manager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps and can play them.
-    - Music Manager - Simple music manager class that stores musics in a hashmap and can play them.
-- **Numeric:** Things that are related to math.
+- **Managers:** Managers for various SFML Objects.
+    - ManagerBase - Base manager class. All the other managers classes are derived from this class.
+    - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from sfex::ManagerBase\<sf::Texture\>
+    - SpriteManager - Simple SpriteManager class. Inherits from sfex::ManagerBase\<sf::Sprite\>
+    - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
+    - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase\<sf::Music\>
+- **Numeric:** Classes that are related to math.
     - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
     - Vector3 - 3D Vector class that adds some linear algebra functions and operators to sf::Vector3\<T\>
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
