@@ -142,7 +142,7 @@ void ManagerBase<T>::remove(const std::vector<std::string> &keys)
 {
     for(auto &key : keys)
     {
-        this->erase(key);
+        m_hashmap.erase(key);
     }
 }
 
