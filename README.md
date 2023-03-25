@@ -1,5 +1,5 @@
 # SFEX - SFML Extended
-SFML Extended is a set of classes/functions to speed up SFML development.
+SFML Extended is a set of classes/functions to speed up SFML Game development.
 
 # Build Status
 [![Linux Build](https://github.com/DolphyWind/SFML-Extended/actions/workflows/linux_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/linux_build.yml)  
