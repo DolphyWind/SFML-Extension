@@ -22,14 +22,40 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_MANAGERS_HPP_
-#define _SFEX_MANAGERS_HPP_
-
-#include <SFEX/Config.hpp>
-#include <SFEX/Managers/TextureManager.hpp>
-#include <SFEX/Managers/SpriteManager.hpp>
-#include <SFEX/Managers/SoundManager.hpp>
-#include <SFEX/Managers/MusicManager.hpp>
 #include <SFEX/Managers/SceneManager.hpp>
 
-#endif // !_SFEX_MANAGERS_HPP_
+namespace sfex
+{
+
+void SceneManager::setActiveScene(const std::string &key)
+{
+    m_activeKey = key;
+}
+
+std::shared_ptr<SceneBase> SceneManager::getActiveScene()
+{
+    return this->at(m_activeKey);
+}
+
+std::string SceneManager::getActiveSceneKey()
+{
+    return m_activeKey;
+}
+
+
+void SceneManager::pollEvent(const sf::Event &e)
+{
+    this->at(m_activeKey)->pollEvent(e);
+}
+
+void SceneManager::update()
+{
+    this->at(m_activeKey)->update();
+}
+
+void SceneManager::draw(sf::RenderTarget &target)
+{
+    this->at(m_activeKey)->draw(target);
+}
+
+} // namespace sfex

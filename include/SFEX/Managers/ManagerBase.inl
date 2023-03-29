@@ -146,4 +146,16 @@ void ManagerBase<T>::remove(const std::vector<std::string> &keys)
     }
 }
 
+template<typename T>
+void ManagerBase<T>::clear()
+{
+    m_hashmap.clear();  
+}
+
+template<typename T>
+void ManagerBase<T>::insert(const std::pair<std::string, T> &pair)
+{
+    m_hashmap.insert(pair);
+}
+
 } // namespace sfex

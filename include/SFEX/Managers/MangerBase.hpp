@@ -107,6 +107,13 @@ public:
     /// @param keys Keys to remove
     void remove(const std::vector<std::string> &keys);
 
+    /// @brief Clear the entire hashmap
+    void clear();
+
+    /// @brief Insert a pair to hashmap
+    /// @param pair Pair to insert
+    void insert(const std::pair<std::string, T> &pair);
+
 protected:
     std::unordered_map<std::string, T> m_hashmap;
 };

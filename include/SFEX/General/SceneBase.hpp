@@ -22,14 +22,25 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_MANAGERS_HPP_
-#define _SFEX_MANAGERS_HPP_
+#ifndef _SFEX_GENERAL_SCENEBASE_HPP_
+#define _SFEX_GENERAL_SCENEBASE_HPP_
 
-#include <SFEX/Config.hpp>
-#include <SFEX/Managers/TextureManager.hpp>
-#include <SFEX/Managers/SpriteManager.hpp>
-#include <SFEX/Managers/SoundManager.hpp>
-#include <SFEX/Managers/MusicManager.hpp>
-#include <SFEX/Managers/SceneManager.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
-#endif // !_SFEX_MANAGERS_HPP_
+namespace sfex
+{
+
+/// @brief Base scene class.
+class SceneBase
+{
+public:
+    virtual void pollEvent(const sf::Event &e) = 0;
+    virtual void update() = 0;
+    virtual void draw(sf::RenderTarget &target) = 0;
+};
+
+} // namespace sfex
+
+
+#endif // !_SFEX_GENERAL_SCENEBASE_HPP_

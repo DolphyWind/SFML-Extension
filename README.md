@@ -11,28 +11,30 @@ SFML Extended is a set of classes/functions to speed up SFML Game development.
 SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
 
 - **General:** Classes that doesn't fit into other modules.
-    - Keyboard - Simple keyboard class for detecting and proccessing the keyboard input. Only contains static methods.
-    - Mouse - Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
     - Joystick - Simple joystick class for detecting and proccessing the joystick input. Only contains static methods.
+    - Keyboard - Simple keyboard class for detecting and proccessing the keyboard input. Only contains static methods.
     - Listener - Listener class that can be instantiated unlike sf::Listener.
-    - Stopwatch - A stopwatch class. Basically sf::Clock but can be stopped.
+    - Mouse - Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
+    - SceneBase - Base scene class.
     - Singleton - A singleton base class. 
+    - Stopwatch - A stopwatch class. Basically sf::Clock but can be stopped.
 - **Graphics:** Classes that are related to graphics.
     - Color - A class for rectangles whose corners are rounded.
+    - Ellipse - An ellipse shape class.
     - RoundedRectangle - A class for rectangles whose corners are rounded.
     - Squircle - A squircle class based on x^4 + y^4 = r^4 definition.
-    - Ellipse - An ellipse shape class.
 - **Managers:** Managers for various SFML Objects.
     - ManagerBase - Base manager class. All the other managers classes are derived from this class.
-    - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from sfex::ManagerBase\<sf::Texture\>
-    - SpriteManager - Simple SpriteManager class. Inherits from sfex::ManagerBase\<sf::Sprite\>
-    - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
     - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase\<sf::Music\>
+    - SceneManager - Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase\<std::shared_ptr\<SceneBase\>\>
+    - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
+    - SpriteManager - Simple SpriteManager class. Inherits from sfex::ManagerBase\<sf::Sprite\>
+    - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from sfex::ManagerBase\<sf::Texture\>
 - **Numeric:** Classes that are related to math.
-    - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
-    - Vector3 - 3D Vector class that adds some linear algebra functions and operators to sf::Vector3\<T\>
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
     - Math - A math class that contains math constants and some functions that are not in c++ STL. Only contains static methods and constants so it doesn't meant to be instantiated.
+    - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
+    - Vector3 - 3D Vector class that adds some linear algebra functions and operators to sf::Vector3\<T\>
 
 # Building SFEX
 

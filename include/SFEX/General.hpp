@@ -32,5 +32,6 @@
 #include <SFEX/General/Joystick.hpp>
 #include <SFEX/General/Singleton.hpp>
 #include <SFEX/General/Listener.hpp>
+#include <SFEX/General/SceneBase.hpp>
 
 #endif // !_SFEX_GENERAL_HPP_

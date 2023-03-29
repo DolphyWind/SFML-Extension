@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
-project(Vector2Example VERSION 1.0.0)
+project(SceneManagerExample VERSION 1.0.0)
 
-set(PROGRAM_NAME vector2_example)
+set(PROGRAM_NAME scenemanager_example)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 find_package(SFEX REQUIRED)
 

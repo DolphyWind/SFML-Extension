@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.15.1)
+project(${SFEX_PROJECT_NAME} VERSION 0.16.0)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -27,6 +27,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Joystick.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Singleton.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Listener.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/SceneBase.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector2.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector3.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Math.hpp
@@ -40,6 +41,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SpriteManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SoundManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/MusicManager.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SceneManager.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
@@ -61,6 +63,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Managers/SpriteManager.cpp
     src/SFEX/Managers/SoundManager.cpp
     src/SFEX/Managers/MusicManager.cpp
+    src/SFEX/Managers/SceneManager.cpp
 )
 
 # Thanks to Victoria Rudakova for the doxygen with CMake tutorial https://vicrucann.github.io/tutorials/quick-cmake-doxygen/

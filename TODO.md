@@ -1,6 +1,5 @@
 # TODO
 + Add CTest tests
-+ Add Scene class and SceneManagement System
 
 # Ideas might get implemented
 + Numeric/Matrix -> Requires Numeric/Vector\<N,T\> to be implemented (N dimentional vectors)
