@@ -40,92 +40,125 @@ Color::Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a): sf::Color(r, g
 {
 }
 
+Color Color::add(const Color &rhs, bool noalpha) const
+{
+    Color resultColor = *this;
+    
+    // Prevent overflowing
+    if(255 - rhs.r <= resultColor.r) resultColor.r = 255;
+    else resultColor.r += rhs.r;
+
+    if(255 - rhs.g <= resultColor.g) resultColor.g = 255;
+    else resultColor.g += rhs.g;
+
+    if(255 - rhs.b <= resultColor.b) resultColor.b = 255;
+    else resultColor.b += rhs.b;
+
+    if(!noalpha)
+    {
+        if(255 - rhs.a <= resultColor.a) resultColor.a = 255;
+        else resultColor.a += rhs.a;
+    }
+
+    return resultColor;
+}
+
 Color Color::operator+=(const Color &rhs)
 {
-    // Prevent overflowing
-    if(255 - rhs.r <= this->r) this->r = 255;
-    else this->r += rhs.r;
-
-    if(255 - rhs.g <= this->g) this->g = 255;
-    else this->g += rhs.g;
-
-    if(255 - rhs.b <= this->b) this->b = 255;
-    else this->b += rhs.b;
-
-    if(255 - rhs.a <= this->a) this->a = 255;
-    else this->a += rhs.a;
-    
+    *this = this->add(rhs);
     return *this;
 }
 
 Color Color::operator+(const Color &rhs) const
 {
-    Color result = *this;
-    return (result += rhs);
+    return this->add(rhs);
+}
+
+Color Color::subtract(const Color &rhs, bool noalpha) const
+{
+    Color resultColor = *this;
+    // Prevent underflowing
+    if(rhs.r > resultColor.r) resultColor.r = 0;
+    else resultColor.r -= rhs.r;
+
+    if(rhs.g > resultColor.g) resultColor.g = 0;
+    else resultColor.g -= rhs.g;
+
+    if(rhs.b > resultColor.b) resultColor.b = 0;
+    else resultColor.b -= rhs.b;
+
+    if(!noalpha)
+    {
+        if(rhs.a > resultColor.a) resultColor.a = 0;
+        else resultColor.a -= rhs.a;
+    }
+
+    return resultColor;
 }
 
 Color Color::operator-=(const Color &rhs)
 {
-    // Prevent underflowing
-    if(rhs.r > this->r) this->r = 0;
-    else this->r -= rhs.r;
-
-    if(rhs.g > this->g) this->g = 0;
-    else this->g -= rhs.g;
-
-    if(rhs.b > this->b) this->b = 0;
-    else this->b -= rhs.b;
-
-    if(rhs.a > this->a) this->a = 0;
-    else this->a -= rhs.a;
-    
+    *this = this->subtract(rhs);
     return *this;
 }
 
 Color Color::operator-(const Color &rhs) const
 {
-    Color result = *this;
-    return (result -= rhs);
+    return this->subtract(rhs);
+}
+
+Color Color::multiply(float scalar, bool noalpha) const
+{
+    Color resultColor = *this;
+    // Prevent overflowing
+    if(scalar > float(255) / float(resultColor.r)) resultColor.r = 255;
+    else resultColor.r = sf::Uint8(scalar * float(resultColor.r));
+
+    if(scalar > float(255) / float(resultColor.g)) resultColor.g = 255;
+    else resultColor.g = sf::Uint8(scalar * float(resultColor.g));
+
+    if(scalar > float(255) / float(resultColor.b)) resultColor.b = 255;
+    else resultColor.b = sf::Uint8(scalar * float(resultColor.b));
+
+    if(!noalpha)
+    {
+        if(scalar > float(255) / float(resultColor.a)) resultColor.a = 255;
+        else resultColor.a = sf::Uint8(scalar * float(resultColor.a));
+    }
+
+    return resultColor;
 }
 
 Color Color::operator*=(float scalar)
 {
-    // Prevent overflowing
-    if(scalar > float(255) / float(this->r)) this->r = 255;
-    else this->r = sf::Uint8(scalar * float(this->r));
-
-    if(scalar > float(255) / float(this->g)) this->g = 255;
-    else this->g = sf::Uint8(scalar * float(this->g));
-
-    if(scalar > float(255) / float(this->b)) this->b = 255;
-    else this->b = sf::Uint8(scalar * float(this->b));
-
-    if(scalar > float(255) / float(this->a)) this->a = 255;
-    else this->a = sf::Uint8(scalar * float(this->a));
-
+    *this = this->multiply(scalar);
     return *this;
 }
 
 Color Color::operator*(float scalar) const
 {
-    Color result = *this;
-    return (result *= scalar);
+    return this->multiply(scalar);
 }
 
 Color operator*(float scalar, const Color &color)
 {
-    return color * scalar;
+    return color.multiply(scalar);
 }
 
-Color Color::operator/=(float scalar)
+Color Color::divide(float scalar, bool noalpha) const
 {
-    return (*this) *= (1/scalar);
+    return this->multiply(scalar, noalpha);
 }
 
 Color Color::operator/(float scalar) const
 {
-    Color result = *this;
-    return (result /= scalar);
+    return this->divide(scalar);
+}
+
+Color Color::operator/=(float scalar)
+{
+    *this = this->divide(scalar);
+    return *this;
 }
 
 bool Color::operator==(const Color &rhs)
@@ -143,7 +176,7 @@ bool Color::operator!=(const Color &rhs)
 
 Color Color::mixColors(const Color &a, const Color &b)
 {
-    return Math::lerp(a, b, 0.5);
+    return Math::lerp(a, b, 0.5f);
 }
 
 std::ostream &operator<<(std::ostream &left, const Color &right)
@@ -151,14 +184,15 @@ std::ostream &operator<<(std::ostream &left, const Color &right)
     return left << "(r: " << +right.r << ", g: " << +right.g << ", b: " << +right.b << ", a: " << +right.a << ")";
 }
 
-const Color Color::Black = Color(0, 0, 0, 255);
-const Color Color::Blue = Color(0, 0, 255, 255);
-const Color Color::Cyan = Color(0, 255, 255, 255);
-const Color Color::Magenta = Color(255, 0, 255, 255);
-const Color Color::Green = Color(0, 255, 0, 255);
 const Color Color::Red = Color(255, 0, 0, 255);
-const Color Color::White = Color(255, 255, 255, 255);
+const Color Color::Green = Color(0, 255, 0, 255);
+const Color Color::Blue = Color(0, 0, 255, 255);
 const Color Color::Yellow = Color(255, 255, 0, 255);
+const Color Color::Magenta = Color(255, 0, 255, 255);
+const Color Color::Cyan = Color(0, 255, 255, 255);
+const Color Color::Gray = Color(128, 128, 128, 255);
+const Color Color::White = Color(255, 255, 255, 255);
+const Color Color::Black = Color(0, 0, 0, 255);
 const Color Color::Transparent = Color(0, 0, 0, 0);
 
 } // namespace sfex

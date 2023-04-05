@@ -40,7 +40,31 @@ public:
     Color();
     Color(const sf::Color &color);
     Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a=255);
+    
+    /// @brief Add rhs to this color component by component 
+    /// @param rhs The color you want to add 
+    /// @param noalpha If set to true, function does not touch alpha values when performing the operation
+    /// @return Result of addition
+    Color add(const Color &rhs, bool noalpha=false) const;
 
+    /// @brief Subtract rhs from this color
+    /// @param rhs The color you want to subtract
+    /// @param noalpha If set to true, function does not touch alpha values when performing the operation
+    /// @return Result of subtraction
+    Color subtract(const Color &rhs, bool noalpha=false) const;
+
+    /// @brief Multiply this color with a scalar
+    /// @param scalar Scalar you want to multiply with
+    /// @param noalpha If set to true, function does not touch alpha values when performing the operation
+    /// @return Result of multiplication
+    Color multiply(float scalar, bool noalpha=false) const;
+
+    /// @brief Divide this color with a scalar
+    /// @param scalar Scalar you want to divide with
+    /// @param noalpha If set to true, function does not touch alpha values when performing the operation
+    /// @return Result of division
+    Color divide(float scalar, bool noalpha=false) const;
+    
     Color operator+=(const Color &rhs);
     Color operator+(const Color &rhs) const;
 
@@ -56,20 +80,21 @@ public:
     bool operator==(const Color &rhs);
     bool operator!=(const Color &rhs);
 
-    /// @brief Mixes two colors with each other. Shorthand for lerp(a, b, 0.5)
+    /// @brief Mixes two colors with each other. Shorthand for sfex::Math::lerp(a, b, 0.5f).
     /// @param a first color
     /// @param b second color
     /// @return Mixed color
     static Color mixColors(const Color &a, const Color &b);
 
-    const static Color Black;
-    const static Color Blue;
-    const static Color Cyan;
-    const static Color Magenta;
-    const static Color Green;
     const static Color Red;
-    const static Color White;
+    const static Color Green;
+    const static Color Blue;
     const static Color Yellow;
+    const static Color Magenta;
+    const static Color Cyan;
+    const static Color Gray;
+    const static Color White;
+    const static Color Black;
     const static Color Transparent;
 };
 

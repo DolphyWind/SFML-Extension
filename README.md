@@ -1,3 +1,5 @@
+**THIS LIBRARY IS WORK IN PROGRESS. ANY FEATURE CAN CHANGE IN ANYTIME.**
+
 # SFEX - SFML Extended
 SFML Extended is a set of classes/functions to speed up SFML Game development.
 
