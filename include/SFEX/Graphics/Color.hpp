@@ -27,6 +27,7 @@
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFEX/Numeric/Math.hpp>
+#include <cstdint>
 #include <ostream>
 
 namespace sfex
@@ -38,6 +39,7 @@ class Color : public sf::Color
 public:
 
     Color();
+    Color(std::uint32_t u32);
     Color(const sf::Color &color);
     Color(sf::Uint8 r, sf::Uint8 g, sf::Uint8 b, sf::Uint8 a=255);
     
@@ -59,8 +61,8 @@ public:
     /// @return Result of multiplication
     Color multiply(float scalar, bool noalpha=false) const;
 
-    /// @brief Divide this color with a scalar
-    /// @param scalar Scalar you want to divide with
+    /// @brief Divide this color by scalar
+    /// @param scalar Scalar you want to divide by
     /// @param noalpha If set to true, function does not touch alpha values when performing the operation
     /// @return Result of division
     Color divide(float scalar, bool noalpha=false) const;
@@ -79,6 +81,19 @@ public:
 
     bool operator==(const Color &rhs);
     bool operator!=(const Color &rhs);
+
+    /// @brief Returns the hexadecimal representation of sfex::Color
+    /// @return Hexadecimal representation of sfex::Color
+    std::uint32_t toHex() const;
+    
+    /// @brief Returns the hexadecimal representation of sfex::Color
+    /// @return Hexadecimal representation of sfex::Color
+    operator std::uint32_t() const;
+
+    /// @brief Converts any hexadecimal number into sfex::Color
+    /// @param hex Number to convert
+    /// @return The resulting Color after the conversion
+    static Color fromHex(std::uint32_t hex);
 
     /// @brief Mixes two colors with each other. Shorthand for sfex::Math::lerp(a, b, 0.5f).
     /// @param a first color

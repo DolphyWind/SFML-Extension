@@ -24,12 +24,19 @@
 
 // Headers
 #include <SFEX/Graphics/Color.hpp>
+#include <SFML/Config.hpp>
+#include <cstdint>
 
 namespace sfex
 {
 
 Color::Color(): sf::Color()
 {
+}
+
+Color::Color(std::uint32_t hex)
+{
+    *this = Color::fromHex(hex);
 }
 
 Color::Color(const sf::Color &color): sf::Color(color)
@@ -77,6 +84,7 @@ Color Color::operator+(const Color &rhs) const
 Color Color::subtract(const Color &rhs, bool noalpha) const
 {
     Color resultColor = *this;
+
     // Prevent underflowing
     if(rhs.r > resultColor.r) resultColor.r = 0;
     else resultColor.r -= rhs.r;
@@ -110,19 +118,20 @@ Color Color::operator-(const Color &rhs) const
 Color Color::multiply(float scalar, bool noalpha) const
 {
     Color resultColor = *this;
+    
     // Prevent overflowing
-    if(scalar > float(255) / float(resultColor.r)) resultColor.r = 255;
+    if(scalar > 255.f / float(resultColor.r)) resultColor.r = 255;
     else resultColor.r = sf::Uint8(scalar * float(resultColor.r));
 
-    if(scalar > float(255) / float(resultColor.g)) resultColor.g = 255;
+    if(scalar > 255.f / float(resultColor.g)) resultColor.g = 255;
     else resultColor.g = sf::Uint8(scalar * float(resultColor.g));
 
-    if(scalar > float(255) / float(resultColor.b)) resultColor.b = 255;
+    if(scalar > 255.f / float(resultColor.b)) resultColor.b = 255;
     else resultColor.b = sf::Uint8(scalar * float(resultColor.b));
 
     if(!noalpha)
     {
-        if(scalar > float(255) / float(resultColor.a)) resultColor.a = 255;
+        if(scalar > 255.f / float(resultColor.a)) resultColor.a = 255;
         else resultColor.a = sf::Uint8(scalar * float(resultColor.a));
     }
 
@@ -147,7 +156,7 @@ Color operator*(float scalar, const Color &color)
 
 Color Color::divide(float scalar, bool noalpha) const
 {
-    return this->multiply(scalar, noalpha);
+    return this->multiply(1.f / scalar, noalpha);
 }
 
 Color Color::operator/(float scalar) const
@@ -172,6 +181,32 @@ bool Color::operator==(const Color &rhs)
 bool Color::operator!=(const Color &rhs)
 {
     return !(*this == rhs);
+}
+
+std::uint32_t Color::toHex() const
+{
+    return (this->r << 24) | (this->g << 16) | (this->b << 8) | (this->a);
+}
+
+Color::operator std::uint32_t() const
+{
+    return this->toHex();
+}
+
+Color Color::fromHex(std::uint32_t hex)
+{
+    sf::Uint8 components[4];
+    for(char i = 0; hex; i++)
+    {
+        components[i] = hex & 255;
+        hex >>= 8;
+    }
+    return {
+        components[3],
+        components[2],
+        components[1],
+        components[0],
+    };
 }
 
 Color Color::mixColors(const Color &a, const Color &b)

@@ -28,6 +28,6 @@ int main()
     {
         std::cout << "Gradient at t=" << i << ": " << colorGradient(i) << std::endl;
     }
-    
+
     return 0;
 }
