@@ -18,5 +18,7 @@ int main()
     std::cout << "Gray * 0.7 with noalpha: " << sfex::Color::Gray.multiply(0.7f, true) << std::endl;
 
     std::cout << "Red + Blue: " << (sfex::Color::Red + sfex::Color::Blue) << std::endl;
+    std::cout << "Yellow to grayscale: " << sfex::Color::Yellow.toGrayscale() << std::endl;
+
     return 0;
 }

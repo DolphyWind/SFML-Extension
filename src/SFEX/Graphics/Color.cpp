@@ -214,6 +214,13 @@ Color Color::mixColors(const Color &a, const Color &b)
     return Math::lerp(a, b, 0.5f);
 }
 
+Color Color::toGrayscale() const
+{
+    // I divide each channel seperately to prevent overflowing
+    std::uint32_t grayChannel = this->r / 3 + this-> g / 3 + this->b / 3;
+    return Color(grayChannel, grayChannel, grayChannel, this->a);
+}
+
 std::ostream &operator<<(std::ostream &left, const Color &right)
 {
     return left << "(r: " << +right.r << ", g: " << +right.g << ", b: " << +right.b << ", a: " << +right.a << ")";

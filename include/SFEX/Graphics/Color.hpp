@@ -101,6 +101,10 @@ public:
     /// @return Mixed color
     static Color mixColors(const Color &a, const Color &b);
 
+    /// @brief Converts this color to grayscale
+    /// @return Result of conversion
+    Color toGrayscale() const;
+
     const static Color Red;
     const static Color Green;
     const static Color Blue;
