@@ -3,5 +3,5 @@
 
 # Ideas might get implemented
 + Add Managers/AnimationManager
-+ Add General/AnimationBase.hpp
++ Add General/Animation.hpp
 
