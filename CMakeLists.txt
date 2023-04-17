@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.16.2)
+project(${SFEX_PROJECT_NAME} VERSION 0.16.3)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17

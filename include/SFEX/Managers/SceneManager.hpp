@@ -38,31 +38,32 @@ namespace sfex
 class SceneManager : public ManagerBase<std::shared_ptr<SceneBase>>
 {
 public:
+    SceneManager(): m_activeKey(std::nullopt) {}
 
-    /// @brief Set active scene of the scene manager
+    /// @brief Set active scene of the scene manager. It does nothing if key is not valid.
     /// @param key Unique identifier of key
     void setActiveScene(const std::string &key);
     
-    /// @brief Get a shared pointer to active scene
+    /// @brief Get a shared pointer to active scene. 
     /// @return A shared pointer to active scene
-    std::shared_ptr<SceneBase> getActiveScene();
+    std::optional<std::shared_ptr<SceneBase>> getActiveScene();
     
-    /// @brief Get the key of the active scene
+    /// @brief Get the key of the active scene.
     /// @return The key of the active scene
-    std::string getActiveSceneKey();
+    std::optional<std::string> getActiveSceneKey();
 
 
-    /// @brief Call pollEvent function of the active scene
+    /// @brief Call pollEvent function of the active scene. 
     /// @param e Event variable
     void pollEvent(const sf::Event &e);
     
-    /// @brief Call update() function of the active scene
+    /// @brief Call update() function of the active scene. 
     void update();
     
-    /// @brief Call draw() function of the active scene
+    /// @brief Call draw() function of the active scene. 
     void draw(sf::RenderTarget &target);
 private:
-    std::string m_activeKey;
+    std::optional<std::string> m_activeKey;
 };
 
 } // namespace sfex

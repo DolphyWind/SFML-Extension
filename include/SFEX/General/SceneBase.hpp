@@ -35,8 +35,18 @@ namespace sfex
 class SceneBase
 {
 public:
+    /// @brief Event hadling function for a scene
+    /// @param e Event to handle
     virtual void pollEvent(const sf::Event &e) = 0;
+    
+    /// @brief Start function runs once when the scene is loaded
+    virtual void start() = 0;
+
+    /// @brief Update function is for updating the scene
     virtual void update() = 0;
+
+    /// @brief Draw function draws the scene drawables to a target
+    /// @param target Target to draw onto
     virtual void draw(sf::RenderTarget &target) = 0;
 };
 

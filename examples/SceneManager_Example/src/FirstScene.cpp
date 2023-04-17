@@ -7,6 +7,11 @@ FirstScene::FirstScene()
     m_rectangleSpeed = 10.0f;
 }
 
+void FirstScene::start()
+{
+    m_rectangle.setPosition(sfex::Vec2::zero);
+}
+
 void FirstScene::pollEvent(const sf::Event &e)
 {
     

@@ -29,15 +29,19 @@ namespace sfex
 
 void SceneManager::setActiveScene(const std::string &key)
 {
+    if(!this->contains(key)) return;
     m_activeKey = key;
+    this->at(key)->start();
 }
 
-std::shared_ptr<SceneBase> SceneManager::getActiveScene()
+std::optional<std::shared_ptr<SceneBase>> SceneManager::getActiveScene()
 {
-    return this->at(m_activeKey);
+    if(!m_activeKey.has_value()) return std::nullopt;
+    if(!this->contains(m_activeKey.value())) return std::nullopt;
+    return this->at(m_activeKey.value());
 }
 
-std::string SceneManager::getActiveSceneKey()
+std::optional<std::string> SceneManager::getActiveSceneKey()
 {
     return m_activeKey;
 }
@@ -45,17 +49,20 @@ std::string SceneManager::getActiveSceneKey()
 
 void SceneManager::pollEvent(const sf::Event &e)
 {
-    this->at(m_activeKey)->pollEvent(e);
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->pollEvent(e);
 }
 
 void SceneManager::update()
 {
-    this->at(m_activeKey)->update();
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->update();
 }
 
 void SceneManager::draw(sf::RenderTarget &target)
 {
-    this->at(m_activeKey)->draw(target);
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->draw(target);
 }
 
 } // namespace sfex
