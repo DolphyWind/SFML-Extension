@@ -18,22 +18,18 @@ int main()
     sf::Texture idleTexture;
     idleTexture.loadFromFile("boy_sprite/Idle.png");
     
-    sf::Sprite walkingSprite(walkingTexture);
+    sf::Sprite walkingSprite;
     walkingSprite.setScale(scaleX, scaleY);
     walkingSprite.setPosition(307*scaleX, 500);
     walkingSprite.setOrigin(307*scaleX, 0);
-    sf::Sprite idleSprite(idleTexture);
-    idleSprite.setScale(scaleX, scaleY);
-    idleSprite.setPosition(scaleX * 614, 0);
 
     sf::Time animDuration = sf::seconds(1.f / 30.f);
 
-    sfex::Animation walkingAnimation(walkingSprite, false);
+    sfex::Animation walkingAnimation(walkingSprite, walkingTexture, false);
     walkingAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
 
-    sfex::Animation idleAnimation(idleSprite);
+    sfex::Animation idleAnimation(walkingSprite, idleTexture, false);
     idleAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
-    idleAnimation.setAnimationSpeed(-0.5f);
 
     while(window.isOpen())
     {
@@ -48,21 +44,26 @@ int main()
 
         if(sfex::Keyboard::getKey(sfex::Keyboard::Key::Right))
         {
-            walkingAnimation.play();
+            if(walkingAnimation.isPaused()) walkingAnimation.play();
+            if(!idleAnimation.isPaused()) idleAnimation.pause();
             walkingSprite.setScale(scaleX, scaleY);
             walkingSprite.move({speedX, 0});
         }
         else if(sfex::Keyboard::getKey(sfex::Keyboard::Key::Left))
         {
-            walkingAnimation.play();
+            if(walkingAnimation.isPaused()) walkingAnimation.play();
+            if(!idleAnimation.isPaused()) idleAnimation.pause();
             walkingSprite.setScale(-scaleX, scaleY);
             walkingSprite.move({-speedX, 0});
         }
-        else walkingAnimation.pause();
+        else
+        {
+            if(!walkingAnimation.isPaused()) walkingAnimation.pause();
+            if(idleAnimation.isPaused()) idleAnimation.play();
+        }
 
         window.clear();
         window.draw(walkingSprite);
-        window.draw(idleSprite);
 
         window.display();
     }

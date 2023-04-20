@@ -27,17 +27,18 @@
 namespace sfex
 {
 
-Animation::Animation(): m_currentIndex(0), m_loop(true), m_animationSpeed(1.0f), m_stopwatch(), m_spritePtr(nullptr), m_frames()
+Animation::Animation(): m_currentIndex(0), m_loop(true), m_animationSpeed(1.0f), m_stopwatch(), m_spritePtr(nullptr), m_texturePtr(nullptr), m_frames()
 {
 }
 
-Animation::Animation(sf::Sprite& sprite, bool loop): m_currentIndex(0), m_animationSpeed(1.0f), m_loop(loop), m_stopwatch(), m_spritePtr(&sprite), m_frames()
+Animation::Animation(sf::Sprite& targetSprite, sf::Texture& texture, bool loop): m_currentIndex(0), m_animationSpeed(1.0f), m_loop(loop), m_stopwatch(), m_spritePtr(&targetSprite), m_texturePtr(&texture), m_frames()
 {
     if(!loop)
     {
         pause();
         restart();
     }
+    else m_spritePtr->setTexture(*m_texturePtr);
 }
 
 void Animation::setLoop(bool loop)
@@ -60,9 +61,29 @@ float Animation::getAnimationSpeed()
     return m_animationSpeed;
 }
 
+void Animation::setTexture(sf::Texture &texture)
+{
+    m_texturePtr = &texture;
+}
+
+const sf::Texture& Animation::getTexture() const
+{
+    return *m_texturePtr;
+}
+
+void Animation::setSprite(sf::Sprite &sprite)
+{
+    m_spritePtr = &sprite;
+}
+
+const sf::Sprite& Animation::getSprite() const
+{
+    return *m_spritePtr;
+}
+
 void Animation::autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Time& duration)
 {
-    if(!m_spritePtr) return;
+    if(!m_spritePtr || !m_texturePtr) return;
 
     clearFrames();
     int left = topleftRect.left;
@@ -70,8 +91,8 @@ void Animation::autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Tim
     int rect_width = topleftRect.width;
     int rect_height = topleftRect.height;
 
-    std::size_t width = m_spritePtr->getTexture()->getSize().x - left;
-    std::size_t height = m_spritePtr->getTexture()->getSize().y - top;
+    std::size_t width = m_texturePtr->getSize().x - left;
+    std::size_t height = m_texturePtr->getSize().y - top;
 
     std::size_t frame_count_x = (width / rect_width);
     std::size_t frame_count_y = (height / rect_height);
@@ -124,8 +145,9 @@ void Animation::clearFrames()
 
 void Animation::setFrameIndex(std::size_t index)
 {
-    if(!m_spritePtr) return;
+    if(!m_spritePtr || !m_texturePtr) return;
 
+    m_spritePtr->setTexture(*m_texturePtr);
     m_currentIndex = index;
     restart();
     if(m_currentIndex >= m_frames.size())
@@ -139,6 +161,11 @@ void Animation::setFrameIndex(std::size_t index)
     }
     else
         m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
+}
+
+std::size_t Animation::getFrameIndex() const
+{
+    return m_currentIndex;
 }
 
 void Animation::update()
@@ -161,9 +188,11 @@ void Animation::pause()
     m_stopwatch.pause();
 }
 
-void Animation::play()
+void Animation::play(bool restartAnimation)
 {
+    if(restartAnimation) setFrameIndex(0);
     m_stopwatch.resume();
+    m_spritePtr->setTexture(*m_texturePtr);
     m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
 }
 

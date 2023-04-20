@@ -50,8 +50,9 @@ public:
     Animation();
 
     /// @brief Construct a new Animation object with a sprite.
-    /// @param sprite Reference to a sprite that you want to apply animations to.
-    Animation(sf::Sprite& sprite, bool loop=true);
+    /// @param targetSprite Reference to a sprite that you want to apply animations to.
+    /// @param texture Texture of the 
+    Animation(sf::Sprite& targetSprite, sf::Texture& texture, bool loop=true);
 
 
     /// @brief Set the looping status
@@ -70,9 +71,21 @@ public:
     /// @return Animation speed
     float getAnimationSpeed();
 
+    /// @brief Set the Texture of this animation
+    /// @param texture New texture of this animation.
+    void setTexture(sf::Texture& texture);
+
+    /// @brief Get the Texture of this animation
+    /// @return Texture of this animation
+    const sf::Texture& getTexture() const;
+
     /// @brief Set the sprite that you want to apply animations to.
     /// @param sprite Reference to a sprite that you want to apply animations to.
     void setSprite(sf::Sprite& sprite);
+
+    /// @brief Get the Sprite of this animation
+    /// @return Sprite of this animations
+    const sf::Sprite& getSprite() const;
 
     /// @brief Automatically generates multiple frames from sprite by give sf::IntRect
     /// @param topleftRect Top left frame of sprite
@@ -100,6 +113,10 @@ public:
     /// @param index Index of the new current frame
     void setFrameIndex(std::size_t index);
 
+    /// @brief Get the current frame index
+    /// @return Current frame index
+    std::size_t getFrameIndex() const;
+
 
     /// @brief Update the animation. Switch to the next frame if needed.
     void update();
@@ -108,7 +125,8 @@ public:
     void pause();
     
     /// @brief Resume/Play the animation.
-    void play();
+    /// @param restartAnimation Restart animation when played.
+    void play(bool restartAnimation=true);
 
     /// @brief Restart the animation
     void restart();
@@ -122,6 +140,7 @@ private:
     float m_animationSpeed = 1;
     sfex::Stopwatch m_stopwatch;
     sf::Sprite* m_spritePtr;
+    sf::Texture* m_texturePtr;
     std::vector<Frame> m_frames;
 };
 
