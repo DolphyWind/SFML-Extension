@@ -55,6 +55,9 @@ public:
     /// @return Elapsed time
     sf::Time restart();
 
+    /// @brief Returns true if the stopwatch has been paused. Returns false otherwise.
+    bool isPaused();
+
 private:
     // Member data
     sf::Clock m_clock;

@@ -30,6 +30,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <string>
+#include <optional>
 
 namespace sfex
 {

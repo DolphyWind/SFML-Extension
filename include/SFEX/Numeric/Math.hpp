@@ -30,6 +30,7 @@
 #include <limits>
 #include <vector>
 #include <algorithm>
+#define SFEX_MATHDEF static inline
 
 namespace sfex
 {
@@ -39,44 +40,44 @@ class Math
 {
 public:
     /// @brief Ratio of a circle's circumference to its diameter.
-    static inline const float pi = 3.1415926535f;
+    SFEX_MATHDEF const float pi = 3.1415926535f;
 
     /// @brief Ratio of a circle's circumference to its radius. Equals to 2*pi.
-    static inline const float tau = 6.2831853071f;
+    SFEX_MATHDEF const float tau = 6.2831853071f;
 
     /// @brief Euler's number
-    static inline const float e = 2.7182818284f;
+    SFEX_MATHDEF const float e = 2.7182818284f;
 
     /// @brief The golden ratio. Namely (1+sqrt(5))/2
-    static inline const float phi = 1.6180339887f;
+    SFEX_MATHDEF const float phi = 1.6180339887f;
 
     /// @brief The smallest positive number that can be represented as float
-    static inline const float positiveMin = std::nextafterf(0.0f, 1.0f);
+    SFEX_MATHDEF const float positiveMin = std::nextafterf(0.0f, 1.0f);
 
     /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a float
-    static inline const float epsilon = std::numeric_limits<float>::epsilon();
+    SFEX_MATHDEF const float epsilon = std::numeric_limits<float>::epsilon();
 
     /// @brief Returns the sign of val. Can be applied to any type as long as it supports smaller than and negation operators.
     template<typename T>
-    static inline int sign(const T &val);
+    SFEX_MATHDEF int sign(const T &val);
 
     /// @brief Returns the absoulte value of val.
     template<typename T>
-    static inline T abs(const T &val);
+    SFEX_MATHDEF T abs(const T &val);
 
     /// @brief Returns true if abs(first - second) is < tolerance
     template<typename T>
-    static inline bool isClose(const T &first, const T &second, const T &tolerance);
+    SFEX_MATHDEF bool isClose(const T &first, const T &second, const T &tolerance);
 
     /// @brief Converts value from degrees to radians
     /// @param value value you want to convert
     /// @returns value in radians
-    static inline float deg2rad(float value);
+    SFEX_MATHDEF float deg2rad(float value);
 
     /// @brief Converts value from radians to degrees
     /// @param value value you want to convert
     /// @returns value in degrees
-    static inline float rad2deg(float value);
+    SFEX_MATHDEF float rad2deg(float value);
 
     /// @brief Calculates linear interpolation between A and B. Namely A*(1-t) + B*t
     /// @param A The value at time=0
@@ -85,7 +86,7 @@ public:
     /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
     /// @return Linear interpolation between A and B. Namely A*(1-t) + B*t
     template<typename T>
-    static inline T lerp(const T &A, const T &B, float time, bool bounded=true);
+    SFEX_MATHDEF T lerp(const T &A, const T &B, float time, bool bounded=true);
 
     /// @brief Recursively calculates the point on the bézier curve based on give time
     /// @param points Points to construct bézier curve
@@ -93,7 +94,7 @@ public:
     /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
     /// @return Calculated point on the bézier curve
     template<typename T>
-    static inline T bezier(const std::vector<T> &points, float time, bool bounded=true);
+    SFEX_MATHDEF T bezier(const std::vector<T> &points, float time, bool bounded=true);
 
 protected:
     Math() {};

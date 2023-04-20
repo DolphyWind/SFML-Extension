@@ -3,5 +3,5 @@
 
 # Ideas might get implemented
 + Add Managers/AnimationManager
-+ Add General/Animation.hpp
++ Add other ways generate frames automatically
 

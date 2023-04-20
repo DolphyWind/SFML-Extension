@@ -30,5 +30,6 @@
 #include <SFEX/Graphics/RoundedRectangle.hpp>
 #include <SFEX/Graphics/Ellipse.hpp>
 #include <SFEX/Graphics/Squircle.hpp>
+#include <SFEX/Graphics/Animation.hpp>
 
 #endif // !_SFEX_GRAPHICS_HPP_

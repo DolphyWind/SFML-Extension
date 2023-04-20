@@ -31,23 +31,23 @@
 namespace sfex
 {
 
-/// @brief Base scene class.
+/// @brief Base scene class. Classes that isntantiate from this class can be used with sfex::SceneManager.
 class SceneBase
 {
 public:
     /// @brief Event hadling function for a scene
     /// @param e Event to handle
-    virtual void pollEvent(const sf::Event &e) = 0;
+    virtual void pollEvent(const sf::Event &e) {};
     
     /// @brief Start function runs once when the scene is loaded
-    virtual void start() = 0;
+    virtual void start() {};
 
     /// @brief Update function is for updating the scene
-    virtual void update() = 0;
+    virtual void update() {};
 
     /// @brief Draw function draws the scene drawables to a target
     /// @param target Target to draw onto
-    virtual void draw(sf::RenderTarget &target) = 0;
+    virtual void draw(sf::RenderTarget &target) {};
 };
 
 } // namespace sfex

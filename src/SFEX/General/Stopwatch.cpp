@@ -65,4 +65,9 @@ sf::Time Stopwatch::restart()
     return returnTime;
 }
 
+bool Stopwatch::isPaused()
+{
+    return m_paused;
+}
+
 }
