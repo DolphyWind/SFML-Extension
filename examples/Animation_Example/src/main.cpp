@@ -2,6 +2,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+// Sprites are from https://www.gameart2d.com/the-boy---free-sprites.html
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "Animations");
