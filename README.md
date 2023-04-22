@@ -25,7 +25,8 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - Ellipse - An ellipse shape class.
     - RoundedRectangle - A class for rectangles whose corners are rounded.
     - Squircle - A squircle class based on x^4 + y^4 = r^4 definition.
-- **Managers:** Managers for various SFML Objects.
+    - Animation - Simple animation class (WIP)
+- **Managers:** Managers for various Game Development related objects.
     - ManagerBase - Base manager class. All the other managers classes are derived from this class.
     - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase\<sf::Music\>
     - SceneManager - Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase\<std::shared_ptr\<SceneBase\>\>
