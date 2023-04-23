@@ -29,6 +29,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFEX/General/Stopwatch.hpp>
+#include <SFEX/Numeric/Vector2.hpp>
 #include <memory>
 #include <vector>
 #include <limits>
@@ -36,7 +37,7 @@
 namespace sfex
 {
 
-/// @brief Stores Frames in a std::vector<> provides methods to manage them.
+/// @brief Animation class for sprite sheet animations.
 class Animation
 {
 public:
@@ -52,7 +53,7 @@ public:
     /// @brief Construct a new Animation object with a sprite.
     /// @param targetSprite Reference to a sprite that you want to apply animations to.
     /// @param texture Texture of the 
-    Animation(sf::Sprite& targetSprite, sf::Texture& texture, bool loop=true);
+    Animation(sf::Sprite &targetSprite, sf::Texture &texture, bool loop=true);
 
 
     /// @brief Set the looping status
@@ -73,7 +74,7 @@ public:
 
     /// @brief Set the Texture of this animation
     /// @param texture New texture of this animation.
-    void setTexture(sf::Texture& texture);
+    void setTexture(sf::Texture &texture);
 
     /// @brief Get the Texture of this animation
     /// @return Texture of this animation
@@ -81,41 +82,58 @@ public:
 
     /// @brief Set the sprite that you want to apply animations to.
     /// @param sprite Reference to a sprite that you want to apply animations to.
-    void setSprite(sf::Sprite& sprite);
+    void setSprite(sf::Sprite &sprite);
 
     /// @brief Get the Sprite of this animation
     /// @return Sprite of this animations
     const sf::Sprite& getSprite() const;
 
-    /// @brief Automatically generates multiple frames from sprite by give sf::IntRect
+    /// @brief Automatically generates multiple frames. Creates fixed-size frames by iterating the image by the size of the given IntRect. 
     /// @param topleftRect Top left frame of sprite
     /// @param duration Duration of the each frame
-    void autoGenerateFrames(const sf::IntRect& topleftRect, const sf::Time& duration);
+    /// @param clear_frames If set to true, the function clears all frames before generating new ones.
+    void autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Time &duration, bool clear_frames=true);
+
+    /// @brief Automatically generates multiple frames. Creates fixed-size frames on given vector of positions.
+    /// @param size Size of the each frame
+    /// @param positions Vector of positions of each frame
+    /// @param duration Duration of the each frame
+    /// @param clear_frames If set to true, the function clears all frames before generating new ones.
+    void autoGenerateFrames(const sfex::Vec2u &size, const std::vector<sfex::Vec2u> &positions, const sf::Time &duration, bool clear_frames=true);
     
     /// @brief Adds a frame to the end of the frame vector or the specified index. 
     /// @param rect IntRect of the frame
     /// @param duration Duration of the frame
     /// @param index The index you want to insert. Inserts to the end of the vector if index is greater than frame count.
-    void insertFrame(const sf::IntRect& rect, const sf::Time& duration, std::size_t index=std::numeric_limits<std::size_t>::max());
+    void insertFrame(const sf::IntRect &rect, const sf::Time &duration, std::size_t index=std::numeric_limits<std::size_t>::max());
     
     /// @brief Adds a frame to the end of the frame vector or the specified index.
     /// @param frame Frame you want to insert
     /// @param index The index you want to insert. Inserts to the end of the vector if index is greater than frame count.
-    void insertFrame(const Frame& frame, std::size_t index=std::numeric_limits<std::size_t>::max());
+    void insertFrame(const Frame &frame, std::size_t index=std::numeric_limits<std::size_t>::max());
 
     /// @brief Removes the frame at the given index
+    /// @param index Index to remove
     void removeFrame(std::size_t index);
 
     /// @brief Clears all frames.
     void clearFrames();
 
     /// @brief Set the current frame
-    /// @param index Index of the new current frame
-    void setFrameIndex(std::size_t index);
+    /// @param index Index of the new frame
+    void setFrame(std::size_t index);
 
     /// @brief Get the current frame index
     /// @return Current frame index
-    std::size_t getFrameIndex() const;
+    const std::size_t getCurrentFrameIndex() const;
+
+    /// @brief Get current frame
+    /// @return Current frame
+    const Frame getCurrentFrame() const;
+
+    /// @brief Get all frames
+    /// @return All frames
+    const std::vector<Frame> getFrames() const;
 
 
     /// @brief Update the animation. Switch to the next frame if needed.
@@ -139,8 +157,8 @@ private:
     bool m_loop = true;
     float m_animationSpeed = 1;
     sfex::Stopwatch m_stopwatch;
-    sf::Sprite* m_spritePtr;
-    sf::Texture* m_texturePtr;
+    sf::Sprite *m_spritePtr;
+    sf::Texture *m_texturePtr;
     std::vector<Frame> m_frames;
 };
 
