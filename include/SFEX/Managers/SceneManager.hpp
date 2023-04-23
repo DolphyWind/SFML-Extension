@@ -26,7 +26,7 @@
 #define _SFEX_MANAGERS_SCENEMANAGER_HPP_
 
 #include <SFEX/Managers/MangerBase.hpp>
-#include <SFEX/General/SceneBase.hpp>
+#include <SFEX/General/Scene.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <string>
@@ -36,7 +36,7 @@ namespace sfex
 {
 
 /// @brief Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase<std::shared_ptr<SceneBase>>.
-class SceneManager : public ManagerBase<std::shared_ptr<SceneBase>>
+class SceneManager : public ManagerBase<std::shared_ptr<Scene>>
 {
 public:
     SceneManager(): m_activeKey(std::nullopt) {}
@@ -47,7 +47,7 @@ public:
     
     /// @brief Get a shared pointer to active scene. 
     /// @return A shared pointer to active scene
-    std::optional<std::shared_ptr<SceneBase>> getActiveScene();
+    std::optional<std::shared_ptr<Scene>> getActiveScene();
     
     /// @brief Get the key of the active scene.
     /// @return The key of the active scene

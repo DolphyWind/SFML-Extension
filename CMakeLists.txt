@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.17.2)
+project(${SFEX_PROJECT_NAME} VERSION 0.17.3)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -28,7 +28,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Joystick.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Singleton.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Listener.hpp
-	${SFEX_INCLUDE_FOLDER}/SFEX/General/SceneBase.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/Scene.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector2.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector3.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Math.hpp

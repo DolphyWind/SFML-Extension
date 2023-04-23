@@ -22,8 +22,8 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_GENERAL_SCENEBASE_HPP_
-#define _SFEX_GENERAL_SCENEBASE_HPP_
+#ifndef _SFEX_GENERAL_SCENE_HPP_
+#define _SFEX_GENERAL_SCENE_HPP_
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -31,26 +31,29 @@
 namespace sfex
 {
 
-/// @brief Base scene class. Classes that isntantiate from this class can be used with sfex::SceneManager.
-class SceneBase
+/// @brief Base scene class. Functions do what their descriotions say when a child class is used with a sfex::SceneManager object.
+class Scene
 {
 public:
     /// @brief Event hadling function for a scene
     /// @param e Event to handle
     virtual void pollEvent(const sf::Event &e) {};
     
-    /// @brief Start function runs once when the scene is loaded
+    /// @brief Start function runs once when the scene is loaded.
     virtual void start() {};
 
-    /// @brief Update function is for updating the scene
+    /// @brief Update function is for updating the scene.
     virtual void update() {};
 
     /// @brief Draw function draws the scene drawables to a target
     /// @param target Target to draw onto
     virtual void draw(sf::RenderTarget &target) {};
+
+    /// @brief Destroy functiun runs when a scene manager switchs to a new scene.
+    virtual void destroy() {};
 };
 
 } // namespace sfex
 
 
-#endif // !_SFEX_GENERAL_SCENEBASE_HPP_
+#endif // !_SFEX_GENERAL_SCENE_HPP_

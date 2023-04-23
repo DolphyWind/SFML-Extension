@@ -30,11 +30,12 @@ namespace sfex
 void SceneManager::setActiveScene(const std::string &key)
 {
     if(!this->contains(key)) return;
+    if(this->m_activeKey.has_value()) this->at(m_activeKey.value())->destroy();
     m_activeKey = key;
     this->at(key)->start();
 }
 
-std::optional<std::shared_ptr<SceneBase>> SceneManager::getActiveScene()
+std::optional<std::shared_ptr<Scene>> SceneManager::getActiveScene()
 {
     if(!m_activeKey.has_value()) return std::nullopt;
     if(!this->contains(m_activeKey.value())) return std::nullopt;

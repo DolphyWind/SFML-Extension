@@ -4,7 +4,7 @@
 #include <SFEX/SFEX.hpp>
 #include <SFML/Graphics.hpp>
 
-class FirstScene : public sfex::SceneBase
+class FirstScene : public sfex::Scene
 {
 public:
     FirstScene();
@@ -13,6 +13,7 @@ public:
     virtual void start();
     virtual void update();
     virtual void draw(sf::RenderTarget &target);
+    virtual void destroy();
 
 private:
     sf::RectangleShape m_rectangle;

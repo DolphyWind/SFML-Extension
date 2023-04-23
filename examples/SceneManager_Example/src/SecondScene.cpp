@@ -41,3 +41,8 @@ void SecondScene::draw(sf::RenderTarget &target)
 {
     target.draw(m_rectangle);
 }
+
+void SecondScene::destroy()
+{
+    std::cout << "Second scene got destroyed" << std::endl;
+}
