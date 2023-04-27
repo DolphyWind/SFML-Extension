@@ -25,7 +25,7 @@
 #ifndef _SFEX_MANAGERS_ANIMATION_MANAGER_HPP_
 #define _SFEX_MANAGERS_ANIMATION_MANAGER_HPP_
 
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 #include <SFEX/Graphics/Animation.hpp>
 #include <optional>
 
