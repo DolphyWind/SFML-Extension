@@ -29,14 +29,19 @@ int main()
 
     sf::Time animDuration = sf::seconds(1.f / 30.f);
 
-    sfex::Animation walkingAnimation(playerSprite, walkingTexture, false);
+    sfex::Animation walkingAnimation(playerSprite, walkingTexture, true);
     walkingAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
     
-    sfex::Animation idleAnimation(playerSprite, idleTexture, false);
+    sfex::Animation idleAnimation(playerSprite, idleTexture, true);
     idleAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
 
-    sfex::Animation runAnimation(playerSprite, runTexture, false);
+    sfex::Animation runAnimation(playerSprite, runTexture, true);
     runAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
+
+    sfex::AnimationManager playerAnimationManager(&playerSprite);
+    playerAnimationManager.insert({"walk", std::make_shared<sfex::Animation>(walkingAnimation)});
+    playerAnimationManager.insert({"idle", std::make_shared<sfex::Animation>(idleAnimation)});
+    playerAnimationManager.insert({"run", std::make_shared<sfex::Animation>(runAnimation)});
 
     while(window.isOpen())
     {
@@ -47,26 +52,22 @@ int main()
         }
         if(!window.hasFocus()) continue;
 
-        walkingAnimation.update();
-        idleAnimation.update();
-        runAnimation.update();
+        playerAnimationManager.update();
 
         if(sfex::Keyboard::getKey(sfex::Keyboard::Key::Right))
         {
             if(sfex::Keyboard::getKey(sfex::Keyboard::Key::LShift))
             {
-                if(!walkingAnimation.isPaused()) walkingAnimation.pause();
-                if(runAnimation.isPaused()) runAnimation.play();
+                playerAnimationManager.play("run");
                 currentSpeedX = runspeedX;
             }
             else
             {
-                if(!runAnimation.isPaused()) runAnimation.pause();
-                if(walkingAnimation.isPaused()) walkingAnimation.play();
+                if(playerAnimationManager.getCurrentAnimationKey() != "walk") playerAnimationManager.play("walk");
                 currentSpeedX = speedX;
             }
-            if(!idleAnimation.isPaused()) idleAnimation.pause();
-            
+            if(!playerAnimationManager.at("idle")->isPaused()) playerAnimationManager.at("idle")->pause();
+
             playerSprite.setScale(scaleX, scaleY);
             playerSprite.move({currentSpeedX, 0});
         }
@@ -74,25 +75,22 @@ int main()
         {
             if(sfex::Keyboard::getKey(sfex::Keyboard::Key::LShift))
             {
-                if(!walkingAnimation.isPaused()) walkingAnimation.pause();
-                if(runAnimation.isPaused()) runAnimation.play();
+                playerAnimationManager.play("run");
                 currentSpeedX = runspeedX;
             }
             else
             {
-                if(!runAnimation.isPaused()) runAnimation.pause();
-                if(walkingAnimation.isPaused()) walkingAnimation.play();
+                playerAnimationManager.play("walk");
                 currentSpeedX = speedX;
             }
-            if(!idleAnimation.isPaused()) idleAnimation.pause();
+            if(!playerAnimationManager.at("idle")->isPaused()) playerAnimationManager.at("idle")->pause();
+
             playerSprite.setScale(-scaleX, scaleY);
             playerSprite.move({-currentSpeedX, 0});
         }
         else
         {
-            if(!walkingAnimation.isPaused()) walkingAnimation.pause();
-            if(!runAnimation.isPaused()) runAnimation.pause();
-            if(idleAnimation.isPaused()) idleAnimation.play();
+            playerAnimationManager.play("idle");
         }
 
         window.clear();

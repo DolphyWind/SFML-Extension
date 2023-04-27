@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 
 namespace sfex
 {

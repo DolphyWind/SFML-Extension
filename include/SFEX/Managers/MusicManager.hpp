@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <string>
 #include <SFML/Audio/Music.hpp>
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 
 namespace sfex
 {

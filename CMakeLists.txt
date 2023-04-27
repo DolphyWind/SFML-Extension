@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.17.3)
+project(${SFEX_PROJECT_NAME} VERSION 0.18.0)
 include(GNUInstallDirs)
 
 # Find SFML and enable c++17
@@ -44,6 +44,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SoundManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/MusicManager.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SceneManager.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/AnimationManager.hpp
 )
 set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
@@ -67,6 +68,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/Managers/SoundManager.cpp
     src/SFEX/Managers/MusicManager.cpp
     src/SFEX/Managers/SceneManager.cpp
+    src/SFEX/Managers/AnimationManager.cpp
 )
 
 # Thanks to Victoria Rudakova for the doxygen with CMake tutorial https://vicrucann.github.io/tutorials/quick-cmake-doxygen/

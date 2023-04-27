@@ -28,7 +28,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 namespace sfex

@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 
 // The ManagerBase implementation is in SFEX/Managers/ManagerBase.inl
 // This file is to make sure compiler checks errors and warnings

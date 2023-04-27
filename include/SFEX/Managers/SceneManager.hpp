@@ -25,7 +25,7 @@
 #ifndef _SFEX_MANAGERS_SCENEMANAGER_HPP_
 #define _SFEX_MANAGERS_SCENEMANAGER_HPP_
 
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 #include <SFEX/General/Scene.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
@@ -45,8 +45,8 @@ public:
     /// @param key Unique identifier of key
     void setActiveScene(const std::string &key);
     
-    /// @brief Get a shared pointer to active scene. 
-    /// @return A shared pointer to active scene
+    /// @brief Get a shared pointer to the active scene. 
+    /// @return A shared pointer to the active scene
     std::optional<std::shared_ptr<Scene>> getActiveScene();
     
     /// @brief Get the key of the active scene.

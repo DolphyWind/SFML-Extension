@@ -26,7 +26,7 @@
 #define _SFEX_GRAPHICS_TEXTURE_MANAGER_HPP_
 
 #include <SFML/Graphics/Texture.hpp>
-#include <SFEX/Managers/MangerBase.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
 
 namespace sfex
 {
