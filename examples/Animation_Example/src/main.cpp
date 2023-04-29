@@ -43,6 +43,7 @@ int main()
     playerAnimationManager.insert({"idle", std::make_shared<sfex::Animation>(idleAnimation)});
     playerAnimationManager.insert({"run", std::make_shared<sfex::Animation>(runAnimation)});
 
+
     while(window.isOpen())
     {
         sf::Event e;

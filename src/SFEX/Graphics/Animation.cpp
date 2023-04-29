@@ -33,12 +33,8 @@ Animation::Animation(): m_currentIndex(0), m_loop(true), m_animationSpeed(1.0f),
 
 Animation::Animation(sf::Sprite &targetSprite, sf::Texture &texture, bool loop): m_currentIndex(0), m_animationSpeed(1.0f), m_loop(loop), m_stopwatch(), m_spritePtr(&targetSprite), m_texturePtr(&texture), m_frames()
 {
-    if(!loop)
-    {
-        pause();
-        restart();
-    }
-    else m_spritePtr->setTexture(*m_texturePtr);
+    pause();
+    restart();
 }
 
 void Animation::setLoop(bool loop)
