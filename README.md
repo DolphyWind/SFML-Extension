@@ -33,7 +33,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
     - SpriteManager - Simple SpriteManager class. Inherits from sfex::ManagerBase\<sf::Sprite\>
     - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from sfex::ManagerBase\<sf::Texture\>
-    - AnimationManager - 
+    - AnimationManager - Manages animations for one sprite. Makes animations really easy to implement for SFML.
 - **Numeric:** Classes that are related to math.
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
     - Math - A math class that contains math constants and some functions that are not in c++ STL. Only contains static methods and constants so it doesn't meant to be instantiated.
