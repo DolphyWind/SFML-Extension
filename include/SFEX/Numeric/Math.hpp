@@ -40,22 +40,22 @@ class Math
 {
 public:
     /// @brief Ratio of a circle's circumference to its diameter.
-    SFEX_MATHDEF const float pi = 3.1415926535f;
+    SFEX_MATHDEF constexpr float pi = 3.1415926535f;
 
     /// @brief Ratio of a circle's circumference to its radius. Equals to 2*pi.
-    SFEX_MATHDEF const float tau = 6.2831853071f;
+    SFEX_MATHDEF constexpr float tau = 6.2831853071f;
 
     /// @brief Euler's number
-    SFEX_MATHDEF const float e = 2.7182818284f;
+    SFEX_MATHDEF constexpr float e = 2.7182818284f;
 
     /// @brief The golden ratio. Namely (1+sqrt(5))/2
-    SFEX_MATHDEF const float phi = 1.6180339887f;
+    SFEX_MATHDEF constexpr float phi = 1.6180339887f;
 
     /// @brief The smallest positive number that can be represented as float
     SFEX_MATHDEF const float positiveMin = std::nextafterf(0.0f, 1.0f);
 
     /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a float
-    SFEX_MATHDEF const float epsilon = std::numeric_limits<float>::epsilon();
+    SFEX_MATHDEF constexpr float epsilon = std::numeric_limits<float>::epsilon();
 
     /// @brief Returns the sign of val. Can be applied to any type as long as it supports smaller than and negation operators.
     template<typename T>

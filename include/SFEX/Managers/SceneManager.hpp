@@ -35,7 +35,7 @@
 namespace sfex
 {
 
-/// @brief Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase<std::shared_ptr<SceneBase>>.
+/// @brief Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase<std::shared_ptr<Scene>>.
 class SceneManager : public ManagerBase<std::shared_ptr<Scene>>
 {
 public:

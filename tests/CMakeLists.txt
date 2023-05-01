@@ -8,3 +8,4 @@ function(run_test exec_name src_name)
 endfunction(run_test)
 
 run_test(Vector2Test vector2test.cpp)
+run_test(Vector3Test vector3test.cpp)

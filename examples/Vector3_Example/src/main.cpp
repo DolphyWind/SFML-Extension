@@ -16,7 +16,7 @@ int main()
 {
     sfex::Vec3 v = sfex::Vec3::right;
     printVector(v, "v");
-    sfex::Vec3 rotated = v.rotated(0, sfex::Math::deg2rad(90), 0);
+    sfex::Vec3 rotated = v.rotated(0, 90, 0);
     printVector(rotated, "rotated");
     printDashes();
 

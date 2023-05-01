@@ -29,6 +29,7 @@
 #include <array>
 #include <cmath>
 #include <SFML/System/Vector3.hpp>
+#include <SFEX/Numeric/Math.hpp>
 #include <ostream>
 
 namespace sfex
@@ -120,7 +121,7 @@ public:
     /// @param rhs rhs vector
     void projectOnto(const Vector3<T> &rhs);
 
-    /// @brief Projects this vector onto plane ax + by + cz = k
+    /// @brief Projects this vector onto plane ax + by + cz = 0
     /// @param a coefficent of x
     /// @param b coefficent of y
     /// @param c coefficent of z
@@ -135,7 +136,7 @@ public:
     /// @return Projected vector
     Vector3<T> projectedOnto(const Vector3<T> &rhs) const;
 
-    /// @brief Returns projected version of this vector onto plane ax + by + cz = k
+    /// @brief Returns projected version of this vector onto plane ax + by + cz = 0
     /// @param a coefficent of x
     /// @param b coefficent of y
     /// @param c coefficent of z

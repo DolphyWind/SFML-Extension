@@ -120,18 +120,18 @@ Color Color::multiply(float scalar, bool noalpha) const
     Color resultColor = *this;
     
     // Prevent overflowing
-    if(scalar > 255.f / float(resultColor.r)) resultColor.r = 255;
+    if(scalar * float(resultColor.r) >= 255.f) resultColor.r = 255;
     else resultColor.r = sf::Uint8(scalar * float(resultColor.r));
 
-    if(scalar > 255.f / float(resultColor.g)) resultColor.g = 255;
+    if(scalar * float(resultColor.g) >= 255.f) resultColor.g = 255;
     else resultColor.g = sf::Uint8(scalar * float(resultColor.g));
 
-    if(scalar > 255.f / float(resultColor.b)) resultColor.b = 255;
+    if(scalar * float(resultColor.b) >= 255.f) resultColor.b = 255;
     else resultColor.b = sf::Uint8(scalar * float(resultColor.b));
 
     if(!noalpha)
     {
-        if(scalar > 255.f / float(resultColor.a)) resultColor.a = 255;
+        if(scalar * float(resultColor.a) >= 255.f) resultColor.a = 255;
         else resultColor.a = sf::Uint8(scalar * float(resultColor.a));
     }
 

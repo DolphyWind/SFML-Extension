@@ -119,12 +119,12 @@ template<typename T>
 void Vector3<T>::rotate(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround)
 {
     // To make computation faster
-    float cos_alpha = std::cos(x_angle);
-    float sin_alpha = std::sin(x_angle);
-    float cos_beta = std::cos(y_angle);
-    float sin_beta = std::sin(y_angle);
-    float cos_gamma = std::cos(z_angle);
-    float sin_gamma = std::sin(z_angle);
+    float cos_alpha = std::cos(sfex::Math::deg2rad(x_angle));
+    float sin_alpha = std::sin(sfex::Math::deg2rad(x_angle));
+    float cos_beta = std::cos(sfex::Math::deg2rad(y_angle));
+    float sin_beta = std::sin(sfex::Math::deg2rad(y_angle));
+    float cos_gamma = std::cos(sfex::Math::deg2rad(z_angle));
+    float sin_gamma = std::sin(sfex::Math::deg2rad(z_angle));
 
     *this -= rotateAround;
 

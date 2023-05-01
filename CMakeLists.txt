@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.18.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.18.1)
 include(GNUInstallDirs)
 include(CTest)
 enable_testing()
@@ -130,4 +130,11 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${SFEX_CONFIG_FILENAME}"
               "${CMAKE_CURRENT_BINARY_DIR}/${SFEX_CONFIGVERSION_FILENAME}"
         DESTINATION ${SFEX_INSTALL_CMAKE_DIR})
 
-add_subdirectory(tests)
+option(BUILD_TESTS "Build Tests" ON)
+
+if(BUILD_TESTS)
+	message(STATUS "Testing is enabled. To run tests, please use CTest executable.")
+	add_subdirectory(tests)
+else()
+	message(STATUS "Testing is disabled.")
+endif()
