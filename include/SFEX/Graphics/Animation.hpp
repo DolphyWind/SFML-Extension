@@ -101,6 +101,10 @@ public:
     /// @param clear_frames If set to true, the function clears all frames before generating new ones.
     void autoGenerateFrames(const sfex::Vec2u &size, const std::vector<sfex::Vec2u> &positions, const sf::Time &duration, bool clear_frames=true);
     
+    /// @brief Automatically genrates multiple frames from given list of frames.
+    /// @param frames List of frames.
+    void autoGenerateFrames(const std::vector<Frame> &frames);
+
     /// @brief Adds a frame to the end of the frame vector or the specified index. 
     /// @param rect IntRect of the frame
     /// @param duration Duration of the frame

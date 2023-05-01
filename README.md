@@ -21,7 +21,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - Singleton - A singleton base class. 
     - Stopwatch - A stopwatch class. Acts like sf::Clock but can be paused and resumed.
 - **Graphics:** Classes that are related to graphics.
-    - Animation - Simple animation class.
+    - Animation - Animation class for sprite sheet animations.
     - Color - A color class.
     - Ellipse - An ellipse shape class.
     - RoundedRectangle - A class for rectangles whose corners are rounded.

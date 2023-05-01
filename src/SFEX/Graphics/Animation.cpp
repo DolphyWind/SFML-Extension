@@ -119,6 +119,11 @@ void Animation::autoGenerateFrames(const sfex::Vec2u &size, const std::vector<sf
     if(clear_frames) setFrame(0);
 }
 
+void Animation::autoGenerateFrames(const std::vector<Frame> &frames)
+{
+    for(auto& frame : frames) insertFrame(frame);
+}
+
 void Animation::insertFrame(const sf::IntRect &rect, const sf::Time &duration, std::size_t index)
 {
     insertFrame({rect, duration}, index);
