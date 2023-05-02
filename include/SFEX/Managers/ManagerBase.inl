@@ -158,4 +158,13 @@ void ManagerBase<T>::insert(const std::pair<std::string, T> &pair)
     m_hashmap.insert(pair);
 }
 
+template<typename T>
+void ManagerBase<T>::insert(const std::vector<std::pair<std::string, T>> &pairs)
+{
+    for(auto &pair : pairs)
+    {
+        m_hashmap.insert(pair);
+    }
+}
+
 } // namespace sfex

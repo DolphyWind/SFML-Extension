@@ -114,6 +114,10 @@ public:
     /// @param pair Pair to insert
     void insert(const std::pair<std::string, T> &pair);
 
+    /// @brief Insert multiple paris to hashmap
+    /// @param pairs Pairs to insert
+    void insert(const std::vector<std::pair<std::string, T>> &pairs);
+
 protected:
     std::unordered_map<std::string, T> m_hashmap;
 };

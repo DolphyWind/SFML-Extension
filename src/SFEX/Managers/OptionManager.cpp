@@ -22,11 +22,19 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_CONFIG_HPP_
-#define _SFEX_CONFIG_HPP_
+#include <SFEX/Managers/OptionManager.hpp>
 
-#define SFEX_VERSION_MAJOR 0
-#define SFEX_VERSION_MINOR 19
-#define SFEX_VERSION_PATCH 0
+namespace sfex
+{
 
-#endif // !_SFEX_CONFIG_HPP_
+void OptionManager::parseFromFile(const std::string &filename)
+{
+
+}
+
+void OptionManager::saveToFile(const std::string &filename)
+{
+    
+}
+
+}
