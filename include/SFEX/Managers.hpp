@@ -32,6 +32,6 @@
 #include <SFEX/Managers/MusicManager.hpp>
 #include <SFEX/Managers/SceneManager.hpp>
 #include <SFEX/Managers/AnimationManager.hpp>
-#include <SFEX/Managers/SettingsManager.hpp>
+#include <SFEX/Managers/OptionManager.hpp>
 
 #endif // !_SFEX_MANAGERS_HPP_

@@ -9,3 +9,4 @@ endfunction(run_test)
 
 run_test(Vector2Test vector2test.cpp)
 run_test(Vector3Test vector3test.cpp)
+run_test(OptionManagerTest optionmanager_test.cpp)
