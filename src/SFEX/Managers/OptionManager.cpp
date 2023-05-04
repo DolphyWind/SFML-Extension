@@ -27,6 +27,8 @@
 namespace sfex
 {
 
+OptionValue OptionValue::empty = OptionValue();
+
 OptionValue::OptionValue(OptionValue::DataType datatype): m_datatype(DataType::NONE), m_data(nullptr), m_size(0)
 {
     if(datatype == DataType::NONE) return;
@@ -73,6 +75,168 @@ OptionValue::OptionValue(const std::string &string_val): m_datatype(DataType::ST
 OptionValue::~OptionValue()
 {
     cleanup();
+}
+
+bool OptionValue::operator==(const OptionValue &other) const
+{
+    if(this->get_datatype() != other.get_datatype()) return false;
+    switch (this->get_datatype())
+    {
+        case DataType::BOOLEAN:
+            return this->as_bool() == other.as_bool();
+        case DataType::DOUBLE:
+            return this->as_double() == other.as_double();
+        case DataType::INT:
+            return this->as_int() == other.as_int();
+        case DataType::STRING:
+            return this->as_string() == other.as_string();
+        // Return true when datatype is none becase (nullptr == nullptr) evaluate to true
+        default:
+            return true;
+    }
+}
+
+bool OptionValue::operator!=(const OptionValue &other) const
+{
+    return !((*this) == other);
+}
+
+bool OptionValue::operator<(const OptionValue &other) const
+{
+    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot compare two things with different datatypes!");
+
+    switch (this->get_datatype())
+    {
+        case DataType::BOOLEAN:
+            return this->as_bool() < other.as_bool();
+        case DataType::DOUBLE:
+            return this->as_double() < other.as_double();
+        case DataType::INT:
+            return this->as_int() < other.as_int();
+        case DataType::STRING:
+            return this->as_string() < other.as_string();
+        // Throw an exception because there is no 
+        default:
+            throw std::runtime_error("Cannot compare two None values!");
+    }
+}
+
+bool OptionValue::operator<=(const OptionValue &other) const
+{
+    return (*this < other) || (*this == other);
+}
+
+bool OptionValue::operator>(const OptionValue &other) const
+{
+    return !(*this <= other);
+}
+
+bool OptionValue::operator>=(const OptionValue &other) const
+{
+    return !(*this < other);
+}
+
+OptionValue& OptionValue::operator+=(const OptionValue &other)
+{
+    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot add two values with different types!");
+
+    switch (this->get_datatype())
+    {
+        case DataType::BOOLEAN:
+            return (*this = (this->as_bool() + other.as_bool()));
+        case DataType::DOUBLE:
+            return (*this = (this->as_double() + other.as_double()));
+        case DataType::INT:
+            return (*this = (this->as_int() + other.as_int()));
+        case DataType::STRING:
+            return (*this = (this->as_string() + other.as_string()));
+        default:
+        case DataType::NONE:
+            return (*this = OptionValue::empty);
+    }
+}
+
+OptionValue OptionValue::operator+(const OptionValue &other) const
+{
+    return (OptionValue(*this) += other);
+}
+
+OptionValue& OptionValue::operator-=(const OptionValue &other)
+{
+    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot subtract two values with different types!");
+
+    switch (this->get_datatype())
+    {
+        case DataType::BOOLEAN:
+            return (*this = (this->as_bool() - other.as_bool()));
+        case DataType::DOUBLE:
+            return (*this = (this->as_double() - other.as_double()));
+        case DataType::INT:
+            return (*this = (this->as_int() - other.as_int()));
+        case DataType::STRING:
+            throw std::runtime_error("Cannot subtract strings.");
+            break;
+        default:
+        case DataType::NONE:
+            return (*this = OptionValue::empty);
+    }
+}
+
+OptionValue OptionValue::operator-(const OptionValue &other) const
+{
+    return (OptionValue(*this) -= other);
+}
+
+OptionValue& OptionValue::operator*=(const OptionValue &other)
+{
+    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot multiply two values with different types!");
+
+    switch (this->get_datatype())
+    {
+        case DataType::BOOLEAN:
+            return (*this = (this->as_bool() * other.as_bool()));
+        case DataType::DOUBLE:
+            return (*this = (this->as_double() * other.as_double()));
+        case DataType::INT:
+            return (*this = (this->as_int() * other.as_int()));
+        case DataType::STRING:
+            throw std::runtime_error("Cannot multiply strings.");
+            break;
+        default:
+        case DataType::NONE:
+            return (*this = OptionValue::empty);
+    }
+}
+
+OptionValue OptionValue::operator*(const OptionValue &other) const
+{
+    return (OptionValue(*this) *= other);
+}
+
+OptionValue& OptionValue::operator/=(const OptionValue &other)
+{
+    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot divide two values with different types!");
+
+    switch (this->get_datatype())
+    {
+        case DataType::BOOLEAN:
+            return (*this = (this->as_bool() / other.as_bool()));
+        case DataType::DOUBLE:
+            return (*this = (this->as_double() / other.as_double()));
+        case DataType::INT:
+            return (*this = (this->as_int() / other.as_int()));
+        case DataType::STRING:
+            throw std::runtime_error("Cannot divide strings.");
+            break;
+        default:
+        case DataType::NONE:
+            return (*this = OptionValue::empty);
+    }
+}
+
+OptionValue OptionValue::operator/(const OptionValue &other) const
+{
+    return (OptionValue(*this) /= other);
 }
 
 OptionValue& OptionValue::operator=(int int_val)

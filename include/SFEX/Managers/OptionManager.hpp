@@ -82,7 +82,92 @@ public:
     /// @brief Destroy the OptionValue object
     ~OptionValue();
 
+    /////////////////////////////////////////
+    /// LOGICAL OPERATORS
+    /////////////////////////////////////////
     
+    /// @brief Checks if the given OptionValue is equals to this OptionValue. Returns false if the datatypes does not match.
+    /// @param other Other OptionValue
+    /// @return Result of comparison
+    bool operator==(const OptionValue &other) const;
+
+    /// @brief Checks if the given OptionValue is not equals to this OptionValue. Returns true if the datatypes does not match.
+    /// @param other Other OptionValue
+    /// @return Result of the comparison.
+    bool operator!=(const OptionValue &other) const;
+
+    /// @brief Checks if the this OptionValue is less than other OptionValue.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @return Result of the comparison.
+    bool operator<(const OptionValue &other) const;
+
+    /// @brief Checks if the this OptionValue is greater than other OptionValue.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @return Result of the comparison.
+    bool operator>(const OptionValue &other) const;
+
+    /// @brief Checks if the this OptionValue is less than or equals to other OptionValue.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @return Result of the comparison.
+    bool operator<=(const OptionValue &other) const;
+
+    /// @brief Checks if the this OptionValue is greater than or equals to other OptionValue.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @return Result of the comparison.
+    bool operator>=(const OptionValue &other) const;
+
+    /// @brief Adds two OptionValues and modifies this value and returns it.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @return this OptionValue
+    OptionValue& operator+=(const OptionValue &other);
+
+    /// @brief Adds two OptionValues and returns it.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match.
+    /// @return this OptionValue
+    OptionValue operator+(const OptionValue &other) const;
+
+    /// @brief Subtracts two OptionValues and modifies this value and returns it.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @return this OptionValue
+    OptionValue& operator-=(const OptionValue &other);
+
+    /// @brief Subtracts two OptionValues and returns it. 
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @return this OptionValue
+    OptionValue operator-(const OptionValue &other) const;
+
+    /// @brief Multiplies two OptionValues and modifies this value and returns it.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @return this OptionValue
+    OptionValue& operator*=(const OptionValue &other);
+
+    /// @brief Multiplies two OptionValues and returns it. 
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @return this OptionValue
+    OptionValue operator*(const OptionValue &other) const;
+
+    /// @brief Divides two OptionValues and modifies this value and returns it.
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @return this OptionValue
+    OptionValue& operator/=(const OptionValue &other);
+
+    /// @brief Divides two OptionValues and returns it. 
+    /// @param other Other OptionValue
+    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @return this OptionValue
+    OptionValue operator/(const OptionValue &other) const;
+
     /// @brief Assign OptionValue to a integer
     /// @param int_val New integer value
     OptionValue& operator=(int int_val);
@@ -162,6 +247,8 @@ public:
 
     /// @brief << operator for printing OptionValue to screen.
     friend std::ostream& operator<<(std::ostream &left, const OptionValue &right);
+
+    static OptionValue empty;
 
 private:
     DataType m_datatype;

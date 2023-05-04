@@ -15,5 +15,41 @@ int main()
     assert(val.as_double() == 0.5);
     assert(val.to_string() == std::string("0.5"));
 
+    assert(sfex::OptionValue::empty == sfex::OptionValue::empty);
+    assert(sfex::OptionValue::empty != val);
+
+    try
+    {
+        bool x = (sfex::OptionValue::empty < val);
+        assert(false);
+    } catch (const std::runtime_error &e)
+    {
+        assert(true);
+    }
+
+    sfex::OptionValue val1 = 7;
+    sfex::OptionValue val2 = 9;
+
+    assert(val1 < val2);
+    assert(val1 != val2);
+    assert(val2 > val1);
+    assert(val1 <= val1);
+    assert(val1 >= val1);
+
+    val = 100;
+    assert(val + val == sfex::OptionValue(200));
+    assert(val == sfex::OptionValue(100));
+    assert(val * sfex::OptionValue(3) == sfex::OptionValue(300));
+    assert(val / sfex::OptionValue(2) == sfex::OptionValue(50));
+    try
+    {
+        val *= sfex::OptionValue::empty;
+        assert(false);
+    }
+    catch (const std::runtime_error &e)
+    {
+        assert(true);
+    }
+
     return 0;
 }
