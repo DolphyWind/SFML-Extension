@@ -60,9 +60,7 @@ sf::Time Stopwatch::restart()
 {
     sf::Time returnTime = m_time;
     m_time = sf::Time();
-    m_clock.restart();
-
-    return returnTime;
+    return returnTime + m_clock.restart();
 }
 
 bool Stopwatch::isPaused()
