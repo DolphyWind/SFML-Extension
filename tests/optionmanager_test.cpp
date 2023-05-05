@@ -36,11 +36,13 @@ int main()
     assert(val1 <= val1);
     assert(val1 >= val1);
 
-    val = 100;
-    assert(val + val == sfex::OptionValue(200));
-    assert(val == sfex::OptionValue(100));
-    assert(val * sfex::OptionValue(3) == sfex::OptionValue(300));
-    assert(val / sfex::OptionValue(2) == sfex::OptionValue(50));
+    val = 50;
+    val *= 2;
+    assert(val + val == 200);
+    assert(val == 100);
+    assert(val * 3 == 300);
+    assert(val / 2 == 50);
+    
     try
     {
         val *= sfex::OptionValue::empty;
