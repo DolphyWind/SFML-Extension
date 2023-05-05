@@ -47,7 +47,13 @@ Vector2<T>::Vector2(const T &_x, const T &_y): sf::Vector2<T>(_x, _y)
 template<typename T>
 float Vector2<T>::magnitude() const
 {
-    return std::sqrt(this->x*this->x + this->y*this->y);
+    return std::sqrt(this->magnitude2());
+}
+
+template<typename T>
+float Vector2<T>::magnitude2() const
+{
+    return (this->x*this->x + this->y*this->y);
 }
 
 template<typename T>

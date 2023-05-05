@@ -47,7 +47,13 @@ Vector3<T>::Vector3(const T &_x, const T &_y, const T &_z): sf::Vector3<T>(_x, _
 template<typename T>
 float Vector3<T>::magnitude() const
 {
-    return std::sqrt(this->x*this->x + this->y*this->y + this->z*this->z);
+    return std::sqrt(this->magnitude2());
+}
+
+template<typename T>
+float Vector3<T>::magnitude2() const
+{
+    return (this->x*this->x + this->y*this->y + this->z*this->z);
 }
 
 template<typename T>
