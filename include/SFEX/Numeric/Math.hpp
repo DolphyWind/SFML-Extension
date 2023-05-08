@@ -29,13 +29,14 @@
 #include <cmath>
 #include <limits>
 #include <vector>
+#include <tuple>
 #include <algorithm>
 #define SFEX_MATHDEF static inline
 
 namespace sfex
 {
 
-/// @brief A math class that contains math constants and some functions that are not in c++ STL. Only contains static methods and constants so it doesn't meant to be instantiated.
+/// @brief A math class that contains some math constants and functions. Only contains static methods and constants so it doesn't meant to be instantiated.
 class Math
 {
 public:
@@ -57,15 +58,15 @@ public:
     /// @brief The difference between 1 and the smallest value greater than 1 that is representable by a float
     SFEX_MATHDEF constexpr float epsilon = std::numeric_limits<float>::epsilon();
 
-    /// @brief Returns the sign of val. Can be applied to any type as long as it supports smaller than and negation operators.
+    /// @brief Returns the sign of val. Can be applied to any type as long as it supports less than operator.
     template<typename T>
     SFEX_MATHDEF int sign(const T &val);
 
-    /// @brief Returns the absoulte value of val.
+    /// @brief Returns the absoulte value of the given value.
     template<typename T>
     SFEX_MATHDEF T abs(const T &val);
 
-    /// @brief Returns true if abs(first - second) is < tolerance
+    /// @brief Returns true if abs(first - second) is less that the tolerance
     template<typename T>
     SFEX_MATHDEF bool isClose(const T &first, const T &second, const T &tolerance);
 

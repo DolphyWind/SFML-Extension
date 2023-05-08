@@ -368,7 +368,7 @@ struct Option
     void reset();
 };
 
-/// @brief OptionManager that stores Options in a hashmap
+/// @brief Simple OptionManager that stores Options in a hashmap. It can also read from a file and write to a file. Inherits from ManagerBase<sfex::Option>
 class OptionManager : public ManagerBase<Option>
 {
 public:

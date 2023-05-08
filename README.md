@@ -30,13 +30,14 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - AnimationManager - Manages animations for one sprite. Makes animations really easy to implement for SFML. Inherits from ManagerBase\<Animation\>
     - ManagerBase - Base manager class. All the other managers classes are derived from this class.
     - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase\<sf::Music\>
+    - OptionManager - Simple OptionManager that stores Options in a hashmap. It can also read from a file and write to a file. Inherits from ManagerBase\<sfex::Option\>
     - SceneManager - Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase\<std::shared_ptr\<Scene\>\>
     - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
     - SpriteManager - Simple SpriteManager class. Inherits from ManagerBase\<sf::Sprite\>
     - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from ManagerBase\<sf::Texture\>
 - **Numeric:** Classes that are related to math.
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
-    - Math - A math class that contains math constants and some functions that are not in c++ STL. Only contains static methods and constants so it doesn't meant to be instantiated.
+    - Math - A math class that contains some math constants and functions. Only contains static methods and constants so it doesn't meant to be instantiated.
     - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
     - Vector3 - 3D Vector class that adds some linear algebra functions and operators to sf::Vector3\<T\>
 
