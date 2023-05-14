@@ -51,21 +51,10 @@ Color Color::add(const Color &rhs, bool noalpha) const
 {
     Color resultColor = *this;
     
-    // Prevent overflowing
-    if(255 - rhs.r <= resultColor.r) resultColor.r = 255;
-    else resultColor.r += rhs.r;
-
-    if(255 - rhs.g <= resultColor.g) resultColor.g = 255;
-    else resultColor.g += rhs.g;
-
-    if(255 - rhs.b <= resultColor.b) resultColor.b = 255;
-    else resultColor.b += rhs.b;
-
-    if(!noalpha)
-    {
-        if(255 - rhs.a <= resultColor.a) resultColor.a = 255;
-        else resultColor.a += rhs.a;
-    }
+    resultColor.r = sf::Uint8(std::min(short(resultColor.r) + short(rhs.r), 255));
+    resultColor.g = sf::Uint8(std::min(short(resultColor.g) + short(rhs.g), 255));
+    resultColor.b = sf::Uint8(std::min(short(resultColor.b) + short(rhs.b), 255));
+    if(!noalpha) resultColor.a = sf::Uint8(std::min(short(resultColor.a) + short(rhs.a), 255));
 
     return resultColor;
 }
@@ -85,21 +74,10 @@ Color Color::subtract(const Color &rhs, bool noalpha) const
 {
     Color resultColor = *this;
 
-    // Prevent underflowing
-    if(rhs.r > resultColor.r) resultColor.r = 0;
-    else resultColor.r -= rhs.r;
-
-    if(rhs.g > resultColor.g) resultColor.g = 0;
-    else resultColor.g -= rhs.g;
-
-    if(rhs.b > resultColor.b) resultColor.b = 0;
-    else resultColor.b -= rhs.b;
-
-    if(!noalpha)
-    {
-        if(rhs.a > resultColor.a) resultColor.a = 0;
-        else resultColor.a -= rhs.a;
-    }
+    resultColor.r = sf::Uint8(std::max(short(resultColor.r) - short(rhs.r), 0));
+    resultColor.g = sf::Uint8(std::max(short(resultColor.g) - short(rhs.g), 0));
+    resultColor.b = sf::Uint8(std::max(short(resultColor.b) - short(rhs.b), 0));
+    if(!noalpha) resultColor.a = sf::Uint8(std::max(short(resultColor.a) - short(rhs.a), 0));
 
     return resultColor;
 }
@@ -119,21 +97,12 @@ Color Color::multiply(float scalar, bool noalpha) const
 {
     Color resultColor = *this;
     
-    // Prevent overflowing
-    if(scalar * float(resultColor.r) >= 255.f) resultColor.r = 255;
-    else resultColor.r = sf::Uint8(scalar * float(resultColor.r));
+    if(scalar < 0) return resultColor;
 
-    if(scalar * float(resultColor.g) >= 255.f) resultColor.g = 255;
-    else resultColor.g = sf::Uint8(scalar * float(resultColor.g));
-
-    if(scalar * float(resultColor.b) >= 255.f) resultColor.b = 255;
-    else resultColor.b = sf::Uint8(scalar * float(resultColor.b));
-
-    if(!noalpha)
-    {
-        if(scalar * float(resultColor.a) >= 255.f) resultColor.a = 255;
-        else resultColor.a = sf::Uint8(scalar * float(resultColor.a));
-    }
+    resultColor.r = sf::Uint8(std::min(float(resultColor.r) * scalar, 255.0f));
+    resultColor.g = sf::Uint8(std::min(float(resultColor.g) * scalar, 255.0f));
+    resultColor.b = sf::Uint8(std::min(float(resultColor.b) * scalar, 255.0f));
+    if(!noalpha) resultColor.a = sf::Uint8(std::min(float(resultColor.a) * scalar, 255.0f));
 
     return resultColor;
 }
