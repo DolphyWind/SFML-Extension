@@ -465,6 +465,12 @@ OptionValue OptionValue::operator/(const T &other) const
     return (*this / OptionValue(other));
 }
 
+template<typename T>
+OptionValue& OptionValue::operator=(const T &other)
+{
+    return (*this = OptionValue(other));
+}
+
 }
 
 #endif //!_SFEX_MANAGERS_OPTIONMANAGER_

@@ -245,12 +245,6 @@ OptionValue& OptionValue::operator=(const OptionValue &other)
     return *this;
 }
 
-template<typename T>
-OptionValue& OptionValue::operator=(const T &other)
-{
-    return (*this = OptionValue(other));
-}
-
 OptionValue& OptionValue::reset(DataType datatype)
 {
     switch (datatype)
