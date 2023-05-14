@@ -268,29 +268,14 @@ public:
     template<typename T>
     OptionValue operator/(const T &other) const;
 
-    /// @brief Assign OptionValue to a integer
-    /// @param int_val New integer value
-    OptionValue& operator=(int int_val);
-
-    /// @brief Assign OptionValue to a double
-    /// @param int_val New double value
-    OptionValue& operator=(double double_val);
-
-    /// @brief Assign OptionValue to a bool
-    /// @param int_val New bool value
-    OptionValue& operator=(bool bool_val);
-
-    /// @brief Assign OptionValue to a char pointer
-    /// @param charptr_val Char pointer
-    OptionValue& operator=(const char* charptr_val);
-
-    /// @brief Assign OptionValue to a std::string
-    /// @param int_val New std::string value
-    OptionValue& operator=(const std::string &string_val);
-
     /// @brief Assign OptionValue to another OptionValue
     /// @param other Other OptionValue
     OptionValue& operator=(const OptionValue &other);
+
+    /// @brief Assign OptionValue to another value
+    /// @param other Other OptionValue
+    template<typename T>
+    OptionValue& operator=(const T &other);
 
     /// @brief Reset the OptionValue with the given datatypes
     /// @param datatype New datatype
@@ -302,7 +287,7 @@ public:
 
     /// @brief Get the datatype of OptionValue
     /// @return The datatype of OptionValue
-    DataType get_datatype() const;
+    inline DataType get_datatype() const;
 
     /// @brief Get the datatype as std::string
     /// @return Datatype as std::string

@@ -26,9 +26,9 @@
 #define _SFEX_NUMERIC_HPP_
 
 #include <SFEX/Config.hpp>
+#include <SFEX/Numeric/Gradient.hpp>
+#include <SFEX/Numeric/Math.hpp>
 #include <SFEX/Numeric/Vector2.hpp>
 #include <SFEX/Numeric/Vector3.hpp>
-#include <SFEX/Numeric/Math.hpp>
-#include <SFEX/Numeric/Gradient.hpp>
 
 #endif // !_SFEX_NUMERIC_HPP_

@@ -27,12 +27,34 @@
 namespace sfex
 {
 
+Listener defaultListener = Listener(100, sfex::Vec3::zero, sfex::Vec3::back, sfex::Vec3::up);
+
 Listener::Listener()
 {
-    m_globalVolume = 100;
-    m_position = sfex::Vec3::zero;
-    m_direction = sfex::Vec3::back;
-    m_upVector = sfex::Vec3::up;
+    *this = defaultListener;
+}
+
+Listener::Listener(float globalVolume, const sfex::Vec3 &position, const sfex::Vec3 &direction, const sfex::Vec3 &upVector): m_globalVolume(globalVolume), m_position(position), m_direction(direction), m_upVector(upVector)
+{
+}
+
+Listener Listener::operator=(const Listener &other)
+{
+    m_globalVolume = other.getGlobalVolume();
+    m_position = other.getPosition();
+    m_direction = other.getDirection();
+    m_upVector = other.getUpVector();
+    return *this;
+}
+
+bool Listener::operator==(const Listener &other) const
+{
+    return (m_globalVolume == other.getGlobalVolume()) && (m_position == other.getPosition()) && (m_direction == other.getDirection()) && (m_upVector == other.getUpVector());
+}
+
+bool Listener::operator!=(const Listener &other) const
+{
+    return !(*this == other);
 }
 
 void Listener::setGlobalVolume(float volume)
@@ -96,6 +118,11 @@ void Listener::activate() const
     sf::Listener::setPosition(m_position);
     sf::Listener::setDirection(m_direction);
     sf::Listener::setUpVector(m_upVector);
+}
+
+const Listener Listener::getDefaultListener()
+{
+    return defaultListener;
 }
 
 } // namespace sfex

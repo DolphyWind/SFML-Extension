@@ -26,6 +26,7 @@
 #define _SFEX_NUMERIC_MATH_HPP_
 
 // Headers
+#include <SFEX/General/StaticClass.hpp>
 #include <cmath>
 #include <limits>
 #include <vector>
@@ -37,7 +38,7 @@ namespace sfex
 {
 
 /// @brief A math class that contains some math constants and functions. Only contains static methods and constants so it doesn't meant to be instantiated.
-class Math
+class Math : StaticClass
 {
 public:
     /// @brief Ratio of a circle's circumference to its diameter.
@@ -96,9 +97,6 @@ public:
     /// @return Calculated point on the bézier curve
     template<typename T>
     SFEX_MATHDEF T bezier(const std::vector<T> &points, float time, bool bounded=true);
-
-protected:
-    Math() {};
 };
 
 } // namespace sfex

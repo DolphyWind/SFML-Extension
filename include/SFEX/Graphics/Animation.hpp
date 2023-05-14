@@ -62,7 +62,7 @@ public:
 
     /// @brief Get the looping status
     /// @return Looping status
-    bool getLoop();
+    inline bool getLoop();
 
     /// @brief Change the speed of the animation.
     /// @param animSpeed New animation speed
@@ -70,7 +70,7 @@ public:
 
     /// @brief Get the animation speed
     /// @return Animation speed
-    float getAnimationSpeed();
+    inline float getAnimationSpeed();
 
     /// @brief Set the Texture of this animation
     /// @param texture New texture of this animation.
@@ -78,7 +78,7 @@ public:
 
     /// @brief Get the Texture of this animation
     /// @return Texture of this animation
-    const sf::Texture& getTexture() const;
+    inline const sf::Texture& getTexture() const;
 
     /// @brief Set the sprite that you want to apply animations to.
     /// @param sprite Reference to a sprite that you want to apply animations to.
@@ -86,7 +86,7 @@ public:
 
     /// @brief Get the Sprite of this animation
     /// @return Sprite of this animations
-    const sf::Sprite& getSprite() const;
+    inline const sf::Sprite& getSprite() const;
 
     /// @brief Automatically generates multiple frames. Creates fixed-size frames by iterating the image by the size of the given IntRect. 
     /// @param topleftRect Top left frame of sprite
@@ -129,7 +129,7 @@ public:
 
     /// @brief Get the current frame index
     /// @return Current frame index
-    const std::size_t getCurrentFrameIndex() const;
+    inline const std::size_t getCurrentFrameIndex() const;
 
     /// @brief Get current frame
     /// @return Current frame
@@ -137,7 +137,7 @@ public:
 
     /// @brief Get all frames
     /// @return All frames
-    const std::vector<Frame> getFrames() const;
+    inline const std::vector<Frame> getFrames() const;
 
 
     /// @brief Update the animation. Switch to the next frame if needed.
@@ -154,7 +154,7 @@ public:
     void restart();
 
     /// @brief Returns true if the stopwatch has been paused. Returns false otherwise.
-    bool isPaused();
+    inline bool isPaused();
 
 private:
     std::size_t m_currentIndex;

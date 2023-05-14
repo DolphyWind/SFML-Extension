@@ -239,42 +239,16 @@ OptionValue OptionValue::operator/(const OptionValue &other) const
     return (OptionValue(*this) /= other);
 }
 
-OptionValue& OptionValue::operator=(int int_val)
-{
-    update_value(sizeof(int), &int_val, DataType::INT);
-    return *this;
-}
-
-OptionValue& OptionValue::operator=(double double_val)
-{
-    update_value(sizeof(double), &double_val, DataType::DOUBLE);
-    return *this;
-}
-
-OptionValue& OptionValue::operator=(bool bool_val)
-{
-    update_value(sizeof(bool), &bool_val, DataType::BOOLEAN);
-    return *this;
-}
-
-OptionValue& OptionValue::operator=(const char *charptr_val)
-{
-    update_value(strlen(charptr_val)+1, (void*)charptr_val, DataType::STRING);
-    *(m_data.get() + m_size - 1) = '\0';
-    return *this;
-}
-
-OptionValue& OptionValue::operator=(const std::string &string_val)
-{
-    update_value(string_val.length()+1, (void*)string_val.c_str(), DataType::STRING);
-    *(m_data.get() + m_size - 1) = '\0';
-    return *this;
-}
-
 OptionValue& OptionValue::operator=(const OptionValue &other)
 {
     update_value(other.m_size, other.m_data.get(), other.m_datatype);
     return *this;
+}
+
+template<typename T>
+OptionValue& OptionValue::operator=(const T &other)
+{
+    return (*this = OptionValue(other));
 }
 
 OptionValue& OptionValue::reset(DataType datatype)

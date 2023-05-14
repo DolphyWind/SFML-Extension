@@ -26,12 +26,13 @@
 #define _SFEX_GENERAL_HPP_
 
 #include <SFEX/Config.hpp>
-#include <SFEX/General/Stopwatch.hpp>
-#include <SFEX/General/Keyboard.hpp>
-#include <SFEX/General/Mouse.hpp>
 #include <SFEX/General/Joystick.hpp>
-#include <SFEX/General/Singleton.hpp>
+#include <SFEX/General/Keyboard.hpp>
 #include <SFEX/General/Listener.hpp>
+#include <SFEX/General/Mouse.hpp>
 #include <SFEX/General/Scene.hpp>
+#include <SFEX/General/Singleton.hpp>
+#include <SFEX/General/StaticClass.hpp>
+#include <SFEX/General/Stopwatch.hpp>
 
 #endif // !_SFEX_GENERAL_HPP_

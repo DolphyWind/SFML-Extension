@@ -68,15 +68,15 @@ public:
 
     /// @brief Returns the current radius of ellipse as 2D vector
     /// @return Current radius of the ellipse as 2D vector
-    sfex::Vec2 getRadius() const;
+    inline sfex::Vec2 getRadius() const;
 
     /// @brief Returns the horizontal radius of the ellipse
     /// @return Horizontal radius of the ellipse
-    float getHorizontalRadius() const;
+    inline float getHorizontalRadius() const;
 
     /// @brief Returns the vertical radius of the ellipse
     /// @return Vertical radius of the ellipse
-    float getVerticalRadius() const;
+    inline float getVerticalRadius() const;
 
     /// @brief Set number of points of the ellipse
     /// @param pointCount New number of points of the ellipse
@@ -84,12 +84,12 @@ public:
 
     /// @brief Get number of points of the ellipse
     /// @return Number of points of the ellipse
-    virtual std::size_t getPointCount() const override;
+    inline virtual std::size_t getPointCount() const override;
 
     /// @brief Returns the coordinates of point corresponding to the index in local coordinates
     /// @param index The index of the point to get
     /// @return Coordinates of index-th point on the ellipse
-    virtual sf::Vector2f getPoint(std::size_t index) const override;
+    inline virtual sf::Vector2f getPoint(std::size_t index) const override;
 
 private:
 

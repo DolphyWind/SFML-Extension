@@ -39,13 +39,35 @@ public:
     /// @brief Default constructor
     Listener();
 
+    /// @brief Construct a new Listener object
+    /// @param globalVolume Global volume of the listener
+    /// @param position Position of the listener
+    /// @param direction Direction of the listener
+    /// @param upVector Up Vector of the listener
+    Listener(float globalVolume, const sfex::Vec3 &position, const sfex::Vec3 &direction, const sfex::Vec3 &upVector);
+
+    /// @brief Equals operator of Listener class
+    /// @param other Other Listener object
+    /// @return This listener after equals operation
+    Listener operator=(const Listener &other);
+
+    /// @brief Equality check operator of Listener class
+    /// @param other Other Listener object
+    /// @return Result of the equality check operation
+    inline bool operator==(const Listener &other) const;
+
+    /// @brief Inequality check operator of Listener class
+    /// @param other Other Listener object
+    /// @return Result of the inequality check operation
+    inline bool operator!=(const Listener &other) const;
+
     /// @brief Set global volume of the listener
     /// @param volume New global volume of the listener
     void setGlobalVolume(float volume);
     
     /// @brief Get global volume of the listener
     /// @return Global volume of the listener
-    float getGlobalVolume() const;
+    inline float getGlobalVolume() const;
 
     /// @brief Set 3D position of the listener
     /// @param position New position of the listener
@@ -59,7 +81,7 @@ public:
 
     /// @brief Get 3D position of the listener
     /// @return 3D position of the listener
-    sfex::Vec3 getPosition() const;
+    inline sfex::Vec3 getPosition() const;
 
     /// @brief Set direction of the listener
     /// @param direction New direction of the listener
@@ -73,7 +95,7 @@ public:
 
     /// @brief Get direction of the listener
     /// @return Direction of the listener
-    sfex::Vec3 getDirection() const;
+    inline sfex::Vec3 getDirection() const;
 
     /// @brief Set up vector of the listener
     /// @param upVector New up vector of the listener
@@ -87,16 +109,21 @@ public:
 
     /// @brief Get up vector of the listener
     /// @return Up vector of the listener
-    sfex::Vec3 getUpVector() const;
+    inline sfex::Vec3 getUpVector() const;
 
     /// @brief Activates the listener. 
     void activate() const;
+
+    /// @brief Get the Default Listener
+    /// @return Default Listener
+    inline static const Listener getDefaultListener();
 
 private:
     float m_globalVolume;
     sfex::Vec3 m_position;
     sfex::Vec3 m_direction;
     sfex::Vec3 m_upVector;
+    static Listener defaultListener;
 };
 
 

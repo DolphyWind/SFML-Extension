@@ -22,27 +22,21 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_GENERAL_SINGLETON_HPP_
-#define _SFEX_GENERAL_SINGLETON_HPP_
+#ifndef _SFEX_GENERAL_STATICCLASS_HPP_
+#define _SFEX_GENERAL_STATICCLASS_HPP_
 
 namespace sfex
 {
 
-/// @brief Simple singleton base class. (Currently Unused)
-class Singleton
+/// @brief Base class for static classes.
+class StaticClass
 {
 public:
-    Singleton(const Singleton&) = delete;
-    Singleton(const Singleton&&) = delete;
-    static Singleton &instance();
-
-protected:
-    Singleton() {};
-private:
-
+    StaticClass(const StaticClass&) = delete;
+    StaticClass(const StaticClass&&) = delete;
+    StaticClass() = delete;
 };
 
-} // namespace sfex
+}
 
-
-#endif // !_SFEX_GENERAL_SINGLETON_HPP_
+#endif // !_SFEX_GENERAL_STATICCLASS_HPP_

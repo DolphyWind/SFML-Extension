@@ -26,13 +26,14 @@
 #define _SFEX_GENERAL_KEYBOARD_HPP_
 
 #include <SFML/Window/Keyboard.hpp>
+#include <SFEX/General/StaticClass.hpp>
 #include <unordered_map>
 
 namespace sfex
 {
 
 /// @brief Simple keyboard class for detecting and proccessing the keyboard input. Only contains static methods.
-class Keyboard
+class Keyboard : StaticClass
 {
 public:
     typedef sf::Keyboard::Key Key;
@@ -51,10 +52,6 @@ public:
     /// @param key Key to check
     /// @return True if key is released in the current frame, false otherwise
     static bool getKeyUp(sfex::Keyboard::Key key);
-
-protected:
-    /// To prevent instantiating from this class
-    Keyboard() {};
 
 private:
     static std::unordered_map<sfex::Keyboard::Key, bool> m_keysForDown;

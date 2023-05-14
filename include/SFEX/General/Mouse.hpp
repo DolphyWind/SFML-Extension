@@ -27,13 +27,14 @@
 
 #include <SFML/Window/Mouse.hpp>
 #include <SFEX/Numeric/Vector2.hpp>
+#include <SFEX/General/StaticClass.hpp>
 #include <unordered_map>
 
 namespace sfex
 {
 
 /// @brief Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
-class Mouse
+class Mouse : StaticClass
 {
 public:
     typedef sf::Mouse::Wheel Wheel;
@@ -64,11 +65,6 @@ public:
     /// @param position New position of the mouse
     /// @param relativeTo Reference window
     static void setPosition(const sfex::Vec2i &position, const sf::Window *relativeTo=nullptr);
-
-protected:
-    /// To prevent instantiating from this class
-    Mouse() {};
-
 private:
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonsForDown;
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonsForUp;

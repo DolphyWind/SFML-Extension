@@ -19,6 +19,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - Mouse - Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
     - Scene - Base scene class.
     - Singleton - A singleton base class. 
+    - StaticClass - A base class for static classes like sfex::Joystick, sfex::Keyboard, sfex::Mouse, sfex::Math.
     - Stopwatch - A stopwatch class. Acts like sf::Clock but can be paused and resumed.
 - **Graphics:** Classes that are related to graphics.
     - Animation - Animation class for sprite sheet animations.

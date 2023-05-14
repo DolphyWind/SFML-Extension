@@ -26,12 +26,13 @@
 #define _SFEX_MANAGERS_HPP_
 
 #include <SFEX/Config.hpp>
-#include <SFEX/Managers/TextureManager.hpp>
-#include <SFEX/Managers/SpriteManager.hpp>
-#include <SFEX/Managers/SoundManager.hpp>
-#include <SFEX/Managers/MusicManager.hpp>
-#include <SFEX/Managers/SceneManager.hpp>
 #include <SFEX/Managers/AnimationManager.hpp>
+#include <SFEX/Managers/ManagerBase.hpp>
+#include <SFEX/Managers/MusicManager.hpp>
 #include <SFEX/Managers/OptionManager.hpp>
+#include <SFEX/Managers/SceneManager.hpp>
+#include <SFEX/Managers/SoundManager.hpp>
+#include <SFEX/Managers/SpriteManager.hpp>
+#include <SFEX/Managers/TextureManager.hpp>
 
 #endif // !_SFEX_MANAGERS_HPP_

@@ -26,13 +26,14 @@
 #define _SFEX_GENERAL_JOYSTICK_HPP_
 
 #include <SFML/Window/Joystick.hpp>
+#include <SFEX/General/StaticClass.hpp>
 #include <unordered_map>
 
 namespace sfex
 {
 
 /// @brief Simple joystick class for detecting and proccessing the joystick input. Only contains static methods.
-class Joystick
+class Joystick : StaticClass
 {
 public:
     typedef sf::Joystick::Axis Axis;
@@ -84,11 +85,6 @@ public:
 
     /// @brief Update the states of all joysticks
     static void update();
-
-protected:
-    /// To prevent instantiating from this class.
-    Joystick() {};
-
 private:
 
     /// @brief Hash function to for std::pair<unsigned int, unsigned int>

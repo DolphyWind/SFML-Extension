@@ -27,8 +27,8 @@
 
 #include <SFEX/Config.hpp>
 #include <SFEX/General.hpp>
+#include <SFEX/Graphics.hpp>
 #include <SFEX/Managers.hpp>
 #include <SFEX/Numeric.hpp>
-#include <SFEX/Graphics.hpp>
 
 #endif // !_SFEX_HPP_
