@@ -23,11 +23,12 @@
 //
 
 #include <SFEX/Managers/OptionManager.hpp>
+#include <iostream>
 
 namespace sfex
 {
 
-OptionValue OptionValue::empty = OptionValue();
+OptionValue OptionValue::null = OptionValue();
 
 OptionValue::OptionValue(OptionValue::DataType datatype): m_datatype(DataType::NONE), m_data(nullptr), m_size(0)
 {
@@ -56,20 +57,30 @@ OptionValue::OptionValue(double double_val): m_datatype(DataType::DOUBLE), m_dat
     update_value(m_size, &double_val, m_datatype);
 }
 
+OptionValue::OptionValue(const char* charptr_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(std::strlen(charptr_val)+1)
+{
+    update_value(m_size, (void*)charptr_val, DataType::STRING);
+}
+
+OptionValue::OptionValue(const std::string &string_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(string_val.size() + 1)
+{
+    update_value(m_size, (void*)string_val.c_str(), m_datatype);
+}
+
 OptionValue::OptionValue(bool bool_val): m_datatype(DataType::BOOLEAN), m_data(nullptr), m_size(sizeof(bool))
 {
     update_value(m_size, &bool_val, m_datatype);
 }
 
-OptionValue::OptionValue(const char* charptr_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(0)
+OptionValue::OptionValue(const std::vector<OptionValue> &vec_val): m_datatype(DataType::LIST), m_data(nullptr), m_size(vec_val.size() * sizeof(OptionValue))
 {
-    update_value(strlen(charptr_val)+1, (void*)charptr_val, DataType::STRING);
-    *(m_data.get() + m_size - 1) = '\0';
-}
-
-OptionValue::OptionValue(const std::string &string_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(string_val.size())
-{
-    update_value(m_size, (void*)string_val.c_str(), m_datatype);
+    // Convert option value vector into an array
+    std::unique_ptr<OptionValue[]> values = std::make_unique<OptionValue[]>(vec_val.size());
+    for(std::size_t i = 0; i < vec_val.size(); i++)
+    {
+        *(values.get() + i) = vec_val[i];
+    }
+    update_value(m_size, values.release(), m_datatype);
 }
 
 OptionValue::~OptionValue()
@@ -90,6 +101,8 @@ bool OptionValue::operator==(const OptionValue &other) const
             return this->as_int() == other.as_int();
         case DataType::STRING:
             return this->as_string() == other.as_string();
+        case DataType::LIST:
+            return this->as_list() == other.as_list();
         // Return true when datatype is none becase (nullptr == nullptr) evaluate to true
         default:
             return true;
@@ -117,7 +130,7 @@ bool OptionValue::operator<(const OptionValue &other) const
             return this->as_string() < other.as_string();
         // Throw an exception because there is no 
         default:
-            throw std::runtime_error("Cannot compare two None values!");
+            throw std::runtime_error("Cannot compare values provided!");
     }
 }
 
@@ -139,6 +152,7 @@ bool OptionValue::operator>=(const OptionValue &other) const
 OptionValue& OptionValue::operator+=(const OptionValue &other)
 {
     if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot add two values with different types!");
+    if(this->get_datatype() == DataType::LIST) throw std::runtime_error("Cannot add given values!");
 
     switch (this->get_datatype())
     {
@@ -152,7 +166,7 @@ OptionValue& OptionValue::operator+=(const OptionValue &other)
             return (*this = (this->as_string() + other.as_string()));
         default:
         case DataType::NONE:
-            return (*this = OptionValue::empty);
+            return (*this = OptionValue::null);
     }
 }
 
@@ -174,11 +188,12 @@ OptionValue& OptionValue::operator-=(const OptionValue &other)
         case DataType::INT:
             return (*this = (this->as_int() - other.as_int()));
         case DataType::STRING:
-            throw std::runtime_error("Cannot subtract strings.");
+        case DataType::LIST:
+            throw std::runtime_error("Cannot subtract given values!");
             break;
         default:
         case DataType::NONE:
-            return (*this = OptionValue::empty);
+            return (*this = OptionValue::null);
     }
 }
 
@@ -200,11 +215,12 @@ OptionValue& OptionValue::operator*=(const OptionValue &other)
         case DataType::INT:
             return (*this = (this->as_int() * other.as_int()));
         case DataType::STRING:
-            throw std::runtime_error("Cannot multiply strings.");
+        case DataType::LIST:
+            throw std::runtime_error("Cannot multiply given values!");
             break;
         default:
         case DataType::NONE:
-            return (*this = OptionValue::empty);
+            return (*this = OptionValue::null);
     }
 }
 
@@ -226,11 +242,12 @@ OptionValue& OptionValue::operator/=(const OptionValue &other)
         case DataType::INT:
             return (*this = (this->as_int() / other.as_int()));
         case DataType::STRING:
-            throw std::runtime_error("Cannot divide strings.");
+        case DataType::LIST:
+            throw std::runtime_error("Cannot divide given values!");
             break;
         default:
         case DataType::NONE:
-            return (*this = OptionValue::empty);
+            return (*this = OptionValue::null);
     }
 }
 
@@ -273,12 +290,11 @@ OptionValue& OptionValue::reset(DataType datatype)
             update_value(default_value.length() + 1, (void*)default_value.c_str(), datatype);
             break;
         }
-        default:
         case DataType::NONE:
+        case DataType::LIST:
+        default:
         {
-            m_datatype = DataType::NONE;
-            m_data = nullptr;
-            m_size = 0;
+            update_value(0, nullptr, datatype);
             break;
         }
     }
@@ -311,6 +327,11 @@ std::string OptionValue::to_string() const
         {
             return this->as_string();
         }
+        case DataType::LIST:
+        {
+            // TODO: Implement here
+            return "";
+        }
         default:
         case DataType::NONE:
             break;
@@ -335,6 +356,8 @@ std::string OptionValue::get_datatype_as_string() const
             return "int";
         case DataType::STRING:
             return "string";
+        case DataType::LIST:
+            return "list";
         case DataType::NONE:
         default:
             return "none";
@@ -352,6 +375,7 @@ OptionValue::DataType OptionValue::string_to_datatype(const std::string &str)
     if(copy_str == "double") return DataType::DOUBLE;
     if(copy_str == "int" || copy_str == "integer") return DataType::INT;
     if(copy_str == "string") return DataType::STRING;
+    // TODO: Implement here
     return DataType::NONE;
 }
 
@@ -397,6 +421,13 @@ std::string OptionValue::as_string() const
 OptionValue::operator std::string() const
 {
     return this->as_string();
+}
+
+std::vector<OptionValue> OptionValue::as_list() const
+{
+    if(m_datatype != DataType::LIST) return std::vector<OptionValue>();
+
+    return std::vector<OptionValue>(reinterpret_cast<OptionValue*>(m_data.get()), reinterpret_cast<OptionValue*>(m_data.get()) + m_size / sizeof(OptionValue));
 }
 
 std::ostream& operator<<(std::ostream &left, const OptionValue &right)

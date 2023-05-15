@@ -15,17 +15,20 @@ int main()
     assert(val.as_double() == 0.5);
     assert(val.to_string() == std::string("0.5"));
 
-    assert(sfex::OptionValue::empty == sfex::OptionValue::empty);
-    assert(sfex::OptionValue::empty != val);
+    assert(sfex::OptionValue::null == sfex::OptionValue::null);
+    assert(sfex::OptionValue::null != val);
 
     try
     {
-        bool x = (sfex::OptionValue::empty < val);
+        bool x = (sfex::OptionValue::null < val);
         assert(false);
     } catch (const std::runtime_error &e)
     {
         assert(true);
     }
+
+    sfex::OptionValue value = std::vector<sfex::OptionValue>{"Weird", 2, 3};
+    assert(value.as_list()[1] * value.as_list()[2] == 6);
 
     sfex::OptionValue val1 = 7;
     sfex::OptionValue val2 = 9;
@@ -42,10 +45,10 @@ int main()
     assert(val == 100);
     assert(val * 3 == 300);
     assert(val / 2 == 50);
-    
+
     try
     {
-        val *= sfex::OptionValue::empty;
+        val *= sfex::OptionValue::null;
         assert(false);
     }
     catch (const std::runtime_error &e)

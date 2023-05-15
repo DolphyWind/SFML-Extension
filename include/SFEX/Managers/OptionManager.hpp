@@ -26,6 +26,7 @@
 #define _SFEX_MANAGERS_OPTIONMANAGER_
 
 #include <SFEX/Managers/ManagerBase.hpp>
+#include <vector>
 #include <cstring>
 #include <memory>
 #include <ostream>
@@ -45,6 +46,7 @@ public:
         DOUBLE,
         BOOLEAN,
         STRING,
+        LIST,
         NONE,
     };
 
@@ -79,6 +81,10 @@ public:
     /// @param bool_val Boolean value
     OptionValue(bool bool_val);
 
+    /// @brief Construct a new Option Value object as a vector
+    /// @param vec_val Vector value
+    OptionValue(const std::vector<OptionValue> &vec_val);
+
     /// @brief Destroy the OptionValue object
     ~OptionValue();
 
@@ -110,52 +116,52 @@ public:
 
     /// @brief Checks if the this OptionValue is less than other OptionValue.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     bool operator<(const OptionValue &other) const;
 
     /// @brief Checks if the this OptionValue is less than other OptionValue.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     template<typename T>
     bool operator<(const T &other) const;
 
     /// @brief Checks if the this OptionValue is greater than other OptionValue.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     bool operator>(const OptionValue &other) const;
 
     /// @brief Checks if the this OptionValue is greater than other OptionValue.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     template<typename T>
     bool operator>(const T &other) const;
 
     /// @brief Checks if the this OptionValue is less than or equals to other OptionValue.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     bool operator<=(const OptionValue &other) const;
 
     /// @brief Checks if the this OptionValue is less than or equals to other OptionValue.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     template<typename T>
     bool operator<=(const T &other) const;
 
     /// @brief Checks if the this OptionValue is greater than or equals to other OptionValue.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     bool operator>=(const OptionValue &other) const;
 
     /// @brief Checks if the this OptionValue is greater than or equals to other OptionValue.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or values are not comparable with less than operator.
     /// @return Result of the comparison.
     template<typename T>
     bool operator>=(const T &other) const;
@@ -166,104 +172,104 @@ public:
 
     /// @brief Adds two OptionValues, modifies this value and returns it.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or the values are not addable.
     /// @return this OptionValue
     OptionValue& operator+=(const OptionValue &other);
 
     /// @brief Adds two OptionValues, modifies this value and returns it.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or datatype is None.
+    /// @throws std::runtime_error if datatypes does not match or the values are not addable.
     /// @return this OptionValue
     template<typename T>
     OptionValue& operator+=(const T &other);
 
     /// @brief Adds two OptionValues and returns it.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match.
+    /// @throws std::runtime_error if datatypes does not match or the values are not addable.
     /// @return this OptionValue
     OptionValue operator+(const OptionValue &other) const;
 
     /// @brief Adds two OptionValues and returns it.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match.
+    /// @throws std::runtime_error if datatypes does not match or the values are not addable.
     /// @return this OptionValue
     template<typename T>
     OptionValue operator+(const T &other) const;
 
     /// @brief Subtracts two OptionValues, modifies this value and returns it.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not subtractable.
     /// @return this OptionValue
     OptionValue& operator-=(const OptionValue &other);
 
     /// @brief Subtracts two OptionValues, modifies this value and returns it.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not subtractable.
     /// @return this OptionValue
     template<typename T>
     OptionValue& operator-=(const T &other);
 
     /// @brief Subtracts two OptionValues and returns it. 
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not subtractable.
     /// @return this OptionValue
     OptionValue operator-(const OptionValue &other) const;
 
     /// @brief Subtracts two OptionValues and returns it. 
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not subtractable.
     /// @return this OptionValue
     template<typename T>
     OptionValue operator-(const T &other) const;
 
     /// @brief Multiplies two OptionValues, modifies this value and returns it.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not multipliable.
     /// @return this OptionValue
     OptionValue& operator*=(const OptionValue &other);
 
     /// @brief Multiplies two OptionValues, modifies this value and returns it.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not multipliable.
     /// @return this OptionValue
     template<typename T>
     OptionValue& operator*=(const T &other);
 
     /// @brief Multiplies two OptionValues and returns it. 
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not multipliable.
     /// @return this OptionValue
     OptionValue operator*(const OptionValue &other) const;
 
     /// @brief Multiplies two OptionValues and returns it. 
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not multipliable.
     /// @return this OptionValue
     template<typename T>
     OptionValue operator*(const T &other) const;
 
     /// @brief Divides two OptionValues, modifies this value and returns it.
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not dividable.
     /// @return this OptionValue
     OptionValue& operator/=(const OptionValue &other);
     
     /// @brief Divides two OptionValues, modifies this value and returns it.
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not dividable.
     /// @return this OptionValue
     template<typename T>
     OptionValue& operator/=(const T &other);
 
     /// @brief Divides two OptionValues and returns it. 
     /// @param other Other OptionValue
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the given values are not dividable.
     /// @return this OptionValue
     OptionValue operator/(const OptionValue &other) const;
 
     /// @brief Divides two OptionValues and returns it. 
     /// @param other Other value
-    /// @throws std::runtime_error if datatypes does not match or the datatype is string.
+    /// @throws std::runtime_error if datatypes does not match or the values are not dividable.
     /// @return this OptionValue
     template<typename T>
     OptionValue operator/(const T &other) const;
@@ -299,7 +305,7 @@ public:
     static DataType string_to_datatype(const std::string &str);
 
     /// @brief Convert OptionValue object to int. 
-    /// @return Get OptionValue as int. If the m_datatype is not DataType::INT 0 will be returned.
+    /// @return Get OptionValue as int. If the m_values are not DataType::INT 0 will be returned.
     int as_int() const;
 
     /// @brief Convert OptionValue object to int. 
@@ -330,10 +336,18 @@ public:
     /// @return Get OptionValue as std::string. If the m_datatype is not DataType::STRING an empty string will be returned.
     operator std::string() const;
 
+    /// @brief Convert OptionValue object to std::vector<OptionValue>
+    /// @return Get OptionValue as std::vector<OptionValue>. If the m_datatype is not DataType::LIST an empty vector will be returned.
+    std::vector<OptionValue> as_list() const;
+
+    /// @brief Convert OptionValue object to std::vector<OptionValue>
+    /// @return Get OptionValue as std::vector<OptionValue>. If the m_datatype is not DataType::LIST an empty vector will be returned.
+    operator std::vector<OptionValue>() const;
+
     /// @brief << operator for printing OptionValue to screen.
     friend std::ostream& operator<<(std::ostream &left, const OptionValue &right);
 
-    static OptionValue empty;
+    static OptionValue null;
 
 private:
     DataType m_datatype;
