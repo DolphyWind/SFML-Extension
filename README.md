@@ -17,6 +17,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - Keyboard - Simple keyboard class for detecting and proccessing the keyboard input. Only contains static methods.
     - Listener - Listener class that can be instantiated unlike sf::Listener.
     - Mouse - Simple mouse class for detecting and proccessing the mouse input. Only contains static methods.
+    - Multitype - A class for holding different types of variables under the name of one.
     - Scene - Base scene class.
     - Singleton - A singleton base class. 
     - StaticClass - A base class for static classes like sfex::Joystick, sfex::Keyboard, sfex::Mouse, sfex::Math.

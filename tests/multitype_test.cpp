@@ -4,7 +4,7 @@
 
 int main()
 {
-    sfex::OptionValue val = 1;
+    sfex::Multitype val = 1;
     val = 98;
     assert(val.as_int() == 98);
     assert(val.as_double() == 0.0);
@@ -15,23 +15,24 @@ int main()
     assert(val.as_double() == 0.5);
     assert(val.to_string() == std::string("0.5"));
 
-    assert(sfex::OptionValue::null == sfex::OptionValue::null);
-    assert(sfex::OptionValue::null != val);
+    assert(sfex::Multitype::null == sfex::Multitype::null);
+    assert(sfex::Multitype::null != val);
 
     try
     {
-        bool x = (sfex::OptionValue::null < val);
+        bool x = (sfex::Multitype::null < val);
         assert(false);
     } catch (const std::runtime_error &e)
     {
         assert(true);
     }
 
-    sfex::OptionValue value = std::vector<sfex::OptionValue>{"Weird", 2, 3};
+    sfex::Multitype value = std::vector<sfex::Multitype>{"Hello!", 2, 3, false, 3.14, std::vector<sfex::Multitype>{1, "World!", 6.28, true}};
     assert(value.as_list()[1] * value.as_list()[2] == 6);
+    std::cout << value.to_string() << std::endl;
 
-    sfex::OptionValue val1 = 7;
-    sfex::OptionValue val2 = 9;
+    sfex::Multitype val1 = 7;
+    sfex::Multitype val2 = 9;
 
     assert(val1 < val2);
     assert(val1 != val2);
@@ -48,7 +49,7 @@ int main()
 
     try
     {
-        val *= sfex::OptionValue::null;
+        val *= sfex::Multitype::null;
         assert(false);
     }
     catch (const std::runtime_error &e)

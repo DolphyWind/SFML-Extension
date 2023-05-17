@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.19.3)
+project(${SFEX_PROJECT_NAME} VERSION 0.19.4)
 include(GNUInstallDirs)
 include(CTest)
 enable_testing()
@@ -27,6 +27,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/FilteringMethods.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Keyboard.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Mouse.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/Multitype.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Joystick.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Singleton.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Listener.hpp
@@ -54,6 +55,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/General/Stopwatch.cpp
     src/SFEX/General/Keyboard.cpp
     src/SFEX/General/Mouse.cpp
+    src/SFEX/General/Multitype.cpp
     src/SFEX/General/Joystick.cpp
     src/SFEX/General/Singleton.cpp
     src/SFEX/General/Listener.cpp

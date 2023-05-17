@@ -23,446 +23,22 @@
 //
 
 #include <SFEX/Managers/OptionManager.hpp>
-#include <iostream>
 
 namespace sfex
 {
-
-OptionValue OptionValue::null = OptionValue();
-
-OptionValue::OptionValue(OptionValue::DataType datatype): m_datatype(DataType::NONE), m_data(nullptr), m_size(0)
-{
-    if(datatype == DataType::NONE) return;
-    reset(datatype);
-}
-
-OptionValue::OptionValue(const OptionValue& other)
-{
-    update_value(other.m_size, other.m_data.get(), other.m_datatype);
-}
-
-OptionValue::OptionValue(OptionValue&& other)
-{
-    update_value(other.m_size, other.m_data.get(), other.m_datatype);
-    other.cleanup();
-}
-
-OptionValue::OptionValue(int int_val): m_datatype(DataType::INT), m_data(nullptr), m_size(sizeof(int))
-{
-    update_value(m_size, &int_val, m_datatype);
-}
-
-OptionValue::OptionValue(double double_val): m_datatype(DataType::DOUBLE), m_data(nullptr), m_size(sizeof(double))
-{
-    update_value(m_size, &double_val, m_datatype);
-}
-
-OptionValue::OptionValue(const char* charptr_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(std::strlen(charptr_val)+1)
-{
-    update_value(m_size, (void*)charptr_val, DataType::STRING);
-}
-
-OptionValue::OptionValue(const std::string &string_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(string_val.size() + 1)
-{
-    update_value(m_size, (void*)string_val.c_str(), m_datatype);
-}
-
-OptionValue::OptionValue(bool bool_val): m_datatype(DataType::BOOLEAN), m_data(nullptr), m_size(sizeof(bool))
-{
-    update_value(m_size, &bool_val, m_datatype);
-}
-
-OptionValue::OptionValue(const std::vector<OptionValue> &vec_val): m_datatype(DataType::LIST), m_data(nullptr), m_size(vec_val.size() * sizeof(OptionValue))
-{
-    // Convert option value vector into an array
-    std::unique_ptr<OptionValue[]> values = std::make_unique<OptionValue[]>(vec_val.size());
-    for(std::size_t i = 0; i < vec_val.size(); i++)
-    {
-        *(values.get() + i) = vec_val[i];
-    }
-    update_value(m_size, values.release(), m_datatype);
-}
-
-OptionValue::~OptionValue()
-{
-    cleanup();
-}
-
-bool OptionValue::operator==(const OptionValue &other) const
-{
-    if(this->get_datatype() != other.get_datatype()) return false;
-    switch (this->get_datatype())
-    {
-        case DataType::BOOLEAN:
-            return this->as_bool() == other.as_bool();
-        case DataType::DOUBLE:
-            return this->as_double() == other.as_double();
-        case DataType::INT:
-            return this->as_int() == other.as_int();
-        case DataType::STRING:
-            return this->as_string() == other.as_string();
-        case DataType::LIST:
-            return this->as_list() == other.as_list();
-        // Return true when datatype is none becase (nullptr == nullptr) evaluate to true
-        default:
-            return true;
-    }
-}
-
-bool OptionValue::operator!=(const OptionValue &other) const
-{
-    return !((*this) == other);
-}
-
-bool OptionValue::operator<(const OptionValue &other) const
-{
-    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot compare two things with different datatypes!");
-
-    switch (this->get_datatype())
-    {
-        case DataType::BOOLEAN:
-            return this->as_bool() < other.as_bool();
-        case DataType::DOUBLE:
-            return this->as_double() < other.as_double();
-        case DataType::INT:
-            return this->as_int() < other.as_int();
-        case DataType::STRING:
-            return this->as_string() < other.as_string();
-        // Throw an exception because there is no 
-        default:
-            throw std::runtime_error("Cannot compare values provided!");
-    }
-}
-
-bool OptionValue::operator<=(const OptionValue &other) const
-{
-    return (*this < other) || (*this == other);
-}
-
-bool OptionValue::operator>(const OptionValue &other) const
-{
-    return !(*this <= other);
-}
-
-bool OptionValue::operator>=(const OptionValue &other) const
-{
-    return !(*this < other);
-}
-
-OptionValue& OptionValue::operator+=(const OptionValue &other)
-{
-    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot add two values with different types!");
-    if(this->get_datatype() == DataType::LIST) throw std::runtime_error("Cannot add given values!");
-
-    switch (this->get_datatype())
-    {
-        case DataType::BOOLEAN:
-            return (*this = (this->as_bool() + other.as_bool()));
-        case DataType::DOUBLE:
-            return (*this = (this->as_double() + other.as_double()));
-        case DataType::INT:
-            return (*this = (this->as_int() + other.as_int()));
-        case DataType::STRING:
-            return (*this = (this->as_string() + other.as_string()));
-        default:
-        case DataType::NONE:
-            return (*this = OptionValue::null);
-    }
-}
-
-OptionValue OptionValue::operator+(const OptionValue &other) const
-{
-    return (OptionValue(*this) += other);
-}
-
-OptionValue& OptionValue::operator-=(const OptionValue &other)
-{
-    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot subtract two values with different types!");
-
-    switch (this->get_datatype())
-    {
-        case DataType::BOOLEAN:
-            return (*this = (this->as_bool() - other.as_bool()));
-        case DataType::DOUBLE:
-            return (*this = (this->as_double() - other.as_double()));
-        case DataType::INT:
-            return (*this = (this->as_int() - other.as_int()));
-        case DataType::STRING:
-        case DataType::LIST:
-            throw std::runtime_error("Cannot subtract given values!");
-            break;
-        default:
-        case DataType::NONE:
-            return (*this = OptionValue::null);
-    }
-}
-
-OptionValue OptionValue::operator-(const OptionValue &other) const
-{
-    return (OptionValue(*this) -= other);
-}
-
-OptionValue& OptionValue::operator*=(const OptionValue &other)
-{
-    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot multiply two values with different types!");
-
-    switch (this->get_datatype())
-    {
-        case DataType::BOOLEAN:
-            return (*this = (this->as_bool() * other.as_bool()));
-        case DataType::DOUBLE:
-            return (*this = (this->as_double() * other.as_double()));
-        case DataType::INT:
-            return (*this = (this->as_int() * other.as_int()));
-        case DataType::STRING:
-        case DataType::LIST:
-            throw std::runtime_error("Cannot multiply given values!");
-            break;
-        default:
-        case DataType::NONE:
-            return (*this = OptionValue::null);
-    }
-}
-
-OptionValue OptionValue::operator*(const OptionValue &other) const
-{
-    return (OptionValue(*this) *= other);
-}
-
-OptionValue& OptionValue::operator/=(const OptionValue &other)
-{
-    if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot divide two values with different types!");
-
-    switch (this->get_datatype())
-    {
-        case DataType::BOOLEAN:
-            return (*this = (this->as_bool() / other.as_bool()));
-        case DataType::DOUBLE:
-            return (*this = (this->as_double() / other.as_double()));
-        case DataType::INT:
-            return (*this = (this->as_int() / other.as_int()));
-        case DataType::STRING:
-        case DataType::LIST:
-            throw std::runtime_error("Cannot divide given values!");
-            break;
-        default:
-        case DataType::NONE:
-            return (*this = OptionValue::null);
-    }
-}
-
-OptionValue OptionValue::operator/(const OptionValue &other) const
-{
-    return (OptionValue(*this) /= other);
-}
-
-OptionValue& OptionValue::operator=(const OptionValue &other)
-{
-    update_value(other.m_size, other.m_data.get(), other.m_datatype);
-    return *this;
-}
-
-OptionValue& OptionValue::reset(DataType datatype)
-{
-    switch (datatype)
-    {
-        case DataType::BOOLEAN:
-        {
-            bool default_value = false;
-            update_value(sizeof(bool), &default_value, datatype);
-            break;
-        }
-        case DataType::DOUBLE:
-        {
-            double default_value = 0.0;
-            update_value(sizeof(double), &default_value, datatype);
-            break;
-        }
-        case DataType::INT:
-        {
-            int default_value = 0;
-            update_value(sizeof(int), &default_value, datatype);
-            break;
-        }
-        case DataType::STRING:
-        {
-            std::string default_value;
-            update_value(default_value.length() + 1, (void*)default_value.c_str(), datatype);
-            break;
-        }
-        case DataType::NONE:
-        case DataType::LIST:
-        default:
-        {
-            update_value(0, nullptr, datatype);
-            break;
-        }
-    }
-    return *this;
-}
-
-std::string OptionValue::to_string() const
-{
-    switch (m_datatype)
-    {
-        case DataType::BOOLEAN:
-        {
-            if(this->as_bool()) return "true";
-            return "false";
-        }
-        case DataType::DOUBLE:
-        {
-            std::string double_as_str = std::to_string(this->as_double());
-            if(double_as_str.find('.') != std::string::npos)
-            {
-                while(double_as_str[double_as_str.length() - 1] == '0' && double_as_str[double_as_str.length() - 2] != '.') double_as_str.erase(double_as_str.length() - 1);
-            }
-            return double_as_str;
-        }
-        case DataType::INT:
-        {
-            return std::to_string(this->as_int());
-        }
-        case DataType::STRING:
-        {
-            return this->as_string();
-        }
-        case DataType::LIST:
-        {
-            // TODO: Implement here
-            return "";
-        }
-        default:
-        case DataType::NONE:
-            break;
-    }
-    return std::string("null");
-}
-
-OptionValue::DataType OptionValue::get_datatype() const
-{
-    return m_datatype;
-}
-
-std::string OptionValue::get_datatype_as_string() const
-{
-    switch (m_datatype)
-    {
-        case DataType::BOOLEAN:
-            return "bool";
-        case DataType::DOUBLE:
-            return "double";
-        case DataType::INT:
-            return "int";
-        case DataType::STRING:
-            return "string";
-        case DataType::LIST:
-            return "list";
-        case DataType::NONE:
-        default:
-            return "none";
-    }
-}
-
-OptionValue::DataType OptionValue::string_to_datatype(const std::string &str)
-{
-    std::string copy_str = str;
-    for(auto &c : copy_str)
-    {
-        c = std::tolower(c);
-    }
-    if(copy_str == "bool" || copy_str == "boolean") return DataType::BOOLEAN;
-    if(copy_str == "double") return DataType::DOUBLE;
-    if(copy_str == "int" || copy_str == "integer") return DataType::INT;
-    if(copy_str == "string") return DataType::STRING;
-    // TODO: Implement here
-    return DataType::NONE;
-}
-
-int OptionValue::as_int() const
-{
-    if(m_datatype != DataType::INT) return 0;
-    return *reinterpret_cast<int*>(m_data.get());
-}
-
-OptionValue::operator int() const
-{
-    return this->as_int();
-}
-
-double OptionValue::as_double() const
-{
-    if(m_datatype != DataType::DOUBLE) return 0.0;
-    return *reinterpret_cast<double*>(m_data.get());
-}
-
-OptionValue::operator double() const
-{
-    return this->as_double();
-}
-
-bool OptionValue::as_bool() const
-{
-    if(m_datatype != DataType::BOOLEAN) return false;
-    return *reinterpret_cast<bool*>(m_data.get());
-}
-
-OptionValue::operator bool() const
-{
-    return this->as_bool();
-}
-
-std::string OptionValue::as_string() const
-{
-    if(m_datatype != DataType::STRING) return std::string();
-    return std::string(m_data.get());
-}
-
-OptionValue::operator std::string() const
-{
-    return this->as_string();
-}
-
-std::vector<OptionValue> OptionValue::as_list() const
-{
-    if(m_datatype != DataType::LIST) return std::vector<OptionValue>();
-
-    return std::vector<OptionValue>(reinterpret_cast<OptionValue*>(m_data.get()), reinterpret_cast<OptionValue*>(m_data.get()) + m_size / sizeof(OptionValue));
-}
-
-std::ostream& operator<<(std::ostream &left, const OptionValue &right)
-{
-    left << right.to_string();
-    return left;
-}
-
-void OptionValue::cleanup()
-{
-    m_data = nullptr;
-    m_size = 0;
-    m_datatype = DataType::NONE;
-}
-
-void OptionValue::update_value(std::size_t new_size, void* new_data, const DataType &datatype)
-{
-    m_size = new_size;
-    m_datatype = datatype;
-    m_data.reset(new char[new_size]);
-    std::memcpy(m_data.get(), new_data, m_size);
-}
 
 void Option::reset()
 {
     this->value = this->default_value;
 }
 
-void OptionManager::updateOption(const std::string &key, const OptionValue &val)
+void OptionManager::updateOption(const std::string &key, const Multitype &val)
 {
     if(this->contains(key)) this->at(key).value = val;
-    else addOption(key, val, OptionValue(val.get_datatype()));
+    else addOption(key, val, Multitype(val.get_datatype()));
 }
 
-void OptionManager::addOption(const std::string &key, const OptionValue &val, const OptionValue &default_val)
+void OptionManager::addOption(const std::string &key, const Multitype &val, const Multitype &default_val)
 {
     if(this->contains(key)) return;
 
@@ -515,14 +91,14 @@ bool OptionManager::parseFromFile(const std::string &filename, bool create_file_
 
         for(auto &pline : parsed_strings)
         {
-            OptionValue::DataType datatype = OptionValue::string_to_datatype(pline[0]);
+            Multitype::DataType datatype = Multitype::string_to_datatype(pline[0]);
             std::string key_to_insert = pline[1];
 
-            OptionValue current_value;
+            Multitype current_value;
 
             switch (datatype)
             {
-                case OptionValue::DataType::BOOLEAN:
+                case Multitype::DataType::BOOLEAN:
                 {
                     for(auto &c : pline[2])
                     {
@@ -535,23 +111,23 @@ bool OptionManager::parseFromFile(const std::string &filename, bool create_file_
                     else current_value = true;
                     break;
                 }
-                case OptionValue::DataType::DOUBLE:
+                case Multitype::DataType::DOUBLE:
                 {
                     current_value = std::stod(pline[2]);
                     break;
                 }
-                case OptionValue::DataType::INT:
+                case Multitype::DataType::INT:
                 {
                     current_value = std::stoi(pline[2]);
                     break;
                 }
-                case OptionValue::DataType::STRING:
+                case Multitype::DataType::STRING:
                 {
                     current_value = pline[2];
                     break;
                 }
                 default:
-                case OptionValue::DataType::NONE:
+                case Multitype::DataType::NONE:
                 {
                     break;
                 }
