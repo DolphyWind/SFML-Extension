@@ -2,7 +2,7 @@
 + Continue adding CTest tests.
 + Improve option manager. (Add ability to hold an option manager within an option manager and change how settings are saved and read add to_string() method for stringifying an option manager)
 + Update how option manager saves and loads files.
-+ Add Multitype::parse(std::string)
++ Update Option struct
 
 # Ideas might get implemented
 + Graphics/ParticleSystem

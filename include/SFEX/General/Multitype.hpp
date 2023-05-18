@@ -29,6 +29,8 @@
 #include <vector>
 #include <memory>
 #include <stdexcept>
+#include <algorithm>
+#include <iostream>
 
 namespace sfex
 {
@@ -301,6 +303,11 @@ public:
     /// @return String converted to DataType object
     static DataType string_to_datatype(const std::string &str);
 
+    /// @brief Parses a string to a Multitype
+    /// @param str String to parse
+    /// @return Result of parsing
+    static Multitype parse(const std::string &str);
+    
     /// @brief Convert Multitype object to int. 
     /// @return Get Multitype as int. If the m_values are not DataType::INT 0 will be returned.
     int as_int() const;
@@ -344,7 +351,7 @@ public:
     /// @brief << operator for printing Multitype to screen.
     friend std::ostream& operator<<(std::ostream &left, const Multitype &right);
 
-    static Multitype null;
+    static const Multitype null;
 
 private:
     DataType m_datatype;

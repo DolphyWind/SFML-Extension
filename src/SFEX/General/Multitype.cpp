@@ -27,8 +27,7 @@
 namespace sfex
 {
 
-
-Multitype Multitype::null = Multitype();
+const Multitype Multitype::null = Multitype();
 
 Multitype::Multitype(Multitype::DataType datatype): m_datatype(DataType::NONE), m_data(nullptr), m_size(0)
 {
@@ -387,6 +386,97 @@ Multitype::DataType Multitype::string_to_datatype(const std::string &str)
     if(copy_str == "string") return DataType::STRING;
     if(copy_str == "list") return DataType::LIST;
     return DataType::NONE;
+}
+
+Multitype Multitype::parse(const std::string &str)
+{
+    // First, strip string.
+    auto start = std::find_if(str.begin(), str.end(), [](char ch){
+        return !std::isspace(ch);
+    });
+    auto end = std::find_if(str.rbegin(), str.rend(), [](char ch){
+        return !std::isspace(ch);
+    }).base();
+    std::string str_to_parse = std::string(start, end);
+
+    // Define result of the conversion
+    Multitype result = Multitype::null;
+
+    // Determine if the given string is a list or not
+    if(str_to_parse[0] == '[' && str_to_parse[str_to_parse.length() - 1] == ']')
+    {
+        // Remove square brackets
+        str_to_parse = std::string(str_to_parse.begin() + 1, str_to_parse.end() - 1);
+        std::vector<Multitype> list;
+
+        // Finds the next appropriate comma.
+        auto find_next_comma = [](const std::string &str, std::size_t start_pos=0){
+            std::size_t square_braces_count = 0;
+            bool inside_single_quotation = false;
+            bool inside_double_quotation = false;
+            
+            for(std::size_t i = start_pos; i < str.length(); i++)
+            {
+                if(str[i] == '[') square_braces_count++;
+                else if(str[i] == ']') square_braces_count--;
+                else if(str[i] == '\'') inside_single_quotation = !inside_single_quotation;
+                else if(str[i] == '\"') inside_double_quotation = !inside_double_quotation;
+
+                if(square_braces_count == 0 && !inside_single_quotation && !inside_double_quotation && str[i] == ',') return i;
+            }
+            
+            return str.length();
+        };
+        
+        std::size_t last_comma = 0;
+        std::size_t current_comma = 0;
+        // Searches for appropriate commas and parses the text inbetween
+        while(true)
+        {
+            current_comma = find_next_comma(str_to_parse, last_comma);
+            // Recursively parse the string as a multitype
+            std::string sub_string = str_to_parse.substr(last_comma, current_comma - last_comma);
+            Multitype mul = Multitype::parse(sub_string);
+            list.push_back(mul);
+            last_comma = current_comma + 1;
+            
+            if(current_comma == str_to_parse.length()) break;
+        }
+        result = list;
+    }
+    else
+    {
+        // If the multitype starts with single or double quoattion marks it is a string
+        if(str_to_parse[0] == str_to_parse[str_to_parse.length() - 1] && (str_to_parse[0] == '\'' || str_to_parse[0] == '\"'))
+        {
+            result = std::string(str_to_parse.begin() + 1, str_to_parse.end() - 1);
+        }
+        // Boolean check
+        else if(str_to_parse == "false")
+        {
+            result = false;
+        }
+        else if(str_to_parse == "true")
+        {
+            result = true;
+        }
+        // If the string contains a dot and it only contains numbers, dot or signs, then it is a double.
+        else if(std::count(str_to_parse.begin(), str_to_parse.end(), '.') == 1 && std::all_of(str_to_parse.begin(), str_to_parse.end(), [](char ch){
+            return std::isdigit(ch) || ch == '.' || ch == '+' || ch == '-';
+        }))
+        {
+            result = std::stod(str_to_parse);
+        }
+        // If the string only contains digits, then it is an integer.
+        else if(std::all_of(str_to_parse.begin(), str_to_parse.end(), [](char ch){
+            return std::isdigit(ch) || ch == '+' || ch == '-';
+        }))
+        {
+            result = std::stoi(str_to_parse);
+        }
+    }
+
+    return result;
 }
 
 int Multitype::as_int() const
