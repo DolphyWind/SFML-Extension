@@ -43,7 +43,6 @@ int main()
     playerAnimationManager.insert({"idle", std::make_shared<sfex::Animation>(idleAnimation)});
     playerAnimationManager.insert({"run", std::make_shared<sfex::Animation>(runAnimation)});
 
-
     while(window.isOpen())
     {
         sf::Event e;
@@ -64,10 +63,9 @@ int main()
             }
             else
             {
-                if(playerAnimationManager.getCurrentAnimationKey() != "walk") playerAnimationManager.play("walk");
+                playerAnimationManager.play("walk");
                 currentSpeedX = speedX;
             }
-            if(!playerAnimationManager.at("idle")->isPaused()) playerAnimationManager.at("idle")->pause();
 
             playerSprite.setScale(scaleX, scaleY);
             playerSprite.move({currentSpeedX, 0});
@@ -84,7 +82,6 @@ int main()
                 playerAnimationManager.play("walk");
                 currentSpeedX = speedX;
             }
-            if(!playerAnimationManager.at("idle")->isPaused()) playerAnimationManager.at("idle")->pause();
 
             playerSprite.setScale(-scaleX, scaleY);
             playerSprite.move({-currentSpeedX, 0});

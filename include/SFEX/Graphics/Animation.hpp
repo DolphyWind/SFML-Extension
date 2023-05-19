@@ -31,6 +31,8 @@
 #include <SFEX/General/Stopwatch.hpp>
 #include <SFEX/Numeric/Vector2.hpp>
 #include <memory>
+#include <algorithm>
+#include <functional>
 #include <vector>
 #include <limits>
 
@@ -62,7 +64,7 @@ public:
 
     /// @brief Get the looping status
     /// @return Looping status
-    inline bool getLoop();
+    bool getLoop();
 
     /// @brief Change the speed of the animation.
     /// @param animSpeed New animation speed
@@ -70,7 +72,7 @@ public:
 
     /// @brief Get the animation speed
     /// @return Animation speed
-    inline float getAnimationSpeed();
+    float getAnimationSpeed();
 
     /// @brief Set the Texture of this animation
     /// @param texture New texture of this animation.
@@ -78,7 +80,7 @@ public:
 
     /// @brief Get the Texture of this animation
     /// @return Texture of this animation
-    inline const sf::Texture& getTexture() const;
+    const sf::Texture& getTexture() const;
 
     /// @brief Set the sprite that you want to apply animations to.
     /// @param sprite Reference to a sprite that you want to apply animations to.
@@ -86,7 +88,7 @@ public:
 
     /// @brief Get the Sprite of this animation
     /// @return Sprite of this animations
-    inline const sf::Sprite& getSprite() const;
+    const sf::Sprite& getSprite() const;
 
     /// @brief Automatically generates multiple frames. Creates fixed-size frames by iterating the image by the size of the given IntRect. 
     /// @param topleftRect Top left frame of sprite
@@ -103,7 +105,8 @@ public:
     
     /// @brief Automatically genrates multiple frames from given list of frames.
     /// @param frames List of frames.
-    void autoGenerateFrames(const std::vector<Frame> &frames);
+    /// @param clear_frames If set to true, the function clears all frames before generating new ones.
+    void autoGenerateFrames(const std::vector<Frame> &frames, bool clear_frames=true);
 
     /// @brief Adds a frame to the end of the frame vector or the specified index. 
     /// @param rect IntRect of the frame
@@ -129,7 +132,7 @@ public:
 
     /// @brief Get the current frame index
     /// @return Current frame index
-    inline const std::size_t getCurrentFrameIndex() const;
+    const std::size_t getCurrentFrameIndex() const;
 
     /// @brief Get current frame
     /// @return Current frame
@@ -137,7 +140,7 @@ public:
 
     /// @brief Get all frames
     /// @return All frames
-    inline const std::vector<Frame> getFrames() const;
+    const std::vector<Frame> getFrames() const;
 
 
     /// @brief Update the animation. Switch to the next frame if needed.
@@ -154,7 +157,7 @@ public:
     void restart();
 
     /// @brief Returns true if the stopwatch has been paused. Returns false otherwise.
-    inline bool isPaused();
+    bool isPaused();
 
 private:
     std::size_t m_currentIndex;

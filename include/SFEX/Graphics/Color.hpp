@@ -79,8 +79,8 @@ public:
     Color operator/=(float scalar);
     Color operator/(float scalar) const;
 
-    inline bool operator==(const Color &rhs);
-    inline bool operator!=(const Color &rhs);
+    bool operator==(const Color &rhs);
+    bool operator!=(const Color &rhs);
 
     /// @brief Returns the hexadecimal representation of sfex::Color
     /// @return Hexadecimal representation of sfex::Color

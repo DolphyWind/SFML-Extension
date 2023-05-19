@@ -23,6 +23,7 @@
 //
 
 #include <SFEX/Graphics/Animation.hpp>
+#include <iostream>
 
 namespace sfex
 {
@@ -79,9 +80,9 @@ const sf::Sprite& Animation::getSprite() const
 
 void Animation::autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Time &duration, bool clear_frames)
 {
-    if(!m_spritePtr || !m_texturePtr) return;
-
+    if(!m_texturePtr) return;
     if (clear_frames) clearFrames();
+
     int left = topleftRect.left;
     int top = topleftRect.top;
     int rect_width = topleftRect.width;
@@ -98,7 +99,7 @@ void Animation::autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Tim
     {
         for(std::size_t x = 0; x < frame_count_x; x++)
         {
-            m_frames.push_back({sf::IntRect(left + x*rect_width, top + y*rect_height, rect_width, rect_height), duration});
+            insertFrame({sf::IntRect(left + x*rect_width, top + y*rect_height, rect_width, rect_height), duration});
         }
     }
     if(clear_frames) setFrame(0);
@@ -106,21 +107,22 @@ void Animation::autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Tim
 
 void Animation::autoGenerateFrames(const sfex::Vec2u &size, const std::vector<sfex::Vec2u> &positions, const sf::Time &duration, bool clear_frames)
 {
-    if(!m_spritePtr || !m_texturePtr) return;
-
     if(clear_frames) clearFrames();
+
     for(auto& p : positions)
     {
         Frame frame;
         frame.duration = duration;
         frame.rect = sf::IntRect( p.x, p.y, size.x, size.y);
-        m_frames.emplace_back(frame);
+        insertFrame(frame);
     }
     if(clear_frames) setFrame(0);
 }
 
-void Animation::autoGenerateFrames(const std::vector<Frame> &frames)
+void Animation::autoGenerateFrames(const std::vector<Frame> &frames, bool clear_frames)
 {
+    if(clear_frames) clearFrames();
+
     for(auto& frame : frames) insertFrame(frame);
 }
 

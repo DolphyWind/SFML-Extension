@@ -56,7 +56,7 @@ public:
 
     /// @brief Returns the size of the rounded rectangle
     /// @return Size of the rounded rectangle
-    inline sfex::Vec2 getSize() const;
+    sfex::Vec2 getSize() const;
 
     /// @brief Changes the radius of the rounded rectangle
     /// @param radius New radius of the rounded rectangle
@@ -64,7 +64,7 @@ public:
 
     /// @brief Returns the radius of the rounded rectangle
     /// @return The radius of the rounded rectangle
-    inline float getCornerRadius() const;
+    float getCornerRadius() const;
 
     /// @brief Changes the point count of each corner
     /// @param cornerPointCount New point count of each corner
@@ -72,16 +72,16 @@ public:
 
     /// @brief Returns the point count of each corner
     /// @return The point count of each corner
-    inline std::size_t getCornerPointCount() const;
+    std::size_t getCornerPointCount() const;
 
     /// @brief Returns the number of points in the shape
     /// @return The number of the points in the shape
-    inline virtual std::size_t getPointCount() const override;
+    virtual std::size_t getPointCount() const override;
 
     /// @brief Returns the coordinates of point corresponding to the index in local coordinates
     /// @param index The index of the point to get
     /// @return Coordinates of index-th point on the shape
-    inline virtual sf::Vector2f getPoint(std::size_t index) const override;
+    virtual sf::Vector2f getPoint(std::size_t index) const override;
 
 private:
 

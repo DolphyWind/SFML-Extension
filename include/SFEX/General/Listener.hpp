@@ -54,12 +54,12 @@ public:
     /// @brief Equality check operator of Listener class
     /// @param other Other Listener object
     /// @return Result of the equality check operation
-    inline bool operator==(const Listener &other) const;
+    bool operator==(const Listener &other) const;
 
     /// @brief Inequality check operator of Listener class
     /// @param other Other Listener object
     /// @return Result of the inequality check operation
-    inline bool operator!=(const Listener &other) const;
+    bool operator!=(const Listener &other) const;
 
     /// @brief Set global volume of the listener
     /// @param volume New global volume of the listener
@@ -67,7 +67,7 @@ public:
     
     /// @brief Get global volume of the listener
     /// @return Global volume of the listener
-    inline float getGlobalVolume() const;
+    float getGlobalVolume() const;
 
     /// @brief Set 3D position of the listener
     /// @param position New position of the listener
@@ -81,7 +81,7 @@ public:
 
     /// @brief Get 3D position of the listener
     /// @return 3D position of the listener
-    inline sfex::Vec3 getPosition() const;
+    sfex::Vec3 getPosition() const;
 
     /// @brief Set direction of the listener
     /// @param direction New direction of the listener
@@ -95,7 +95,7 @@ public:
 
     /// @brief Get direction of the listener
     /// @return Direction of the listener
-    inline sfex::Vec3 getDirection() const;
+    sfex::Vec3 getDirection() const;
 
     /// @brief Set up vector of the listener
     /// @param upVector New up vector of the listener
@@ -109,14 +109,14 @@ public:
 
     /// @brief Get up vector of the listener
     /// @return Up vector of the listener
-    inline sfex::Vec3 getUpVector() const;
+    sfex::Vec3 getUpVector() const;
 
     /// @brief Activates the listener. 
     void activate() const;
 
     /// @brief Get the Default Listener
     /// @return Default Listener
-    inline static const Listener getDefaultListener();
+    static const Listener getDefaultListener();
 
 private:
     float m_globalVolume;

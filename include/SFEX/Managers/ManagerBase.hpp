@@ -53,36 +53,36 @@ public:
     /// @brief A function to check if the key is present in the hashmap
     /// @param key Key to check
     /// @return true if the key is present in the hashmap
-    inline bool contains(const std::string &key) const;
+    bool contains(const std::string &key) const;
 
     /// @brief Get number of values stored
     /// @return Number of values stored
-    inline std::size_t size() const;
+    std::size_t size() const;
 
     /// @brief Checks whether the hashmap is empty
     /// @return True if the hashmap is empty, false otherwise
-    inline bool empty() const;
+    bool empty() const;
 
     /// @brief Returns an iterator to the beginning of the hashmap
     /// @return An iterator to the beginning of the hashmap
-    inline iterator begin();
+    iterator begin();
 
     /// @brief Returns an iterator to the end of the hashmap
     /// @return An iterator to the end of the hashmap
-    inline iterator end();
+    iterator end();
 
     /// @brief Returns a constant iterator to the beginning of the hashmap
     /// @return A constant iterator to the beginning of the hashmap
-    inline const_iterator cbegin();
+    const_iterator cbegin();
 
     /// @brief Returns a constant iterator to the end of the hashmap
     /// @return A constant iterator to the end of the hashmap
-    inline const_iterator cend();
+    const_iterator cend();
 
     /// @brief Get a reference to the value corresponding to key. Returns std::nullopt if key is not present in the hashmap.
     /// @param key Key value
     /// @return A reference to the value corresponding to key.
-    inline T& at(const std::string &key);
+    T& at(const std::string &key);
 
     /// @brief Get all keys
     /// @return All keys in a vector
@@ -91,7 +91,7 @@ public:
     /// @brief Get a reference to the value corresponding to key. Returns std::nullopt if key is not present in the hashmap.
     /// @param key Key value
     /// @return A reference to the value corresponding to key.
-    inline T& operator[](const std::string &key);
+    T& operator[](const std::string &key);
 
     /// @brief Filter each key by pattern and method then return matching keys
     /// @param pattern Pattern to look for while filtering

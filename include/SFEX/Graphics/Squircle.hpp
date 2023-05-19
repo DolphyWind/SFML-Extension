@@ -48,7 +48,7 @@ public:
 
     /// @brief Get the radius of the squircle
     /// @return Radius of squircle
-    inline float getRadius() const;
+    float getRadius() const;
 
     /// @brief Set number of points of the squircle
     /// @param pointCount New number of points of the squircle
@@ -56,12 +56,12 @@ public:
 
     /// @brief Get number of points of the squircle
     /// @return Number of points of the squircle
-    inline virtual std::size_t getPointCount() const override;
+    virtual std::size_t getPointCount() const override;
 
     /// @brief Returns the coordinates of point corresponding to the index in local coordinates
     /// @param index The index of the point to get
     /// @return Coordinates of index-th point on the squircle
-    inline virtual sf::Vector2f getPoint(std::size_t index) const override;
+    virtual sf::Vector2f getPoint(std::size_t index) const override;
 
 private:
 

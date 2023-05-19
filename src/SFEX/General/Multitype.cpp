@@ -465,14 +465,28 @@ Multitype Multitype::parse(const std::string &str)
             return std::isdigit(ch) || ch == '.' || ch == '+' || ch == '-';
         }))
         {
-            result = std::stod(str_to_parse);
+            try
+            {
+                result = std::stod(str_to_parse);
+            }
+            catch (const std::exception &e)
+            {
+                result = Multitype::null;
+            }
         }
         // If the string only contains digits, then it is an integer.
         else if(std::all_of(str_to_parse.begin(), str_to_parse.end(), [](char ch){
             return std::isdigit(ch) || ch == '+' || ch == '-';
         }))
         {
-            result = std::stoi(str_to_parse);
+            try
+            {
+                result = std::stoi(str_to_parse);
+            }
+            catch(const std::exception &e)
+            {
+                result = Multitype::null;
+            }
         }
     }
 

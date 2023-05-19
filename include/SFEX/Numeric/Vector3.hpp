@@ -53,11 +53,11 @@ public:
 
     /// @brief Returns magnitude (length) of the vector
     /// @return Magnitude of the vector
-    inline float magnitude() const;
+    float magnitude() const;
     
     /// @brief Returns the magnitude (length) of the vector squared. Use this to avoid sqrt operation when magnitude squared gets the job done.
     /// @return Magnitude squared.
-    inline float magnitude2() const;
+    float magnitude2() const;
 
     /// @brief Changes the vector's magnitude while keeping its direction same
     /// @param magnitude Target magnitude

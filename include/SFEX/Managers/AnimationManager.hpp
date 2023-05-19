@@ -50,7 +50,8 @@ public:
 
     /// @brief Play the animation corresponding to given key. Does nothing if key is invalid.
     /// @param key Key corresponding to animation you want to play.
-    void play(const std::string& key, bool restartAnimation=true);
+    /// @param restartAnimation Restart animation when played.
+    void play(const std::string& key, bool restartAnimation=false);
 
     /// @brief Pauses the current animation.
     void pause();

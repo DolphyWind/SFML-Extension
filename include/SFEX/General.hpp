@@ -30,6 +30,7 @@
 #include <SFEX/General/Keyboard.hpp>
 #include <SFEX/General/Listener.hpp>
 #include <SFEX/General/Mouse.hpp>
+#include <SFEX/General/Multitype.hpp>
 #include <SFEX/General/Scene.hpp>
 #include <SFEX/General/Singleton.hpp>
 #include <SFEX/General/StaticClass.hpp>

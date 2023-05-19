@@ -44,7 +44,7 @@ const sf::Sprite* AnimationManager::getTargetSprite() const
 void AnimationManager::play(const std::string &key, bool restartAnimation)
 {
     if(!this->contains(key)) return;
-    if(m_activeKey.has_value() && m_activeKey.value() == key) return;
+    if(m_activeKey.has_value() && m_activeKey.value() == key && !restartAnimation) return;
     if(m_activeKey.has_value()) this->at(m_activeKey.value())->pause();
     m_activeKey = key;
     this->at(m_activeKey.value())->play(restartAnimation);
