@@ -82,6 +82,29 @@ Multitype::Multitype(const std::vector<Multitype> &vec_val): m_datatype(DataType
     update_value(m_size, values.release(), m_datatype);
 }
 
+Multitype::Multitype(const MultitypeMap &map_val): m_datatype(DataType::MAP), m_data(nullptr), m_size((sizeof(Multitype)+sizeof(char*))*map_val.size())
+{
+    struct Pair
+    {
+        std::unique_ptr<char[]> char_ptr;
+        Multitype multitype;
+    };
+
+    std::unique_ptr<Pair[]> values = std::make_unique<Pair[]>(map_val.size());
+    
+    std::size_t i = 0;
+    for(auto&[key, value] : map_val)
+    {
+        Pair p;
+        p.char_ptr = std::make_unique<char[]>(0);
+        std::memcpy(p.char_ptr.get(), key.c_str(), key.length()+1);
+        p.multitype = value;
+        *(values.get() + i) = std::move(p);
+        i++;
+    }
+    update_value(m_size, values.release(), m_datatype);
+}
+
 Multitype::~Multitype()
 {
     cleanup();
@@ -102,6 +125,8 @@ bool Multitype::operator==(const Multitype &other) const
             return this->as_string() == other.as_string();
         case DataType::LIST:
             return this->as_list() == other.as_list();
+        case DataType::MAP:
+            return this->as_map() == other.as_map();
         // Return true when datatype is none becase (nullptr == nullptr) evaluate to true
         default:
             return true;
@@ -127,9 +152,8 @@ bool Multitype::operator<(const Multitype &other) const
             return this->as_int() < other.as_int();
         case DataType::STRING:
             return this->as_string() < other.as_string();
-        // Throw an exception because there is no 
         default:
-            throw std::runtime_error("Cannot compare values provided!");
+            throw std::runtime_error("Cannot compare given values!");
     }
 }
 
@@ -151,7 +175,6 @@ bool Multitype::operator>=(const Multitype &other) const
 Multitype& Multitype::operator+=(const Multitype &other)
 {
     if(this->get_datatype() != other.get_datatype()) throw std::runtime_error("Cannot add two values with different types!");
-    if(this->get_datatype() == DataType::LIST) throw std::runtime_error("Cannot add given values!");
 
     switch (this->get_datatype())
     {
@@ -163,9 +186,11 @@ Multitype& Multitype::operator+=(const Multitype &other)
             return (*this = (this->as_int() + other.as_int()));
         case DataType::STRING:
             return (*this = (this->as_string() + other.as_string()));
-        default:
         case DataType::NONE:
             return (*this = Multitype::null);
+        default:
+            throw std::runtime_error("Cannot add given values!");
+            break;
     }
 }
 
@@ -186,13 +211,11 @@ Multitype& Multitype::operator-=(const Multitype &other)
             return (*this = (this->as_double() - other.as_double()));
         case DataType::INT:
             return (*this = (this->as_int() - other.as_int()));
-        case DataType::STRING:
-        case DataType::LIST:
-            throw std::runtime_error("Cannot subtract given values!");
-            break;
-        default:
         case DataType::NONE:
             return (*this = Multitype::null);
+        default:
+            throw std::runtime_error("Cannot subtract given values!");
+            break;
     }
 }
 
@@ -213,13 +236,11 @@ Multitype& Multitype::operator*=(const Multitype &other)
             return (*this = (this->as_double() * other.as_double()));
         case DataType::INT:
             return (*this = (this->as_int() * other.as_int()));
-        case DataType::STRING:
-        case DataType::LIST:
-            throw std::runtime_error("Cannot multiply given values!");
-            break;
-        default:
         case DataType::NONE:
             return (*this = Multitype::null);
+        default:
+            throw std::runtime_error("Cannot multiply given values!");
+            break;
     }
 }
 
@@ -240,13 +261,11 @@ Multitype& Multitype::operator/=(const Multitype &other)
             return (*this = (this->as_double() / other.as_double()));
         case DataType::INT:
             return (*this = (this->as_int() / other.as_int()));
-        case DataType::STRING:
-        case DataType::LIST:
-            throw std::runtime_error("Cannot divide given values!");
-            break;
-        default:
         case DataType::NONE:
             return (*this = Multitype::null);
+        default:
+            throw std::runtime_error("Cannot divide given values!");
+            break;
     }
 }
 
@@ -289,8 +308,6 @@ Multitype& Multitype::reset(DataType datatype)
             update_value(default_value.length() + 1, (void*)default_value.c_str(), datatype);
             break;
         }
-        case DataType::NONE:
-        case DataType::LIST:
         default:
         {
             update_value(0, nullptr, datatype);
@@ -341,11 +358,14 @@ std::string Multitype::to_string() const
             output += "]";
             return output;
         }
+        case DataType::MAP:
+        {
+            // TODO: Implement here
+        }
         default:
-        case DataType::NONE:
+            return std::string("null");
             break;
     }
-    return std::string("null");
 }
 
 Multitype::DataType Multitype::get_datatype() const
@@ -367,6 +387,8 @@ std::string Multitype::get_datatype_as_string() const
             return "string";
         case DataType::LIST:
             return "list";
+        case DataType::MAP:
+            return "map";
         case DataType::NONE:
         default:
             return "none";
@@ -385,6 +407,7 @@ Multitype::DataType Multitype::string_to_datatype(const std::string &str)
     if(copy_str == "int" || copy_str == "integer") return DataType::INT;
     if(copy_str == "string") return DataType::STRING;
     if(copy_str == "list") return DataType::LIST;
+    if(copy_str == "map") return DataType::MAP;
     return DataType::NONE;
 }
 
@@ -401,6 +424,8 @@ Multitype Multitype::parse(const std::string &str)
 
     // Define result of the conversion
     Multitype result = Multitype::null;
+
+    // TODO: Pars maps
 
     // Determine if the given string is a list or not
     if(str_to_parse[0] == '[' && str_to_parse[str_to_parse.length() - 1] == ']')
@@ -542,6 +567,37 @@ std::vector<Multitype> Multitype::as_list() const
     if(m_datatype != DataType::LIST) return std::vector<Multitype>();
 
     return std::vector<Multitype>(reinterpret_cast<Multitype*>(m_data.get()), reinterpret_cast<Multitype*>(m_data.get()) + m_size / sizeof(Multitype));
+}
+
+Multitype::operator std::vector<Multitype>() const
+{
+    return this->as_list();
+}
+
+MultitypeMap Multitype::as_map() const
+{
+    if(m_datatype != DataType::MAP) MultitypeMap();
+
+    struct Pair
+    {
+        std::unique_ptr<const char[]> char_ptr;
+        Multitype multitype;
+    };
+    
+    Pair* p = reinterpret_cast<Pair*>(m_data.get());
+    MultitypeMap result;
+
+    for(std::size_t i = 0; i < m_size / sizeof(Pair); i++)
+    {
+        result[std::string(p->char_ptr.get())] = p->multitype;
+        p++;
+    }
+    return result;
+}
+
+Multitype::operator MultitypeMap() const
+{
+    return this->as_map();
 }
 
 std::ostream& operator<<(std::ostream &left, const Multitype &right)

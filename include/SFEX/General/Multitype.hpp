@@ -31,6 +31,8 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
+#include <unordered_map>
+#define MultitypeMap std::unordered_map<std::string, Multitype>
 
 namespace sfex
 {
@@ -46,9 +48,10 @@ public:
         BOOLEAN,
         STRING,
         LIST,
+        MAP,
         NONE,
     };
-
+    
     /// @brief Construct an empty Multitype object.
     explicit Multitype(DataType datatype=DataType::NONE);
 
@@ -80,9 +83,13 @@ public:
     /// @param bool_val Boolean value
     Multitype(bool bool_val);
 
-    /// @brief Construct a new Option Value object as a vector
+    /// @brief Construct a new Multitype object as a vector
     /// @param vec_val Vector value
     Multitype(const std::vector<Multitype> &vec_val);
+
+    /// @brief Construct a new Multitype object as a map
+    /// @param map_val Map value
+    Multitype(const MultitypeMap &map_val);
 
     /// @brief Destroy the Multitype object
     ~Multitype();
@@ -347,6 +354,14 @@ public:
     /// @brief Convert Multitype object to std::vector<Multitype>
     /// @return Get Multitype as std::vector<Multitype>. If the m_datatype is not DataType::LIST an empty vector will be returned.
     operator std::vector<Multitype>() const;
+
+    /// @brief Convert Multitype object to std::unordered_map<std::string, Multitype>
+    /// @return Get Multitype as std::unordered_map<std::string, Multitype>. If the m_datatype is not DataType::MAP an empty map will be returned.
+    MultitypeMap as_map() const;
+
+    /// @brief Convert Multitype object to std::unordered_map<std::string, Multitype>
+    /// @return Get Multitype as std::unordered_map<std::string, Multitype>. If the m_datatype is not DataType::MAP an empty map will be returned.
+    operator MultitypeMap() const;
 
     /// @brief << operator for printing Multitype to screen.
     friend std::ostream& operator<<(std::ostream &left, const Multitype &right);
