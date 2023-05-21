@@ -6,4 +6,3 @@
 
 # Ideas might get implemented
 + Graphics/ParticleSystem
-+ Make Multitype compatable with JSON

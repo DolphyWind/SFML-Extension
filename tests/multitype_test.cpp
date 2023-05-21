@@ -31,18 +31,10 @@ int main()
     assert(value.as_list()[1] * value.as_list()[2] == 6);
     
     // Compiler gives error when I put the expression into assert();
-    bool x = sfex::Multitype::parse("[1,-2.23, 'Hello!', [-3.14, false, 'World!'], 'Amongus', \"Sus\", 9]") == std::vector<sfex::Multitype>{1, -2.23, "Hello!", std::vector<sfex::Multitype>{-3.14, false, "World!"}, "Amongus", "Sus", 9};
+    bool x = sfex::Multitype::parse("[1,-2.23, \"Hello!\", [-3.14, false, \"World!\"], \"Amongus\", \"Sus\", 9]") == std::vector<sfex::Multitype>{1, -2.23, "Hello!", std::vector<sfex::Multitype>{-3.14, false, "World!"}, "Amongus", "Sus", 9};
     assert(x);
-
-    std::unordered_map<std::string, sfex::Multitype> my_map;
-    my_map["Test"] = 2;
-    my_map["Hello"] = 2.3;
-    sfex::Multitype map_multi = my_map;
-
-    for(auto elem : map_multi.as_map())
-    {
-        std::cout << elem.first << ": " << elem.second << std::endl;
-    }
+    
+    std::cout << sfex::Multitype::parse("[]") << std::endl;
 
     sfex::Multitype val1 = 7;
     sfex::Multitype val2 = 9;

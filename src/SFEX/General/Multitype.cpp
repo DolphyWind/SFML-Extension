@@ -319,6 +319,16 @@ Multitype& Multitype::reset(DataType datatype)
 
 std::string Multitype::to_string() const
 {
+    return to_string_priv();
+}
+
+std::string Multitype::serialize() const
+{
+    return to_string_priv(true);
+}
+
+std::string Multitype::to_string_priv(bool serialize) const
+{
     switch (m_datatype)
     {
         case DataType::BOOLEAN:
@@ -341,26 +351,39 @@ std::string Multitype::to_string() const
         }
         case DataType::STRING:
         {
+            if(serialize) return "\"" + this->as_string() + "\"";
             return this->as_string();
         }
         case DataType::LIST:
         {
             auto vec = this->as_list();
-            std::string output = "[";
+            std::stringstream out;
+            out << "[";
             for(std::size_t i = 0; i < vec.size(); i++)
             {
-                std::string stringified = vec[i].to_string();
+                std::string stringified = vec[i].to_string_priv(false);
                 if(vec[i].get_datatype() == DataType::STRING) stringified = '\"' + stringified + '\"';
-                output += stringified;
+                out << stringified;
 
-                if(i != vec.size() - 1) output += ", ";
+                if(i != vec.size() - 1) out << ", ";
             }
-            output += "]";
-            return output;
+            out << "]";
+            return out.str();
         }
         case DataType::MAP:
         {
-            // TODO: Implement here
+            MultitypeMap map = this->as_map();
+            std::stringstream out;
+            out << "{";
+            std::size_t i = 0;
+            for(auto &[key, value] : map)
+            {
+                out << '\"' << key << "\": " << value.to_string_priv(serialize);
+                if(i != map.size() - 1) out << ", ";
+                i++;
+            }
+            out << "}";
+            return out.str();
         }
         default:
             return std::string("null");
@@ -413,109 +436,149 @@ Multitype::DataType Multitype::string_to_datatype(const std::string &str)
 
 Multitype Multitype::parse(const std::string &str)
 {
+    auto strip = [](const std::string& str)->std::string
+    {
+        auto start = std::find_if(str.begin(), str.end(), [](char ch){
+            return !std::isspace(ch) && ch != '\t' && ch != '\n';
+        });
+        auto end = std::find_if(str.rbegin(), str.rend(), [](char ch){
+            return !std::isspace(ch) && ch != '\t' && ch != '\n';
+        }).base();
+        if(end < start) return std::string();
+        return std::string(start, end);
+    };
+
     // First, strip string.
-    auto start = std::find_if(str.begin(), str.end(), [](char ch){
-        return !std::isspace(ch);
-    });
-    auto end = std::find_if(str.rbegin(), str.rend(), [](char ch){
-        return !std::isspace(ch);
-    }).base();
-    std::string str_to_parse = std::string(start, end);
+    std::string str_to_parse = strip(str);
 
-    // Define result of the conversion
-    Multitype result = Multitype::null;
+    auto is_integer = [](const std::string& str)->bool{
+        try
+        {
+            std::size_t pos = 0;
+            std::stoi(str, &pos);
+            return (pos == str.length());
+        }
+        catch (const std::exception&)
+        {
+            return false;
+        }
+    };
 
-    // TODO: Pars maps
+    auto is_double = [](const std::string& str)->bool{
+        try
+        {
+            std::size_t pos = 0;
+            std::stod(str, &pos);
+            return (pos == str.length());
+        }
+        catch (const std::exception&)
+        {
+            return false;
+        }
+    };
 
-    // Determine if the given string is a list or not
-    if(str_to_parse[0] == '[' && str_to_parse[str_to_parse.length() - 1] == ']')
+    auto split_from_commas = [](const std::string& str)->std::vector<std::string>
     {
-        // Remove square brackets
-        str_to_parse = std::string(str_to_parse.begin() + 1, str_to_parse.end() - 1);
-        std::vector<Multitype> list;
+        bool inside_string = false;
+        long list_depth = 0;
+        long map_depth = 0;
 
-        // Finds the next appropriate comma.
-        auto find_next_comma = [](const std::string &str, std::size_t start_pos=0){
-            std::size_t square_braces_count = 0;
-            bool inside_single_quotation = false;
-            bool inside_double_quotation = false;
-            
-            for(std::size_t i = start_pos; i < str.length(); i++)
-            {
-                if(str[i] == '[') square_braces_count++;
-                else if(str[i] == ']') square_braces_count--;
-                else if(str[i] == '\'') inside_single_quotation = !inside_single_quotation;
-                else if(str[i] == '\"') inside_double_quotation = !inside_double_quotation;
-
-                if(square_braces_count == 0 && !inside_single_quotation && !inside_double_quotation && str[i] == ',') return i;
-            }
-            
-            return str.length();
-        };
-        
-        std::size_t last_comma = 0;
-        std::size_t current_comma = 0;
-        // Searches for appropriate commas and parses the text inbetween
-        while(true)
+        std::vector<std::size_t> comma_positions;
+        for(std::size_t i = 0; i < str.length(); i++)
         {
-            current_comma = find_next_comma(str_to_parse, last_comma);
-            // Recursively parse the string as a multitype
-            std::string sub_string = str_to_parse.substr(last_comma, current_comma - last_comma);
-            Multitype mul = Multitype::parse(sub_string);
-            list.push_back(mul);
-            last_comma = current_comma + 1;
-            
-            if(current_comma == str_to_parse.length()) break;
+            char c = str[i];
+
+            if(c == '\"') inside_string = !inside_string;
+            else if(c == '[' && !inside_string) list_depth++;
+            else if(c == '{' && !inside_string) map_depth++;
+            else if(c == ']' && !inside_string) list_depth--;
+            else if(c == '}' && !inside_string) map_depth--;
+
+            if(list_depth < 0 || map_depth < 0) throw std::runtime_error("Parse Error: Invalid brackets while parsing JSON");
+
+            if(!inside_string && list_depth == 0 && map_depth == 0 && c == ',') comma_positions.push_back(i);
         }
-        result = list;
-    }
-    else
+        comma_positions.push_back(str.length());
+
+        std::vector<std::string> output;
+        output.push_back(str.substr(0, comma_positions[0]));
+        for(std::size_t i = 0; i < comma_positions.size() - 1; i++)
+        {
+            output.push_back(str.substr(comma_positions[i] + 1, comma_positions[i + 1] - comma_positions[i] - 1));
+        }
+
+        return output;
+    };
+
+    auto parse_string = [&](const std::string& str)->std::string
     {
-        // If the multitype starts with single or double quoattion marks it is a string
-        if(str_to_parse[0] == str_to_parse[str_to_parse.length() - 1] && (str_to_parse[0] == '\'' || str_to_parse[0] == '\"'))
-        {
-            result = std::string(str_to_parse.begin() + 1, str_to_parse.end() - 1);
-        }
-        // Boolean check
-        else if(str_to_parse == "false")
-        {
-            result = false;
-        }
-        else if(str_to_parse == "true")
-        {
-            result = true;
-        }
-        // If the string contains a dot and it only contains numbers, dot or signs, then it is a double.
-        else if(std::count(str_to_parse.begin(), str_to_parse.end(), '.') == 1 && std::all_of(str_to_parse.begin(), str_to_parse.end(), [](char ch){
-            return std::isdigit(ch) || ch == '.' || ch == '+' || ch == '-';
-        }))
+        std::string stripped = strip(str);
+        std::string str_without_first_char = std::string(stripped.begin() + 1, stripped.end());
+        return str_without_first_char.substr(0, str_without_first_char.find('\"'));
+    };
+
+    auto parse_pair = [&](const std::string& str, bool throw_when_empty=true)->std::pair<std::string, Multitype>
+    {
+        std::string stripped = strip(str);
+        if(stripped.empty() && throw_when_empty) throw std::invalid_argument("Parse Error: Empty string cannot be parsed as a pair.");
+        std::size_t column_pos = stripped.find(':');
+        if(column_pos == std::string::npos) throw std::runtime_error("Parse Error: Cannot parse pair. No column found.");
+        std::string key_str = stripped.substr(0, column_pos);
+        std::string value_str = stripped.substr(column_pos + 1, stripped.length() - column_pos - 1);
+
+        std::string key = parse_string(key_str);
+        Multitype value = Multitype::parse(value_str);
+        return {key, value};
+    };
+
+    if(str_to_parse[0] == '{')
+    {
+        if(str_to_parse[str_to_parse.length() - 1] != '}') throw std::runtime_error("Parse Error: A curly bracket should be closed.");
+        MultitypeMap result;
+        auto comma_splitted = split_from_commas(str_to_parse.substr(1, str_to_parse.length() - 2));
+        for(auto &s : comma_splitted)
         {
             try
             {
-                result = std::stod(str_to_parse);
+                auto pair = parse_pair(s, (comma_splitted.size() == 1));
+                result.insert(pair);
             }
-            catch (const std::exception &e)
+            catch(std::invalid_argument&)
             {
-                result = Multitype::null;
+                // Do nothing 
             }
         }
-        // If the string only contains digits, then it is an integer.
-        else if(std::all_of(str_to_parse.begin(), str_to_parse.end(), [](char ch){
-            return std::isdigit(ch) || ch == '+' || ch == '-';
-        }))
+        return result;
+    }
+    if(str_to_parse[0] == '[')
+    {
+        if(str_to_parse[str_to_parse.length() - 1] != ']') throw std::runtime_error("Parse Error: A square bracket should be closed.");
+        std::vector<Multitype> result;
+        for(auto &s : split_from_commas(str_to_parse.substr(1, str_to_parse.length() - 2)))
         {
             try
             {
-                result = std::stoi(str_to_parse);
+                Multitype elem = Multitype::parse(s);
+                result.push_back(elem);
             }
-            catch(const std::exception &e)
+            catch(const std::invalid_argument&)
             {
-                result = Multitype::null;
+                // Do nothing
             }
         }
+        return result;
     }
-
-    return result;
+    if(str_to_parse[0] == '\"')
+    {
+        return parse_string(str_to_parse);
+    }
+    if(str_to_parse == "true") return true;
+    if(str_to_parse == "false") return false;
+    if(str_to_parse == "null") return Multitype::null;
+    if(is_integer(str_to_parse)) return std::stoi(str_to_parse);
+    if(is_double(str_to_parse)) return std::stod(str_to_parse);
+    if(str_to_parse.empty()) throw std::invalid_argument("Cannot parse empty string!");
+    return Multitype::null;
 }
 
 int Multitype::as_int() const

@@ -31,8 +31,9 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 #include <unordered_map>
-#define MultitypeMap std::unordered_map<std::string, Multitype>
+#define MultitypeMap std::unordered_map<std::string, sfex::Multitype>
 
 namespace sfex
 {
@@ -297,6 +298,10 @@ public:
     /// @return Result of the conversion
     std::string to_string() const;
 
+    /// @brief Serialize Multitype object into std::string
+    /// @return Result of the serialization
+    std::string serialize() const;
+
     /// @brief Get the datatype of Multitype
     /// @return The datatype of Multitype
     DataType get_datatype() const;
@@ -375,6 +380,7 @@ private:
 
     void cleanup();
     void update_value(std::size_t new_size, void* new_data, const DataType &datatype);
+    std::string to_string_priv(bool serialize=false) const;
 };
 
 template<typename T>
