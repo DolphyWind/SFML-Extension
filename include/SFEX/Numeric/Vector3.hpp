@@ -106,8 +106,6 @@ public:
     /// @param rotateAround rotateAround vector (Defaults to Vector3<T>::zero)
     void rotate(float x_angle, float y_angle, float z_angle, const Vector3<T> &rotateAround = Vector3<T>::zero);
 
-    /// TODO: Add quarternion rotation and quarternion class
-
     /// @brief Returns Rotated version of the vector around "rotateAround" vector.
     /// @param x_angle rotation in x axis (Euler angles)
     /// @param y_angle rotation in y axis (Euler angles)

@@ -318,6 +318,7 @@ public:
     /// @brief Parses a string to a Multitype
     /// @param str String to parse
     /// @return Result of parsing
+    /// @throws std::runtime_error on parse errors, std::invalid_argument on empty string
     static Multitype parse(const std::string &str);
     
     /// @brief Convert Multitype object to int. 

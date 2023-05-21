@@ -32,7 +32,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - AnimationManager - Manages animations for one sprite. Makes animations really easy to implement for SFML. Inherits from ManagerBase\<Animation\>
     - ManagerBase - Base manager class. All the other managers classes are derived from this class.
     - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase\<sf::Music\>
-    - OptionManager - Simple OptionManager that stores Options in a hashmap. It can also read from a file and write to a file. Inherits from ManagerBase\<sfex::Option\>
+    - OptionManager - Simple OptionManager that stores Options in a hashmap. It also support JSON format. Inherits from ManagerBase\<sfex::Option\>
     - SceneManager - Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase\<std::shared_ptr\<Scene\>\>
     - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
     - SpriteManager - Simple SpriteManager class. Inherits from ManagerBase\<sf::Sprite\>

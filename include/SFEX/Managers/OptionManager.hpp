@@ -38,12 +38,37 @@ namespace sfex
 {
 
 /// @brief Option struct that stores value and the default value of an option
-struct Option
+class Option
 {
-    Multitype value;
-    const Multitype default_value;
+public:
+    /// @brief Construct a new Option object with given default value
+    /// @param default_value Default value of the option
+    Option(const Multitype& default_value);
 
+    /// @brief Construct a new Option object with given value and default value
+    /// @param value Value of the option
+    /// @param default_value Default value of the option
+    Option(const Multitype& value, const Multitype& default_value);
+    
+    /// @brief Reset option to its default value
     void reset();
+
+    /// @brief Set the value of the option
+    /// @throws std::invalid_argument if the datatype of new_value is not same with the datatype of default_value
+    /// @param new_value New value
+    void setValue(const Multitype& new_value);
+
+    /// @brief Get the current value of the option
+    /// @return Current value of the option
+    Multitype getValue() const;
+
+    /// @brief Get the default value of the option
+    /// @return Default value of the option
+    Multitype getDefaultValue() const;
+
+private:
+    Multitype m_value;
+    const Multitype m_defaultValue;
 };
 
 /// @brief Simple OptionManager that stores Options in a hashmap. It can also read from a file and write to a file. Inherits from ManagerBase<sfex::Option>
@@ -65,12 +90,30 @@ public:
     /// @param filename Name of the file you want to parse.
     /// @param create_file_if_not_exists If set to true, OptionManager will try to create the file if file is not present
     /// @return True if loading data was successfull. False otherwise
-    bool parseFromFile(const std::string &filename, bool create_file_if_not_exists=false);
+    bool parseFromFile_JSON(const std::string &filename, bool create_file_if_not_exists=false);
 
     /// @brief Save settings to specified file
     /// @param filename Name of the file you want to save to.
     /// @return True if saving data was successfull. False otherwise
-    bool saveToFile(const std::string &filename);
+    bool saveToFile_JSON(const std::string &filename);
+
+    /// @brief Converts this OptionManager to multitype
+    /// @return Result of the conversion
+    Multitype to_multitype() const;
+
+    /// @brief Generate this option manager from a Multitype object
+    /// @param multitype Multitype object to generate frome
+    /// @param clear_manager Clear the option manager before generation
+    /// @throws std::invalid_argument if the datatype of given multitype is not map
+    void generateFromMultitype(const Multitype& multitype, bool clear_manager=false);
+
+    /// @brief Serialize option manager as JSON into a std::string
+    /// @return Result of serialization
+    std::string serialize_JSON() const;
+
+    /// @brief << for printing option manager to screen
+    friend std::ostream& operator<<(std::ostream& left, const OptionManager& right); 
+
 private:
 };
 

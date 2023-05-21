@@ -7,14 +7,16 @@ int main()
     sfex::OptionManager manager;
     manager.addOption("username", "", "username");
     manager.addOption("password", "", "password");
-    manager.addOption("hp", 0, 100);
-    manager.addOption("attack", 0, 1.0f);
+    manager.addOption("age", 0, 18);
+    manager.addOption("favourite_number", 0, 1.0);
 
-    manager.parseFromFile("options.txt");
-    for(auto& [key, option] : manager)
+    manager.parseFromFile_JSON("options.json");
+
+    for(auto& [key, value] : manager)
     {
-        std::cout << key << "=" << option.value << " (default: " << option.default_value << ")\n";
+        std::cout << key << ": " << value.getValue() << std::endl;
     }
+
 
     return 0;
 }

@@ -27,14 +27,38 @@
 namespace sfex
 {
 
+Option::Option(const Multitype& default_value): m_defaultValue(default_value), m_value(default_value)
+{
+}
+
+Option::Option(const Multitype& value, const Multitype& default_value): m_defaultValue(default_value), m_value(value)
+{
+}
+
 void Option::reset()
 {
-    this->value = this->default_value;
+    m_value = m_defaultValue;
+}
+
+void Option::setValue(const Multitype &new_value)
+{
+    if(m_defaultValue.get_datatype() != new_value.get_datatype()) throw std::invalid_argument("The datatype of the new value cannot differ from the datatype of the default value");
+    m_value = new_value;
+}
+
+Multitype Option::getValue() const
+{
+    return m_value;
+}
+
+Multitype Option::getDefaultValue() const
+{
+    return m_defaultValue;
 }
 
 void OptionManager::updateOption(const std::string &key, const Multitype &val)
 {
-    if(this->contains(key)) this->at(key).value = val;
+    if(this->contains(key)) this->at(key).setValue(val);
     else addOption(key, val, Multitype(val.get_datatype()));
 }
 
@@ -42,122 +66,69 @@ void OptionManager::addOption(const std::string &key, const Multitype &val, cons
 {
     if(this->contains(key)) return;
 
-    this->insert({key, {val, default_val}});
+    this->insert({key, Option(val, default_val)});
 }
 
-bool OptionManager::parseFromFile(const std::string &filename, bool create_file_if_not_exists)
+bool OptionManager::parseFromFile_JSON(const std::string &filename, bool create_file_if_not_exists)
 {
     std::ifstream file(filename);
     if(file)
     {
-        // Read all lines into a vector called parsed_strings
-        std::vector<std::string> lines;
-        std::string tmp_line;
-        while(std::getline(file, tmp_line)) lines.push_back(tmp_line);
+        // Read file content into a string
+        std::string content;
+        std::stringstream ss;
+        ss << file.rdbuf();
+        content = ss.str();
 
-        std::vector<std::vector<std::string>> parsed_strings;
-        bool in_quotes = false;
-        for(auto& line : lines)
-        {
-            unsigned short parsed_count = 0;
-            std::string current_parsed;
-            std::vector<std::string> line_parsed;
-
-            for(std::size_t i = 0; i < line.length(); i++)
-            {
-                if(parsed_count == 3) break;
-                if(line[i] == '\"')
-                {
-                    in_quotes = !in_quotes;
-                    continue;
-                }
-
-                if(line[i] == ' ' && !in_quotes)
-                {
-                    if(current_parsed.empty()) continue;
-                    parsed_count += 1;
-                    line_parsed.push_back(current_parsed);
-                    current_parsed.clear();
-                }
-                else
-                {
-                    current_parsed.push_back(line[i]);
-                }
-            }
-            if(!current_parsed.empty()) line_parsed.push_back(current_parsed);
-            if(line_parsed.size() < 3) return false; // Error there needs to be at least 3 strings that is parsed
-            parsed_strings.push_back(line_parsed);
-        }
-
-        for(auto &pline : parsed_strings)
-        {
-            Multitype::DataType datatype = Multitype::string_to_datatype(pline[0]);
-            std::string key_to_insert = pline[1];
-
-            Multitype current_value;
-
-            switch (datatype)
-            {
-                case Multitype::DataType::BOOLEAN:
-                {
-                    for(auto &c : pline[2])
-                    {
-                        c = std::tolower(c);
-                    }
-                    std::vector<std::string> false_strings = {
-                        "0", "false", "f", "n", "no"
-                    };
-                    if(std::find(false_strings.begin(), false_strings.end(), pline[2]) != false_strings.end()) current_value = false;
-                    else current_value = true;
-                    break;
-                }
-                case Multitype::DataType::DOUBLE:
-                {
-                    current_value = std::stod(pline[2]);
-                    break;
-                }
-                case Multitype::DataType::INT:
-                {
-                    current_value = std::stoi(pline[2]);
-                    break;
-                }
-                case Multitype::DataType::STRING:
-                {
-                    current_value = pline[2];
-                    break;
-                }
-                default:
-                case Multitype::DataType::NONE:
-                {
-                    break;
-                }
-            }
-
-            // this->insert({key_to_insert, current_value});
-            updateOption(key_to_insert, current_value);
-        }
-        
+        generateFromMultitype(Multitype::parse(content));
         return true;
     }
     if(create_file_if_not_exists)
     {
         // If can't load file and create_file_if_not_exists is true try to create file
-        return saveToFile(filename);
+        return saveToFile_JSON(filename);
     }
     return false;
 }
 
-bool OptionManager::saveToFile(const std::string &filename)
+bool OptionManager::saveToFile_JSON(const std::string &filename)
 {
     std::ofstream file(filename);
     if(!file) return false;
-
-    for(auto&[key, option] : this->m_hashmap)
-    {
-        file << option.value.get_datatype_as_string() << " " << key << " \"" << option.value.to_string() << "\"\n";
-    }
+    file << this->to_multitype().serialize();
     file.close();
     return true;
+}
+
+Multitype OptionManager::to_multitype() const
+{
+    MultitypeMap map;
+    for(auto &[key, value] : this->m_hashmap)
+    {
+        map.insert({key, value.getValue()});
+    }
+    return map;
+}
+
+void OptionManager::generateFromMultitype(const Multitype &multitype, bool clear_manager)
+{
+    if(multitype.get_datatype() != Multitype::DataType::MAP) throw std::invalid_argument("Cannot parse non-map Multitype.");
+    if(clear_manager) this->clear();
+    
+    for(auto &[key, value] : multitype.as_map())
+    {
+        updateOption(key, value);
+    }
+}
+
+std::string OptionManager::serialize_JSON() const
+{
+    return to_multitype().serialize();
+}
+
+std::ostream& operator<<(std::ostream& left, const OptionManager& right)
+{
+    return (left << right.serialize_JSON());
 }
 
 }

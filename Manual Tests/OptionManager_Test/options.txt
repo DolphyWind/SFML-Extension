@@ -1,4 +1,0 @@
-double attack "10.5"
-int hp "90"
-string password "12345678"
-string username "dolphy"

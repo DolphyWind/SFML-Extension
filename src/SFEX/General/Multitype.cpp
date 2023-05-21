@@ -513,8 +513,8 @@ Multitype Multitype::parse(const std::string &str)
     auto parse_string = [&](const std::string& str)->std::string
     {
         std::string stripped = strip(str);
-        std::string str_without_first_char = std::string(stripped.begin() + 1, stripped.end());
-        return str_without_first_char.substr(0, str_without_first_char.find('\"'));
+        std::string str_without_quotes = std::string(stripped.begin() + 1, stripped.end() - 1);
+        return str_without_quotes;
     };
 
     auto parse_pair = [&](const std::string& str, bool throw_when_empty=true)->std::pair<std::string, Multitype>
@@ -533,7 +533,7 @@ Multitype Multitype::parse(const std::string &str)
 
     if(str_to_parse[0] == '{')
     {
-        if(str_to_parse[str_to_parse.length() - 1] != '}') throw std::runtime_error("Parse Error: A curly bracket should be closed.");
+        if(str_to_parse[str_to_parse.length() - 1] != '}') throw std::runtime_error("Parse Error: Cannot parse \"" + str_to_parse + "\" into a map.");
         MultitypeMap result;
         auto comma_splitted = split_from_commas(str_to_parse.substr(1, str_to_parse.length() - 2));
         for(auto &s : comma_splitted)
@@ -552,7 +552,7 @@ Multitype Multitype::parse(const std::string &str)
     }
     if(str_to_parse[0] == '[')
     {
-        if(str_to_parse[str_to_parse.length() - 1] != ']') throw std::runtime_error("Parse Error: A square bracket should be closed.");
+        if(str_to_parse[str_to_parse.length() - 1] != ']') throw std::runtime_error("Parse Error: Cannot parse \"" + str_to_parse + "\" into a list.");
         std::vector<Multitype> result;
         for(auto &s : split_from_commas(str_to_parse.substr(1, str_to_parse.length() - 2)))
         {
@@ -570,6 +570,7 @@ Multitype Multitype::parse(const std::string &str)
     }
     if(str_to_parse[0] == '\"')
     {
+        if(str_to_parse[str_to_parse.length() - 1] != '\"') throw std::runtime_error("Parse Error: Cannot parse '" + str_to_parse + "' into a string.");
         return parse_string(str_to_parse);
     }
     if(str_to_parse == "true") return true;
