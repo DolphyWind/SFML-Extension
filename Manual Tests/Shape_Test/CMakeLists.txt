@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(CMAKE_CXX_STANDARD 17)
-project(GraphicalManagersExample VERSION 1.0.0)
+project(ShapeTest VERSION 1.0.0)
 
-set(PROGRAM_NAME graphicalmanagers_example)
+set(PROGRAM_NAME shape_test)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics window system audio)
 find_package(SFEX REQUIRED)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

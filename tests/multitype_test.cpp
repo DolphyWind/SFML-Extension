@@ -34,8 +34,6 @@ int main()
     bool x = sfex::Multitype::parse("[1,-2.23, \"Hello!\", [-3.14, false, \"World!\"], \"Amongus\", \"Sus\", 9]") == std::vector<sfex::Multitype>{1, -2.23, "Hello!", std::vector<sfex::Multitype>{-3.14, false, "World!"}, "Amongus", "Sus", 9};
     assert(x);
     
-    std::cout << sfex::Multitype::parse("[]") << std::endl;
-
     sfex::Multitype val1 = 7;
     sfex::Multitype val2 = 9;
 
