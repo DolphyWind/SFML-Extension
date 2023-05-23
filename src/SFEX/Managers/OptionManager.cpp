@@ -56,6 +56,11 @@ Multitype Option::getDefaultValue() const
     return m_defaultValue;
 }
 
+std::ostream& operator<<(std::ostream& left, const Option& right)
+{
+    return (left << right.getValue());
+}
+
 void OptionManager::updateOption(const std::string &key, const Multitype &val)
 {
     if(this->contains(key)) this->at(key).setValue(val);

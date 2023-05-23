@@ -66,6 +66,9 @@ public:
     /// @return Default value of the option
     Multitype getDefaultValue() const;
 
+    /// @brief << for printing option to screen
+    friend std::ostream& operator<<(std::ostream& left, const Option& right);
+
 private:
     Multitype m_value;
     const Multitype m_defaultValue;

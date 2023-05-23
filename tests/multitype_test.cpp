@@ -27,13 +27,13 @@ int main()
         assert(true);
     }
 
-    sfex::Multitype value = std::vector<sfex::Multitype>{"Hello!", 2, 3, false, 3.14, std::vector<sfex::Multitype>{1, "World!", 6.28, true}};
+    sfex::Multitype value = {"Hello!", 2, 3, false, 3.14, {1, "World!", 6.28, true}};
     assert(value.as_list()[1] * value.as_list()[2] == 6);
     
     // Compiler gives error when I put the expression into assert();
-    bool x = sfex::Multitype::parse("[1,-2.23, \"Hello!\", [-3.14, false, \"World!\"], \"Amongus\", \"Sus\", 9]") == std::vector<sfex::Multitype>{1, -2.23, "Hello!", std::vector<sfex::Multitype>{-3.14, false, "World!"}, "Amongus", "Sus", 9};
+    bool x = sfex::Multitype::parse("[1,-2.23, \"Hello!\", [-3.14, false, \"World!\"], \"Amongus\", \"Sus\", 9]") == std::vector<sfex::Multitype>{1, -2.23, "Hello!", {-3.14, false, "World!"}, "Amongus", "Sus", 9};
     assert(x);
-    
+
     sfex::Multitype val1 = 7;
     sfex::Multitype val2 = 9;
 

@@ -84,13 +84,21 @@ public:
     /// @param bool_val Boolean value
     Multitype(bool bool_val);
 
-    /// @brief Construct a new Multitype object as a vector
+    /// @brief Construct a new Multitype object as a list
     /// @param vec_val Vector value
     Multitype(const std::vector<Multitype> &vec_val);
+
+    /// @brief Construct a new Multitype object as a list
+    /// @param list_val Initializer list
+    Multitype(const std::initializer_list<Multitype> &list_val);
 
     /// @brief Construct a new Multitype object as a map
     /// @param map_val Map value
     Multitype(const MultitypeMap &map_val);
+
+    /// @brief Construct a new Multitype object as a map
+    /// @param pair_list_val Pair Initializer list
+    Multitype(const std::initializer_list<std::pair<std::string, Multitype>> &pair_list_val);
 
     /// @brief Destroy the Multitype object
     ~Multitype();

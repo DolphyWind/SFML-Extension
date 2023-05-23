@@ -82,6 +82,11 @@ Multitype::Multitype(const std::vector<Multitype> &vec_val): m_datatype(DataType
     update_value(m_size, values.release(), m_datatype);
 }
 
+Multitype::Multitype(const std::initializer_list<Multitype> &list_val)
+{
+    *this = Multitype(std::vector<Multitype>(list_val.begin(), list_val.end()));
+}
+
 Multitype::Multitype(const MultitypeMap &map_val): m_datatype(DataType::MAP), m_data(nullptr), m_size((sizeof(Multitype)+sizeof(char*))*map_val.size())
 {
     struct Pair
@@ -103,6 +108,11 @@ Multitype::Multitype(const MultitypeMap &map_val): m_datatype(DataType::MAP), m_
         i++;
     }
     update_value(m_size, values.release(), m_datatype);
+}
+
+Multitype::Multitype(const std::initializer_list<std::pair<std::string, Multitype>> &pair_initializer_list)
+{
+    *this = Multitype(MultitypeMap(pair_initializer_list.begin(), pair_initializer_list.end()));
 }
 
 Multitype::~Multitype()
