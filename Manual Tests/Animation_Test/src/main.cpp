@@ -38,10 +38,10 @@ int main()
     sfex::Animation runAnimation(playerSprite, runTexture, true);
     runAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
 
-    sfex::AnimationManager playerAnimationManager(&playerSprite);
-    playerAnimationManager.insert({"walk", std::make_shared<sfex::Animation>(walkingAnimation)});
-    playerAnimationManager.insert({"idle", std::make_shared<sfex::Animation>(idleAnimation)});
-    playerAnimationManager.insert({"run", std::make_shared<sfex::Animation>(runAnimation)});
+    sfex::AnimationManager playerAnimationManager;
+    playerAnimationManager.addAnimation("walk", walkingAnimation);
+    playerAnimationManager.addAnimation("idle", idleAnimation);
+    playerAnimationManager.addAnimation("run", runAnimation);
 
     while(window.isOpen())
     {

@@ -124,6 +124,7 @@ void Animation::autoGenerateFrames(const std::vector<Frame> &frames, bool clear_
     if(clear_frames) clearFrames();
 
     for(auto& frame : frames) insertFrame(frame);
+    if(clear_frames) setFrame(0);
 }
 
 void Animation::insertFrame(const sf::IntRect &rect, const sf::Time &duration, std::size_t index)
@@ -139,7 +140,6 @@ void Animation::insertFrame(const Frame& frame, std::size_t index)
         {
             setFrame(0);
         }
-
         m_frames.push_back(frame);
     }
     else
@@ -163,21 +163,22 @@ void Animation::clearFrames()
 void Animation::setFrame(std::size_t index)
 {
     if(!m_spritePtr || !m_texturePtr) return;
+    if(m_frames.empty()) return;
 
     m_spritePtr->setTexture(*m_texturePtr);
     m_currentIndex = index;
-    restart();
+    m_stopwatch.restart();
     if(m_currentIndex >= m_frames.size())
     {
         if(!m_loop)
         {
             pause();
-            restart();
+            return;
         }
-        m_currentIndex = 0;
+        else m_currentIndex = 0;
     }
-    else
-        m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
+    
+    m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
 }
 
 const std::size_t Animation::getCurrentFrameIndex() const
@@ -198,6 +199,7 @@ const std::vector<Animation::Frame> Animation::getFrames() const
 void Animation::update()
 {
     if(m_frames.empty()) return;
+    if(!m_loop && m_currentIndex >= m_frames.size()) return;
 
     if(m_animationSpeed > 0 && m_stopwatch.getElapsedTime() * m_animationSpeed >= m_frames[m_currentIndex].duration)
     {
@@ -217,7 +219,7 @@ void Animation::pause()
 
 void Animation::play(bool restartAnimation)
 {
-    if(restartAnimation) setFrame(0);
+    if(restartAnimation) restart();
     m_stopwatch.resume();
     m_spritePtr->setTexture(*m_texturePtr);
     m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
@@ -225,6 +227,7 @@ void Animation::play(bool restartAnimation)
 
 void Animation::restart()
 {
+    setFrame(0);
     m_stopwatch.restart();
 }
 

@@ -27,18 +27,8 @@
 namespace sfex
 {
 
-AnimationManager::AnimationManager(sf::Sprite* targetSprite): m_targetSprite(targetSprite), m_activeKey(std::nullopt)
+AnimationManager::AnimationManager(): m_activeKey(std::nullopt)
 {
-}
-
-void AnimationManager::setTargetSprite(sf::Sprite *targetSprite)
-{
-    m_targetSprite = targetSprite;
-}
-
-const sf::Sprite* AnimationManager::getTargetSprite() const
-{
-    return m_targetSprite;
 }
 
 void AnimationManager::play(const std::string &key, bool restartAnimation)
@@ -77,6 +67,11 @@ void AnimationManager::update()
 {
     for(auto& p : this->m_hashmap)
         p.second->update();
+}
+
+void AnimationManager::addAnimation(const std::string &key, const Animation &animation)
+{
+    this->m_hashmap.insert({key, std::make_unique<sfex::Animation>(animation)});
 }
 
 }

@@ -37,13 +37,7 @@ class AnimationManager : public ManagerBase<std::shared_ptr<Animation>>
 {
 public:
     /// @brief Construct a new Animation Manager object
-    /// @param targetSprite Target sprite of the animation manager. Defaults to nullptr.
-    AnimationManager(sf::Sprite* targetSprite=nullptr);
-
-
-    /// @brief Set the target sprite of the animation manager
-    /// @param targetSprite New target sprite of the animation manager
-    void setTargetSprite(sf::Sprite* targetSprite);
+    AnimationManager();
 
     /// @brief Get the target sprite of the animation manager
     const sf::Sprite* getTargetSprite() const;
@@ -70,10 +64,14 @@ public:
     /// @brief Get the key of the current scene.
     /// @return The key of the current scene
     std::optional<std::string> getCurrentAnimationKey();
-    
+
+
+    /// @brief Insert new animation to the Animation Manager
+    /// @param key Key of the new animation
+    /// @param animation The animation itself
+    void addAnimation(const std::string &key, const Animation &animation);
 
 private:
-    sf::Sprite* m_targetSprite;
     std::optional<std::string> m_activeKey;
 };
 
