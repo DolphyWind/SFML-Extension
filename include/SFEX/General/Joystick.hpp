@@ -75,7 +75,7 @@ public:
     /// @param joystick Index of the joystick 
     /// @param axis Axis to check
     /// @param minSensitivity Minimum sensitivity
-    /// @return Current position of axis. Returns 0 If the absolute position of the axis is smaller than minimum sensitivity
+    /// @return Current position of axis. Returns 0 If the absolute position of the axis is smaller than minimum sensitivity to ignore small inputs on sensitive sticks.
     static float getAxisPosition(unsigned int joystick, Axis axis, float minSensitivity=0.0f);
 
     /// @brief Get the joystick information
@@ -87,7 +87,9 @@ public:
     static void update();
 private:
 
-    /// @brief Hash function to for std::pair<unsigned int, unsigned int>
+    typedef std::pair<unsigned int, unsigned int> Upair;
+
+    /// @brief Hash function to for Joystick::Upair
     struct JoystickPairHash 
     {
         template <typename T1, typename T2>
@@ -98,8 +100,8 @@ private:
         }
     };
 
-    static std::unordered_map<std::pair<unsigned int, unsigned int>, bool, JoystickPairHash> m_buttonsForDown;
-    static std::unordered_map<std::pair<unsigned int, unsigned int>, bool, JoystickPairHash> m_buttonsForUp;
+    static std::unordered_map<Upair, bool, JoystickPairHash> m_buttonsForDown;
+    static std::unordered_map<Upair, bool, JoystickPairHash> m_buttonsForUp;
 };
 
 } // namespace sfex

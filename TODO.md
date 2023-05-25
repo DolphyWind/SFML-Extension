@@ -1,5 +1,5 @@
 # TODO
-+ Continue adding CTest tests.
++ Make sure everything is working properly.
 
 # Ideas might get implemented
 + Graphics/Particle

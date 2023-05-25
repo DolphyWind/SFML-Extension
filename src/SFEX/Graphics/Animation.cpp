@@ -199,7 +199,11 @@ const std::vector<Animation::Frame> Animation::getFrames() const
 void Animation::update()
 {
     if(m_frames.empty()) return;
-    if(!m_loop && m_currentIndex >= m_frames.size()) return;
+    if(!m_loop && m_currentIndex >= m_frames.size() - 1)
+    {
+        setFrame(m_frames.size() - 1);
+        return;
+    }
 
     if(m_animationSpeed > 0 && m_stopwatch.getElapsedTime() * m_animationSpeed >= m_frames[m_currentIndex].duration)
     {
@@ -217,12 +221,17 @@ void Animation::pause()
     m_stopwatch.pause();
 }
 
-void Animation::play(bool restartAnimation)
+void Animation::resume()
 {
-    if(restartAnimation) restart();
+    if(!isPaused()) return;
     m_stopwatch.resume();
-    m_spritePtr->setTexture(*m_texturePtr);
-    m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
+}
+
+void Animation::play()
+{
+    if(!m_texturePtr || !m_spritePtr) return;
+    restart();
+    m_stopwatch.resume();
 }
 
 void Animation::restart()

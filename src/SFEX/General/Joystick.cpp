@@ -28,8 +28,8 @@ namespace sfex
 {
 
 struct JoystickPairHash;
-std::unordered_map<std::pair<unsigned int, unsigned int>, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForDown;
-std::unordered_map<std::pair<unsigned int, unsigned int>, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForUp;
+std::unordered_map<Joystick::Upair, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForDown;
+std::unordered_map<Joystick::Upair, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForUp;
 
 bool Joystick::isConnected(unsigned int joystick)
 {

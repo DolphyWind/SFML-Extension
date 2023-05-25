@@ -42,9 +42,9 @@ public:
     /// @brief Get the target sprite of the animation manager
     const sf::Sprite* getTargetSprite() const;
 
-    /// @brief Play the animation corresponding to given key. Does nothing if key is invalid.
+    /// @brief Play or resume the animation corresponding to given key. Does nothing if key is invalid.
     /// @param key Key corresponding to animation you want to play.
-    /// @param restartAnimation Restart animation when played.
+    /// @param restartAnimation Restart animation if the same key is given.
     void play(const std::string& key, bool restartAnimation=false);
 
     /// @brief Pauses the current animation.

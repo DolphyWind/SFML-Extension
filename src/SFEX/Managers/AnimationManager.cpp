@@ -34,10 +34,15 @@ AnimationManager::AnimationManager(): m_activeKey(std::nullopt)
 void AnimationManager::play(const std::string &key, bool restartAnimation)
 {
     if(!this->contains(key)) return;
-    if(m_activeKey.has_value() && m_activeKey.value() == key && !restartAnimation) return;
+    if(m_activeKey.has_value() && m_activeKey.value() == key)
+    {
+        if(this->at(key)->isPaused() && restartAnimation) this->at(key)->play();
+        else this->at(key)->resume();
+        return;
+    }
     if(m_activeKey.has_value()) this->at(m_activeKey.value())->pause();
     m_activeKey = key;
-    this->at(m_activeKey.value())->play(restartAnimation);
+    this->at(m_activeKey.value())->play();
 }
 
 void AnimationManager::pause()
@@ -65,8 +70,8 @@ std::optional<std::string> AnimationManager::getCurrentAnimationKey()
 
 void AnimationManager::update()
 {
-    for(auto& p : this->m_hashmap)
-        p.second->update();
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->update();
 }
 
 void AnimationManager::addAnimation(const std::string &key, const Animation &animation)

@@ -96,7 +96,7 @@ public:
     /// @param clear_frames If set to true, the function clears all frames before generating new ones.
     void autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Time &duration, bool clear_frames=true);
 
-    /// @brief Automatically generates multiple frames. Creates fixed-size frames on given vector of positions.
+    /// @brief Automatically generates multiple frames. Creates fixed-size frames on given list of positions.
     /// @param size Size of the each frame
     /// @param positions Vector of positions of each frame
     /// @param duration Duration of the each frame
@@ -148,10 +148,13 @@ public:
     
     /// @brief Pause the animation.
     void pause();
+
+    /// @brief Resume the animation if paused.
+    void resume();
     
-    /// @brief Resume/Play the animation.
+    /// @brief Play and restart the animation.
     /// @param restartAnimation Restart animation when played.
-    void play(bool restartAnimation=true);
+    void play();
 
     /// @brief Restart the animation
     void restart();
