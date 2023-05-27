@@ -15,7 +15,7 @@ int main()
     gradient[3] = sfex::Vec2::down;
 
 
-    for(float i = 0; !sfex::Math::isClose(i, 3.1f, 0.01f); i += 0.1)
+    for(float i = -1.0f; !sfex::Math::isClose(i, 3.1f, 0.01f); i += 0.1)
     {
         std::cout << "Gradient at t=" << i << ": " << gradient(i) << std::endl; 
     }

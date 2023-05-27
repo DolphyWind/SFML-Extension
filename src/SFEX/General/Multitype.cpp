@@ -461,29 +461,31 @@ Multitype Multitype::parse(const std::string &str)
     // First, strip string.
     std::string str_to_parse = strip(str);
 
-    auto is_integer = [](const std::string& str)->bool{
+    auto parse_integer = [](const std::string& str)->std::optional<int>{
         try
         {
             std::size_t pos = 0;
-            std::stoi(str, &pos);
-            return (pos == str.length());
+            int result = std::stoi(str, &pos);
+            if (pos != str.length()) return std::nullopt;
+            return result;
         }
         catch (const std::exception&)
         {
-            return false;
+            return std::nullopt;
         }
     };
 
-    auto is_double = [](const std::string& str)->bool{
+    auto parse_double = [](const std::string& str)->std::optional<double>{
         try
         {
             std::size_t pos = 0;
-            std::stod(str, &pos);
-            return (pos == str.length());
+            double result = std::stod(str, &pos);
+            if (pos != str.length()) return std::nullopt;
+            return result;
         }
         catch (const std::exception&)
         {
-            return false;
+            return std::nullopt;
         }
     };
 
@@ -586,8 +588,13 @@ Multitype Multitype::parse(const std::string &str)
     if(str_to_parse == "true") return true;
     if(str_to_parse == "false") return false;
     if(str_to_parse == "null") return Multitype::null;
-    if(is_integer(str_to_parse)) return std::stoi(str_to_parse);
-    if(is_double(str_to_parse)) return std::stod(str_to_parse);
+    
+    std::optional<int> try_parse_int = parse_integer(str_to_parse);
+    if(try_parse_int != std::nullopt) return try_parse_int.value();
+    
+    std::optional<double> try_parse_double = parse_double(str_to_parse);
+    if(try_parse_double != std::nullopt) return try_parse_double.value();
+
     if(str_to_parse.empty()) throw std::invalid_argument("Cannot parse empty string!");
     return Multitype::null;
 }

@@ -46,6 +46,15 @@ int main()
         printVector(point, std::string("Bezier curve at t=") + std::to_string(t).substr(0, 3));
     }
     printDashes();
+
+    float angle = sfex::Math::deg2rad(60);
+    std::cout << "Angle: " << angle << " radians." << std::endl;
+    std::cout << "Cos: " << sfex::Math::cos(angle) << std::endl;
+    std::cout << "Sin: " << sfex::Math::sin(angle) << std::endl;
+    std::cout << "Tan: " << sfex::Math::tan(angle) << std::endl;
+    std::cout << "Sec: " << sfex::Math::sec(angle) << std::endl;
+    std::cout << "Csc: " << sfex::Math::csc(angle) << std::endl;
+    std::cout << "Cot: " << sfex::Math::cot(angle) << std::endl;
     
     
     return 0;

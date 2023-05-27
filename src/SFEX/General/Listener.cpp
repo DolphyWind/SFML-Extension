@@ -27,11 +27,11 @@
 namespace sfex
 {
 
-Listener defaultListener = Listener(100, sfex::Vec3::zero, sfex::Vec3::back, sfex::Vec3::up);
+Listener Listener::defaultListener = Listener(100, sfex::Vec3::zero, sfex::Vec3::back, sfex::Vec3::up);
 
 Listener::Listener()
 {
-    *this = defaultListener;
+    *this = Listener::defaultListener;
 }
 
 Listener::Listener(float globalVolume, const sfex::Vec3 &position, const sfex::Vec3 &direction, const sfex::Vec3 &upVector): m_globalVolume(globalVolume), m_position(position), m_direction(direction), m_upVector(upVector)

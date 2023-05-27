@@ -33,6 +33,7 @@
 #include <iostream>
 #include <sstream>
 #include <unordered_map>
+#include <optional>
 #define MultitypeMap std::unordered_map<std::string, sfex::Multitype>
 
 namespace sfex

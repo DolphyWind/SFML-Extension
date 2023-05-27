@@ -81,6 +81,36 @@ public:
     /// @returns value in degrees
     SFEX_MATHDEF float rad2deg(float value);
 
+    /// @brief Calculates the cosine of the given value.
+    /// @param value The value you want to calculate the cosine of.
+    /// @return The cosine of the given value.
+    SFEX_MATHDEF float cos(float value);
+
+    /// @brief Calculates the sine of the given value.
+    /// @param value The value you want to calculate the sine of.
+    /// @return The sine of the given value.
+    SFEX_MATHDEF float sin(float value);
+
+    /// @brief Calculates the tangent of the given value.
+    /// @param value The value you want to calculate the tangent of.
+    /// @return The tangent of the given value.
+    SFEX_MATHDEF float tan(float value);
+
+    /// @brief Calculates the cosine of the given value.
+    /// @param value The value you want to calculate the cosine of.
+    /// @return The cosine of the given value.
+    SFEX_MATHDEF float sec(float value);
+
+    /// @brief Calculates the cosine of the given value.
+    /// @param value The value you want to calculate the cosine of.
+    /// @return The cosine of the given value.
+    SFEX_MATHDEF float csc(float value);
+
+    /// @brief Calculates the cosine of the given value.
+    /// @param value The value you want to calculate the cosine of.
+    /// @return The cosine of the given value.
+    SFEX_MATHDEF float cot(float value);
+
     /// @brief Calculates linear interpolation between A and B. Namely A*(1-t) + B*t
     /// @param A The value at time=0
     /// @param B The value at time=1

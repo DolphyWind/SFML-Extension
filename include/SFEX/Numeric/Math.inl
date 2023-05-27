@@ -55,6 +55,36 @@ float Math::rad2deg(float val)
     return val * 180.0f / (Math::pi);
 }
 
+float Math::cos(float value)
+{
+    return std::cos(value);
+}
+
+float Math::sin(float value)
+{
+    return std::sin(value);
+}
+
+float Math::tan(float value)
+{
+    return std::tan(value);
+}
+
+float Math::sec(float value)
+{
+    return (1.0f / Math::cos(value));
+}
+
+float Math::csc(float value)
+{
+    return (1.0f / Math::sin(value));
+}
+
+float Math::cot(float value)
+{
+    return (1.0f / Math::tan(value));
+}
+
 template<typename T>
 T Math::lerp(const T &A, const T &B, float time, bool bounded)
 {

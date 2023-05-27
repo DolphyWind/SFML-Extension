@@ -63,7 +63,7 @@ T Gradient<T>::evaluate(float time)
         const auto& pair = *it;
         if(pair.first >= time)
         {
-            if(it == m_gradientMap.begin()) return m_gradientMap[pair.first];
+            if(it == m_gradientMap.begin()) return pair.second;
             pairAfter = pair;
             pairBefore = *(--it);
             pairFound = true;
