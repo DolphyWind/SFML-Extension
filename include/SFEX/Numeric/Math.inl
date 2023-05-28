@@ -55,34 +55,82 @@ float Math::rad2deg(float val)
     return val * 180.0f / (Math::pi);
 }
 
-float Math::cos(float value)
+template<typename T>
+T Math::cos(T value)
 {
     return std::cos(value);
 }
 
-float Math::sin(float value)
+template<typename T>
+T Math::sin(T value)
 {
     return std::sin(value);
 }
 
-float Math::tan(float value)
+template<typename T>
+T Math::tan(T value)
 {
     return std::tan(value);
 }
 
-float Math::sec(float value)
+template<typename T>
+T Math::sec(T value)
 {
     return (1.0f / Math::cos(value));
 }
 
-float Math::csc(float value)
+template<typename T>
+T Math::csc(T value)
 {
     return (1.0f / Math::sin(value));
 }
 
-float Math::cot(float value)
+template<typename T>
+T Math::cot(T value)
 {
     return (1.0f / Math::tan(value));
+}
+
+template<typename T>
+T Math::arccos(T value)
+{
+    return std::acos(value);
+}
+
+template<typename T>
+T Math::arcsin(T value)
+{
+    return std::asin(value);
+}
+
+template<typename T>
+T Math::arctan(T value)
+{
+    return std::atan(value);
+}
+
+template<typename T>
+T Math::arctan2(T y, T x)
+{
+    return std::atan2(y, x);
+}
+
+template<typename T>
+T Math::arcsec(T value)
+{
+    return std::acos(1 / value);
+}
+
+template<typename T>
+T Math::arccsc(T value)
+{
+    return std::asin(1 / value);
+}
+
+template<typename T>
+T Math::arccot(T value)
+{
+    return Math::half_pi - std::atan(value);
 }
 
 template<typename T>

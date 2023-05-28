@@ -41,6 +41,10 @@ namespace sfex
 class Math : StaticClass
 {
 public:
+
+    /// @brief Half of the famous mathematical constant pi
+    SFEX_MATHDEF constexpr float half_pi = 1.57079632679f;
+
     /// @brief Ratio of a circle's circumference to its diameter.
     SFEX_MATHDEF constexpr float pi = 3.1415926535f;
 
@@ -83,33 +87,82 @@ public:
 
     /// @brief Calculates the cosine of the given value.
     /// @param value The value you want to calculate the cosine of.
-    /// @return The cosine of the given value.
-    SFEX_MATHDEF float cos(float value);
+    /// @return Cosine of the given value.
+    template<typename T>
+    SFEX_MATHDEF T cos(T value);
 
     /// @brief Calculates the sine of the given value.
     /// @param value The value you want to calculate the sine of.
-    /// @return The sine of the given value.
-    SFEX_MATHDEF float sin(float value);
+    /// @return Sine of the given value.
+    template<typename T>
+    SFEX_MATHDEF T sin(T value);
 
     /// @brief Calculates the tangent of the given value.
     /// @param value The value you want to calculate the tangent of.
-    /// @return The tangent of the given value.
-    SFEX_MATHDEF float tan(float value);
+    /// @return Tangent of the given value.
+    template<typename T>
+    SFEX_MATHDEF T tan(T value);
 
-    /// @brief Calculates the cosine of the given value.
-    /// @param value The value you want to calculate the cosine of.
-    /// @return The cosine of the given value.
-    SFEX_MATHDEF float sec(float value);
+    /// @brief Calculates the secant of the given value.
+    /// @param value The value you want to calculate the secant of.
+    /// @return Secant of the given value.
+    template<typename T>
+    SFEX_MATHDEF T sec(T value);
 
-    /// @brief Calculates the cosine of the given value.
-    /// @param value The value you want to calculate the cosine of.
-    /// @return The cosine of the given value.
-    SFEX_MATHDEF float csc(float value);
+    /// @brief Calculates the cosecant of the given value.
+    /// @param value The value you want to calculate the cosecant of.
+    /// @return Cosecant of the given value.
+    template<typename T>
+    SFEX_MATHDEF T csc(T value);
 
-    /// @brief Calculates the cosine of the given value.
-    /// @param value The value you want to calculate the cosine of.
-    /// @return The cosine of the given value.
-    SFEX_MATHDEF float cot(float value);
+    /// @brief Calculates the cotangent of the given value.
+    /// @param value The value you want to calculate the cotangent of.
+    /// @return Cotangent of the given value.
+    template<typename T>
+    SFEX_MATHDEF T cot(T value);
+
+    /// @brief Calculates the inverse cosine of the given value.
+    /// @param value The value you want to calculate the inverse cosine of.
+    /// @return Inverse cosine of the given value.
+    template<typename T>
+    SFEX_MATHDEF T arccos(T value);
+
+    /// @brief Calculates the inverse sine of the given value.
+    /// @param value The value you want to calculate the inverse sine of.
+    /// @return Inverse sine of the given value.
+    template<typename T>
+    SFEX_MATHDEF T arcsin(T value);
+
+    /// @brief Calculates the inverse tangent of the given value.
+    /// @param value The value you want to calculate the inverse tangent of.
+    /// @return Inverse tangent of the given value.
+    template<typename T>
+    SFEX_MATHDEF T arctan(T value);
+
+    /// @brief Calculates the inverse tangent of the ratio y/x
+    /// @param y numerator of the ratio
+    /// @param x denominator of the ratio
+    /// @return Invers tangent of the ration y / x
+    template<typename T>
+    SFEX_MATHDEF T arctan2(T y, T x);
+
+    /// @brief Calculates the inverse secant of the given value.
+    /// @param value The value you want to calculate the inverse secant of.
+    /// @return Inverse secant of the given value.
+    template<typename T>
+    SFEX_MATHDEF T arcsec(T value);
+
+    /// @brief Calculates the inverse cosecant of the given value.
+    /// @param value The value you want to calculate the inverse cosecant of.
+    /// @return Inverse cosecant of the given value.
+    template<typename T>
+    SFEX_MATHDEF T arccsc(T value);
+
+    /// @brief Calculates the inverse cotangent of the given value.
+    /// @param value The value you want to calculate the inverse cotangent of.
+    /// @return Inverse cotangent of the given value.
+    template<typename T>
+    SFEX_MATHDEF T arccot(T value);
 
     /// @brief Calculates linear interpolation between A and B. Namely A*(1-t) + B*t
     /// @param A The value at time=0
