@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 using namespace std::chrono_literals;
+using as = sfex::AngleSystem;
 
 void printDashes(std::size_t n = 30)
 {
@@ -47,15 +48,15 @@ int main()
     }
     printDashes();
 
-    float angle = sfex::Math::deg2rad(60);
-    std::cout << "Angle: " << angle << " radians." << std::endl;
-    std::cout << "Cos: " << sfex::Math::cos(angle) << std::endl;
-    std::cout << "Sin: " << sfex::Math::sin(angle) << std::endl;
-    std::cout << "Tan: " << sfex::Math::tan(angle) << std::endl;
-    std::cout << "Sec: " << sfex::Math::sec(angle) << std::endl;
-    std::cout << "Csc: " << sfex::Math::csc(angle) << std::endl;
-    std::cout << "Cot: " << sfex::Math::cot(angle) << std::endl;
+    float angle = 60;
+    std::cout << "Cos(" << angle << " degrees): " << sfex::Math::cos(as::degrees(angle)) << std::endl;
+    std::cout << "Sin(" << angle << " degrees): " << sfex::Math::sin(as::degrees(angle)) << std::endl;
+    std::cout << "Tan(" << angle << " degrees): " << sfex::Math::tan(as::degrees(angle)) << std::endl;
+    std::cout << "Sec(" << angle << " degrees): " << sfex::Math::sec(as::degrees(angle)) << std::endl;
+    std::cout << "Csc(" << angle << " degrees): " << sfex::Math::csc(as::degrees(angle)) << std::endl;
+    std::cout << "Cot(" << angle << " degrees): " << sfex::Math::cot(as::degrees(angle)) << std::endl;
     
-    
+    std::cout << angle << " degrees to revolutions " << as::degrees.convertTo(as::revolutions, angle);
+
     return 0;
 }

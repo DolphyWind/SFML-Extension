@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.20.1)
+project(${SFEX_PROJECT_NAME} VERSION 0.20.2)
 include(GNUInstallDirs)
 include(CTest)
 enable_testing()
@@ -33,6 +33,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Listener.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/StaticClass.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Scene.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/AngleSystem.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector2.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector3.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Math.hpp
@@ -59,6 +60,7 @@ set( SFEX_SOURCE_FILES
     src/SFEX/General/Joystick.cpp
     src/SFEX/General/Singleton.cpp
     src/SFEX/General/Listener.cpp
+    src/SFEX/Numeric/AngleSystem.cpp
     src/SFEX/Numeric/Gradient.cpp
     src/SFEX/Numeric/Math.cpp
     src/SFEX/Numeric/Vector2.cpp

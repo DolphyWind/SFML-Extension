@@ -6,5 +6,4 @@
 + Graphics/ParticleSystem
 + General/Scheduler
 + Graphics/StarShape
-+ Numeric/AngleSystem
-+ Write a documentation after everything got implemented.
++ Write a documentation after everything that got implemented.

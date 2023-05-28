@@ -22,11 +22,37 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_CONFIG_HPP_
-#define _SFEX_CONFIG_HPP_
+#include <SFEX/Numeric/AngleSystem.hpp>
 
-#define SFEX_VERSION_MAJOR 0
-#define SFEX_VERSION_MINOR 20
-#define SFEX_VERSION_PATCH 2
+namespace sfex
+{
 
-#endif // !_SFEX_CONFIG_HPP_
+const AngleSystem AngleSystem::degrees(360.0f);
+const AngleSystem AngleSystem::radians(sfex::Math::tau);
+const AngleSystem AngleSystem::revolutions(1.0f);
+
+AngleSystem::AngleSystem(float period): m_period(period)
+{
+}
+
+void AngleSystem::setPeriod(float period)
+{
+    m_period = period;
+}
+
+float AngleSystem::getPeriod() const
+{
+    return m_period;
+}
+
+float AngleSystem::operator()(float value) const
+{
+    return radians.getPeriod() * value / m_period;
+}
+
+float AngleSystem::convertTo(const AngleSystem &to, float value) const
+{
+    return to.getPeriod() * value / m_period;
+}
+
+}

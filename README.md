@@ -38,6 +38,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - SpriteManager - Simple SpriteManager class. Inherits from ManagerBase\<sf::Sprite\>
     - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from ManagerBase\<sf::Texture\>
 - **Numeric:** Classes that are related to math.
+    - AngleSystem - A class for representing angle measurement systems.
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
     - Math - A math class that contains some math constants and functions. Only contains static methods and constants so it doesn't meant to be instantiated.
     - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
