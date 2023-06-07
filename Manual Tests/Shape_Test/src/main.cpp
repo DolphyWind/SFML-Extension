@@ -36,6 +36,14 @@ int main()
     squircle.setPosition(500, 120);
     squircle.setTexture(&lennaTexture);
 
+    sfex::Star star;
+    star.setInnerRadius(40);
+    star.setOuterRadius(100);
+    star.setOutlineThickness(2);
+    star.setOutlineColor(sfex::Color::White);
+    star.setPosition(300, 500);
+    star.setTexture(&lennaTexture);
+
     while(window.isOpen())
     {
         sf::Event e;
@@ -49,6 +57,7 @@ int main()
         window.draw(rect);
         window.draw(squircle);
         window.draw(ellipse);
+        window.draw(star);
 
         window.display();
     }

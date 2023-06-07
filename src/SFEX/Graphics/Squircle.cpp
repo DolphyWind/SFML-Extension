@@ -28,8 +28,10 @@
 namespace sfex
 {
 
-Squircle::Squircle(float radius, std::size_t pointCount): m_radius(radius), m_pointCount(pointCount)
+Squircle::Squircle(float radius, std::size_t pointCount):
+    m_radius(radius), m_pointCount(pointCount)
 {
+    this->update();
 }
 
 void Squircle::setRadius(float radius)

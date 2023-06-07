@@ -30,11 +30,13 @@ namespace sfex
 
 Ellipse::Ellipse(const sfex::Vec2 &radius, std::size_t pointCount): m_radius(radius), m_pointCount(pointCount)
 {
+    this->update();
 }
 
 Ellipse::Ellipse(float horizontalRadius, float verticalRadius, std::size_t pointCount): m_pointCount(pointCount)
 {
     m_radius = {horizontalRadius, verticalRadius};
+    this->update();
 }
 
 void Ellipse::setRadius(const sfex::Vec2 &radius)

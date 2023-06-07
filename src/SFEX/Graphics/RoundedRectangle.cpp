@@ -28,7 +28,8 @@
 namespace sfex
 {
 
-RoundedRectangle::RoundedRectangle(const sfex::Vec2 &size, float cornerRadius, std::size_t cornerPointCount): m_size(size), m_cornerPointCount(cornerPointCount)
+RoundedRectangle::RoundedRectangle(const sfex::Vec2 &size, float cornerRadius, std::size_t cornerPointCount):
+    m_size(size), m_cornerPointCount(cornerPointCount)
 {
     setCornerRadius(cornerRadius);
 }
@@ -36,6 +37,7 @@ RoundedRectangle::RoundedRectangle(const sfex::Vec2 &size, float cornerRadius, s
 void RoundedRectangle::setSize(const sfex::Vec2 &size)
 {
     m_size = size;
+    this->update();
 }
 
 void RoundedRectangle::setSize(float width, float height)
@@ -54,6 +56,7 @@ void RoundedRectangle::setCornerRadius(float cornerRadius)
         m_cornerRadius = std::min(m_size.x, m_size.y) / 2;
     else
         m_cornerRadius = cornerRadius;
+    this->update();
 }
 
 float RoundedRectangle::getCornerRadius() const
@@ -64,6 +67,7 @@ float RoundedRectangle::getCornerRadius() const
 void RoundedRectangle::setCornerPointCount(std::size_t cornerPointCount)
 {
     m_cornerPointCount = cornerPointCount;
+    this->update();
 }
 
 std::size_t RoundedRectangle::getCornerPointCount() const

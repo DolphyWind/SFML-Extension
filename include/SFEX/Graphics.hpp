@@ -31,5 +31,6 @@
 #include <SFEX/Graphics/Ellipse.hpp>
 #include <SFEX/Graphics/RoundedRectangle.hpp>
 #include <SFEX/Graphics/Squircle.hpp>
+#include <SFEX/Graphics/Star.hpp>
 
 #endif // !_SFEX_GRAPHICS_HPP_
