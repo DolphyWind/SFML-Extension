@@ -26,6 +26,9 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/SFEX.hpp
 
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/FilteringMethods.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/GameBehaviour.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/GameComponent.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/GameObject.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Joystick.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Keyboard.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Listener.hpp
@@ -60,10 +63,14 @@ set( SFEX_HEADER_FILES
 )
 set( SFEX_SOURCE_FILES
 	${SFEX_SRC_FOLDER}/SFEX/General/Joystick.cpp
+	${SFEX_SRC_FOLDER}/SFEX/General/GameBehaviour.cpp
+	${SFEX_SRC_FOLDER}/SFEX/General/GameComponent.cpp
+	${SFEX_SRC_FOLDER}/SFEX/General/GameObject.cpp
     ${SFEX_SRC_FOLDER}/SFEX/General/Keyboard.cpp
     ${SFEX_SRC_FOLDER}/SFEX/General/Listener.cpp
     ${SFEX_SRC_FOLDER}/SFEX/General/Mouse.cpp
     ${SFEX_SRC_FOLDER}/SFEX/General/Multitype.cpp
+    ${SFEX_SRC_FOLDER}/SFEX/General/Scene.cpp
     ${SFEX_SRC_FOLDER}/SFEX/General/Singleton.cpp
     ${SFEX_SRC_FOLDER}/SFEX/General/Stopwatch.cpp
 

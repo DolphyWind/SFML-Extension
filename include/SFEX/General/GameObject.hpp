@@ -22,27 +22,38 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_GENERAL_SCENE_HPP_
-#define _SFEX_GENERAL_SCENE_HPP_
+#ifndef _SFEX_GENERAL_GAMEOBJECT_HPP_
+#define _SFEX_GENERAL_GAMEOBJECT_HPP_
 
-#include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFEX/General/GameBehaviour.hpp>
+#include <SFEX/General/GameComponent.hpp>
+#include <vector>
 
 namespace sfex
 {
 
-/// @brief Base scene class. Functions do what their descriotions say when a child class is used with a sfex::SceneManager object.
-class Scene : public GameBehaviour
+class ExtendedScene;
+class GameObject : public GameBehaviour
 {
 public:
-
-    /// @brief Default constructor.
-    Scene();
+    /// @brief Default constructor
+    /// @param parent The scene containing this Game Object
+    GameObject(ExtendedScene* parent);
 
     /// @brief Default destructor
-    virtual ~Scene();
-    
+    virtual ~GameObject();
+
+    /// @brief Get the scene that this game object sits in
+    /// @return The scene that this game object sits in
+    ExtendedScene* getScene();
+
+    /// @brief Add new GameComponent to 
+    /// @tparam T Type of the GameComponent
+    /// @param args Parameters to pass to the constructor of T. this GameObject will be passed automatically to first parameter.
+    template<typename T, typename... Args>
+    void addComponent(Args&&... args);
+
+    /// Add hasComponent, getComponent, getComponents, removeComponents
 
     /// @brief Event hadling function for a scene
     /// @param e Event to handle
@@ -63,9 +74,19 @@ public:
 
     /// @brief Destroy functiun runs when a scene manager switchs to a new scene.
     virtual void onDestroy() override;
+
+private:
+    ExtendedScene* m_parent;
+    std::vector<GameComponent_Ptr> m_components;
 };
 
-} // namespace sfex
 
+template<typename T, typename... Args>
+void GameObject::addComponent(Args&&... args)
+{
+    // m_components.push_back(std::make_unique<T>(this, args...));
+}
 
-#endif // !_SFEX_GENERAL_SCENE_HPP_
+}
+
+#endif // !_SFEX_GENERAL_GAMEOBJECT_HPP_

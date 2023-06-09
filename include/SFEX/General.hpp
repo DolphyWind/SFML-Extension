@@ -26,6 +26,9 @@
 #define _SFEX_GENERAL_HPP_
 
 #include <SFEX/Config.hpp>
+#include <SFEX/General/GameBehaviour.hpp>
+#include <SFEX/General/GameComponent.hpp>
+#include <SFEX/General/GameObject.hpp>
 #include <SFEX/General/Joystick.hpp>
 #include <SFEX/General/Keyboard.hpp>
 #include <SFEX/General/Listener.hpp>

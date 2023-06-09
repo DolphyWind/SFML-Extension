@@ -22,52 +22,45 @@
 // SOFTWARE.
 //
 
-#include <SFEX/Managers/SceneManager.hpp>
+#ifndef _SFEX_GENERAL_GAMEBEHAVIOUR_HPP_
+#define _SFEX_GENERAL_GAMEBEHAVIOUR_HPP_
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 namespace sfex
 {
 
-SceneManager::SceneManager(): m_activeKey(std::nullopt)
+class GameBehaviour
 {
+public:
+    /// @brief Default constructor
+    GameBehaviour();
+
+    /// @brief Default destructor
+    virtual ~GameBehaviour();
+    
+
+    /// @brief On Event should be run when there is a new sf::Event
+    /// @param e sf::Event to handle
+    virtual void onEvent(const sf::Event& e);
+
+    /// @brief Start function should run once when the behaviour has been loaded.
+    virtual void start();
+
+    /// @brief Update function should run each frame.
+    virtual void update();
+
+    /// @brief Late Update function should be run each frame after update, after the update function and before the render function.
+    virtual void lateUpdate();
+
+    /// @brief Render function should run each frame after update and late update functions.
+    /// @param target Render target to render on.
+    virtual void render(sf::RenderTarget& target);
+
+    /// @brief On Destroy should be called when the Behaviour has been destroyed.
+    virtual void onDestroy();
+};
+
 }
 
-void SceneManager::setActiveScene(const std::string &key)
-{
-    if(!this->contains(key)) return;
-    if(this->m_activeKey.has_value()) this->at(m_activeKey.value())->onDestroy();
-    m_activeKey = key;
-    this->at(key)->start();
-}
-
-std::optional<std::shared_ptr<Scene>> SceneManager::getActiveScene()
-{
-    if(!m_activeKey.has_value()) return std::nullopt;
-    if(!this->contains(m_activeKey.value())) return std::nullopt;
-    return this->at(m_activeKey.value());
-}
-
-std::optional<std::string> SceneManager::getActiveSceneKey()
-{
-    return m_activeKey;
-}
-
-
-void SceneManager::pollEvent(const sf::Event &e)
-{
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->onEvent(e);
-}
-
-void SceneManager::update()
-{
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->update();
-}
-
-void SceneManager::draw(sf::RenderTarget &target)
-{
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->render(target);
-}
-
-} // namespace sfex
+#endif // !_SFEX_GENERAL_GAMEBEHAVIOUR_HPP_

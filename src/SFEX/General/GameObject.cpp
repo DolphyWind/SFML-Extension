@@ -22,52 +22,73 @@
 // SOFTWARE.
 //
 
-#include <SFEX/Managers/SceneManager.hpp>
+#include <SFEX/General/GameObject.hpp>
+// #include <SFEX/General/ExtendedScene.hpp>
 
 namespace sfex
 {
 
-SceneManager::SceneManager(): m_activeKey(std::nullopt)
+GameObject::GameObject(ExtendedScene* parent): m_parent(parent)
+{
+
+}
+
+GameObject::~GameObject()
 {
 }
 
-void SceneManager::setActiveScene(const std::string &key)
+ExtendedScene* GameObject::getScene()
 {
-    if(!this->contains(key)) return;
-    if(this->m_activeKey.has_value()) this->at(m_activeKey.value())->onDestroy();
-    m_activeKey = key;
-    this->at(key)->start();
-}
-
-std::optional<std::shared_ptr<Scene>> SceneManager::getActiveScene()
-{
-    if(!m_activeKey.has_value()) return std::nullopt;
-    if(!this->contains(m_activeKey.value())) return std::nullopt;
-    return this->at(m_activeKey.value());
-}
-
-std::optional<std::string> SceneManager::getActiveSceneKey()
-{
-    return m_activeKey;
+    return m_parent;
 }
 
 
-void SceneManager::pollEvent(const sf::Event &e)
+void GameObject::onEvent(const sf::Event &e)
 {
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->onEvent(e);
+    for(auto& component : m_components)
+    {
+        component->onEvent(e);
+    }
 }
 
-void SceneManager::update()
+void GameObject::start()
 {
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->update();
+    for(auto& component : m_components)
+    {
+        component->start();
+    }
 }
 
-void SceneManager::draw(sf::RenderTarget &target)
+void GameObject::update()
 {
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->render(target);
+    for(auto& component : m_components)
+    {
+        component->update();
+    }
 }
 
-} // namespace sfex
+void GameObject::lateUpdate()
+{
+    for(auto& component : m_components)
+    {
+        component->lateUpdate();
+    }
+}
+
+void GameObject::render(sf::RenderTarget& target)
+{
+    for(auto& component : m_components)
+    {
+        component->render(target);
+    }
+}
+
+void GameObject::onDestroy()
+{
+    for(auto& component : m_components)
+    {
+        component->onDestroy();
+    }
+}
+
+}

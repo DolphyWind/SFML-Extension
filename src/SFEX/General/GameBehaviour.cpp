@@ -22,52 +22,42 @@
 // SOFTWARE.
 //
 
-#include <SFEX/Managers/SceneManager.hpp>
+#include <SFEX/General/GameBehaviour.hpp>
 
 namespace sfex
 {
 
-SceneManager::SceneManager(): m_activeKey(std::nullopt)
+GameBehaviour::GameBehaviour()
 {
 }
 
-void SceneManager::setActiveScene(const std::string &key)
+GameBehaviour::~GameBehaviour()
 {
-    if(!this->contains(key)) return;
-    if(this->m_activeKey.has_value()) this->at(m_activeKey.value())->onDestroy();
-    m_activeKey = key;
-    this->at(key)->start();
-}
-
-std::optional<std::shared_ptr<Scene>> SceneManager::getActiveScene()
-{
-    if(!m_activeKey.has_value()) return std::nullopt;
-    if(!this->contains(m_activeKey.value())) return std::nullopt;
-    return this->at(m_activeKey.value());
-}
-
-std::optional<std::string> SceneManager::getActiveSceneKey()
-{
-    return m_activeKey;
 }
 
 
-void SceneManager::pollEvent(const sf::Event &e)
+void GameBehaviour::onEvent(const sf::Event &e)
 {
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->onEvent(e);
 }
 
-void SceneManager::update()
+void GameBehaviour::start()
 {
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->update();
 }
 
-void SceneManager::draw(sf::RenderTarget &target)
+void GameBehaviour::update()
 {
-    if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->render(target);
 }
 
-} // namespace sfex
+void GameBehaviour::lateUpdate()
+{
+}
+
+void GameBehaviour::render(sf::RenderTarget &target)
+{
+}
+
+void onDestroy()
+{
+}
+
+}

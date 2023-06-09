@@ -39,7 +39,8 @@ namespace sfex
 class SceneManager : public ManagerBase<std::shared_ptr<Scene>>
 {
 public:
-    SceneManager(): m_activeKey(std::nullopt) {}
+    /// @brief Default constructor
+    SceneManager();
 
     /// @brief Set active scene of the scene manager. It does nothing if key is not valid.
     /// @param key Unique identifier of key

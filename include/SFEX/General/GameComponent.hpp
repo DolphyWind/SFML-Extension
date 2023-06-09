@@ -22,33 +22,35 @@
 // SOFTWARE.
 //
 
-#ifndef _SFEX_GENERAL_SCENE_HPP_
-#define _SFEX_GENERAL_SCENE_HPP_
+#ifndef _SFEX_GENERAL_GAMECOMPONENT_HPP_
+#define _SFEX_GENERAL_GAMECOMPONENT_HPP_
 
-#include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <SFEX/General/GameBehaviour.hpp>
+#include <memory>
 
 namespace sfex
 {
 
-/// @brief Base scene class. Functions do what their descriotions say when a child class is used with a sfex::SceneManager object.
-class Scene : public GameBehaviour
+class GameObject;
+class GameComponent : public GameBehaviour
 {
 public:
-
-    /// @brief Default constructor.
-    Scene();
+    /// @brief Default constructor. Stores a pointer for the parent game object.
+    /// @param parent Parent Game Object.
+    GameComponent(GameObject* parent);
 
     /// @brief Default destructor
-    virtual ~Scene();
-    
+    virtual ~GameComponent();
 
-    /// @brief Event hadling function for a scene
-    /// @param e Event to handle
+    /// @brief Get the parent game object
+    /// @return The parent game object
+    GameObject* getGameObject();
+
+    /// @brief On Event function when there is a new sf::Event
+    /// @param e sf::Event to handle
     virtual void onEvent(const sf::Event& e) override;
 
-    /// @brief Start function runs once when the scene has been loaded.
+    /// @brief Start function runs once when the component has been loaded.
     virtual void start() override;
 
     /// @brief Update function runs on each frame.
@@ -57,15 +59,18 @@ public:
     /// @brief Late Update function runs each frame after update. A little bit after the update function.
     virtual void lateUpdate() override;
 
-    /// @brief Draw function draws the scene drawables to a target
-    /// @param target Target to draw onto
-    virtual void render(sf::RenderTarget &target) override;
+    /// @brief Render function runs each frame after update and late update functions.
+    /// @param target Render target to render on.
+    virtual void render(sf::RenderTarget& target) override;
 
-    /// @brief Destroy functiun runs when a scene manager switchs to a new scene.
+    /// @brief On Destroy should be called when the Behaviour has been destroyed.
     virtual void onDestroy() override;
+private:
+    GameObject* m_parent;
 };
 
-} // namespace sfex
+typedef std::unique_ptr<GameComponent> GameComponent_Ptr;
 
+}
 
-#endif // !_SFEX_GENERAL_SCENE_HPP_
+#endif

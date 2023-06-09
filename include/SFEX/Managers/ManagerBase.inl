@@ -28,6 +28,16 @@ namespace sfex
 {
 
 template<typename T>
+ManagerBase<T>::ManagerBase() : m_hashmap()
+{
+}
+
+template<typename T>
+ManagerBase<T>::~ManagerBase()
+{
+}
+
+template<typename T>
 bool ManagerBase<T>::contains(const std::string &key) const
 {
     return (m_hashmap.find(key) != m_hashmap.end());
@@ -71,6 +81,12 @@ typename ManagerBase<T>::const_iterator ManagerBase<T>::cend()
 
 template<typename T>
 T& ManagerBase<T>::at(const std::string &key)
+{
+    return m_hashmap.at(key);
+}
+
+template<typename T>
+const T& ManagerBase<T>::at(const std::string &key) const
 {
     return m_hashmap.at(key);
 }
