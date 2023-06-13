@@ -28,9 +28,9 @@
 namespace sfex
 {
 
-GameObject::GameObject(ExtendedScene* parent): m_parent(parent)
+GameObject::GameObject(ExtendedScene* parent, const std::string& name):
+    GameBehaviour(name), m_parent(parent)
 {
-
 }
 
 GameObject::~GameObject()
@@ -89,6 +89,32 @@ void GameObject::onDestroy()
     {
         component->onDestroy();
     }
+}
+
+GameComponent* GameObject::getComponent(const std::string& name) const
+{
+    for(auto& component : m_components)
+    {
+        if(component->getName() == name) return component.get();
+    }
+    return nullptr;
+}
+
+std::vector<GameComponent*> GameObject::getComponents(const std::string& name) const
+{
+    std::vector<GameComponent*> output;
+    for(auto& component : m_components)
+    {
+        if(component->getName() == name) output.push_back(component.get());
+    }
+    return output;
+}
+
+void GameObject::removeComponent(GameComponent *ptr)
+{
+    m_components.erase(std::remove_if(m_components.begin(), m_components.end(), [ptr](const GameComponent_Ptr& p){
+        return p.get() == ptr;
+    }), m_components.end());
 }
 
 }

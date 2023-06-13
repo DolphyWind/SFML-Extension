@@ -27,7 +27,8 @@
 namespace sfex
 {
 
-GameBehaviour::GameBehaviour()
+GameBehaviour::GameBehaviour(const std::string& name):
+    m_name(name)
 {
 }
 
@@ -58,6 +59,16 @@ void GameBehaviour::render(sf::RenderTarget &target)
 
 void onDestroy()
 {
+}
+
+std::string GameBehaviour::getName() const
+{
+    return m_name;
+}
+
+void GameBehaviour::setName(const std::string &name)
+{
+    m_name = name;
 }
 
 }

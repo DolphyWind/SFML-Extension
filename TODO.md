@@ -1,5 +1,4 @@
 # TODO
-+ Implement static Game Components.
 + Update Scene manager
 + Update Scene tests
 + General/GameObject

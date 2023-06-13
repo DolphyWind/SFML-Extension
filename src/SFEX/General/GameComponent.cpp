@@ -28,7 +28,8 @@
 namespace sfex
 {
 
-GameComponent::GameComponent(GameObject* parent): m_parent(parent)
+GameComponent::GameComponent(GameObject* parent, const std::string& name):
+    GameBehaviour(name), m_parent(parent)
 {
 }
 
@@ -69,6 +70,11 @@ void GameComponent::render(sf::RenderTarget& target)
 void GameComponent::onDestroy()
 {
     GameBehaviour::onDestroy();
+}
+
+bool GameComponent::isSingleton() const
+{
+    return false;
 }
 
 }

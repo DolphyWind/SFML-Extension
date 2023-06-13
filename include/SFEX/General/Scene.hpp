@@ -38,7 +38,7 @@ class Scene : public GameBehaviour
 public:
 
     /// @brief Default constructor.
-    Scene();
+    Scene(const std::string& name);
 
     /// @brief Default destructor
     virtual ~Scene();
