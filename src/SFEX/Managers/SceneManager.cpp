@@ -27,7 +27,8 @@
 namespace sfex
 {
 
-SceneManager::SceneManager(): m_activeKey(std::nullopt)
+SceneManager::SceneManager():
+    GameBehaviour(""), m_activeKey(std::nullopt)
 {
 }
 
@@ -52,10 +53,16 @@ std::optional<std::string> SceneManager::getActiveSceneKey()
 }
 
 
-void SceneManager::pollEvent(const sf::Event &e)
+void SceneManager::onEvent(const sf::Event &e)
 {
     if(!m_activeKey.has_value()) return;
     this->at(m_activeKey.value())->onEvent(e);
+}
+
+void SceneManager::start()
+{
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->start();
 }
 
 void SceneManager::update()
@@ -64,10 +71,22 @@ void SceneManager::update()
     this->at(m_activeKey.value())->update();
 }
 
-void SceneManager::draw(sf::RenderTarget &target)
+void SceneManager::lateUpdate()
+{
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->lateUpdate();
+}
+
+void SceneManager::render(sf::RenderTarget &target)
 {
     if(!m_activeKey.has_value()) return;
     this->at(m_activeKey.value())->render(target);
+}
+
+void SceneManager::onDestroy() const
+{
+    if(!m_activeKey.has_value()) return;
+    this->at(m_activeKey.value())->onDestroy();
 }
 
 } // namespace sfex

@@ -20,7 +20,7 @@ int main()
         while(window.pollEvent(e))
         {
             if(e.type == sf::Event::Closed) window.close();
-            sceneManager.pollEvent(e);
+            sceneManager.onEvent(e);
         }
 
         sceneManager.update();
@@ -34,7 +34,7 @@ int main()
 
         window.clear();
 
-        sceneManager.draw(window);
+        sceneManager.render(window);
 
         window.display();
     }

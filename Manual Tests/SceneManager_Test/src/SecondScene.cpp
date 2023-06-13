@@ -1,6 +1,7 @@
 #include <SecondScene.hpp>
 
-SecondScene::SecondScene()
+SecondScene::SecondScene():
+    sfex::Scene("second_scene")
 {
     m_rectangle.setSize({50, 50});
     m_rectangle.setFillColor(sfex::Color::Blue);
@@ -12,7 +13,7 @@ void SecondScene::start()
     m_rectangle.setPosition(sfex::Vec2::zero);
 }
 
-void SecondScene::pollEvent(const sf::Event &e)
+void SecondScene::onEvent(const sf::Event &e)
 {
     
 }
@@ -37,12 +38,17 @@ void SecondScene::update()
     }
 }
 
-void SecondScene::draw(sf::RenderTarget &target)
+void SecondScene::lateUpdate()
+{
+
+}
+
+void SecondScene::render(sf::RenderTarget &target)
 {
     target.draw(m_rectangle);
 }
 
-void SecondScene::destroy()
+void SecondScene::onDestroy()
 {
     std::cout << "Second scene got destroyed" << std::endl;
 }

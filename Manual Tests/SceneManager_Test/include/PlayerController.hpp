@@ -1,14 +1,12 @@
-#ifndef _FIRST_SCENE_HPP_
-#define _FIRST_SCENE_HPP_
-
+#ifndef _SQUARE_HPP_
+#define _SQUARE_HPP_
 #include <SFEX/SFEX.hpp>
 #include <SFML/Graphics.hpp>
-#include <PlayerController.hpp>
 
-class FirstScene : public sfex::Scene
+class PlayerController : public sfex::GameComponent
 {
 public:
-    FirstScene();
+    PlayerController(sfex::GameObject* parent, const sfex::Color& color);
 
     virtual void onEvent(const sf::Event &e) override;
     virtual void start() override;
@@ -16,9 +14,10 @@ public:
     virtual void lateUpdate() override;
     virtual void render(sf::RenderTarget &target) override;
     virtual void onDestroy() override;
-
 private:
-    sfex::GameObject m_player;
+    sfex::Color m_color;
+    sf::RectangleShape m_shape;
+    float m_speed = 10.0f;
 };
 
-#endif // !_FIRST_SCENE_HPP_
+#endif // !_SQUARE_HPP_

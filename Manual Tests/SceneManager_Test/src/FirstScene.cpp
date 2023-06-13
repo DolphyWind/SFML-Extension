@@ -1,48 +1,44 @@
 #include <FirstScene.hpp>
 
-FirstScene::FirstScene()
+FirstScene::FirstScene():
+    sfex::Scene("first_scene"), m_player(nullptr, "player")
 {
-    m_rectangle.setSize({50, 50});
-    m_rectangle.setFillColor(sfex::Color::Red);
-    m_rectangleSpeed = 10.0f;
+    m_player.addComponent<PlayerController>(sfex::Color::Red);
 }
 
 void FirstScene::start()
 {
-    m_rectangle.setPosition(sfex::Vec2::zero);
+    sfex::Scene::start();
+    m_player.start();
 }
 
-void FirstScene::pollEvent(const sf::Event &e)
+void FirstScene::onEvent(const sf::Event &e)
 {
-    
+    sfex::Scene::onEvent(e);
+    m_player.onEvent(e);
 }
 
 void FirstScene::update()
 {
-    if(sfex::Keyboard::getKey(sfex::Keyboard::Key::D))
-    {
-        m_rectangle.move({m_rectangleSpeed, 0});
-    }
-    if(sfex::Keyboard::getKey(sfex::Keyboard::Key::A))
-    {
-        m_rectangle.move({-m_rectangleSpeed, 0});
-    }
-    if(sfex::Keyboard::getKey(sfex::Keyboard::Key::W))
-    {
-        m_rectangle.move({0, -m_rectangleSpeed});
-    }
-    if(sfex::Keyboard::getKey(sfex::Keyboard::Key::S))
-    {
-        m_rectangle.move({0, m_rectangleSpeed});
-    }
+    sfex::Scene::update();
+    m_player.update();
 }
 
-void FirstScene::draw(sf::RenderTarget &target)
+void FirstScene::lateUpdate()
 {
-    target.draw(m_rectangle);
+    sfex::Scene::lateUpdate();
 }
 
-void FirstScene::destroy()
+void FirstScene::render(sf::RenderTarget &target)
 {
+    sfex::Scene::render(target);
+    m_player.render(target);
+}
+
+void FirstScene::onDestroy()
+{
+    sfex::Scene::onDestroy();
+
+    //m_player.removeComponent();
     std::cout << "First scene got destroyed!" << std::endl;
 }
