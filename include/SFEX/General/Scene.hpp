@@ -27,42 +27,30 @@
 
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-#include <SFEX/General/GameBehaviour.hpp>
 
 namespace sfex
 {
 
 /// @brief Base scene class. Functions do what their descriotions say when a child class is used with a sfex::SceneManager object.
-class Scene : public GameBehaviour
+class Scene
 {
 public:
-
-    /// @brief Default constructor.
-    Scene();
-
-    /// @brief Default destructor
-    virtual ~Scene();
-    
-
     /// @brief Event hadling function for a scene
     /// @param e Event to handle
-    virtual void onEvent(const sf::Event& e) override;
+    virtual void pollEvent(const sf::Event &e) {};
+    
+    /// @brief Start function runs once when the scene is loaded.
+    virtual void start() {};
 
-    /// @brief Start function runs once when the scene has been loaded.
-    virtual void start() override;
-
-    /// @brief Update function runs on each frame.
-    virtual void update() override;
-
-    /// @brief Late Update function runs each frame after update. A little bit after the update function.
-    virtual void lateUpdate() override;
+    /// @brief Update function is for updating the scene.
+    virtual void update() {};
 
     /// @brief Draw function draws the scene drawables to a target
     /// @param target Target to draw onto
-    virtual void render(sf::RenderTarget &target) override;
+    virtual void draw(sf::RenderTarget &target) {};
 
     /// @brief Destroy functiun runs when a scene manager switchs to a new scene.
-    virtual void onDestroy() override;
+    virtual void destroy() {};
 };
 
 } // namespace sfex

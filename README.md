@@ -27,8 +27,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - Color - A color class.
     - Ellipse - An ellipse shape class.
     - RoundedRectangle - A class for rectangles whose corners are rounded.
-    - Squircle - A squircle shape class based on x^4 + y^4 = r^4 definition.
-    - Star - A cstar shape class.
+    - Squircle - A squircle class based on x^4 + y^4 = r^4 definition.
 - **Managers:** Managers for various Game Development related objects.
     - AnimationManager - Manages animations for one sprite. Makes animations really easy to implement for SFML. Inherits from ManagerBase\<Animation\>
     - ManagerBase - Base manager class. All the other managers classes are derived from this class.

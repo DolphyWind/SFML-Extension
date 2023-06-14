@@ -47,12 +47,6 @@ public:
         Does_not_contain,
     };
 
-    /// @brief Default constructor
-    ManagerBase();
-
-    /// @brief Default destructor
-    virtual ~ManagerBase();
-
     typedef typename std::unordered_map<std::string, T>::iterator iterator;
     typedef typename std::unordered_map<std::string, T>::const_iterator const_iterator;
 
@@ -85,21 +79,16 @@ public:
     /// @return A constant iterator to the end of the hashmap
     const_iterator cend();
 
-    /// @brief Get a reference to the value corresponding to key.
+    /// @brief Get a reference to the value corresponding to key. Returns std::nullopt if key is not present in the hashmap.
     /// @param key Key value
     /// @return A reference to the value corresponding to key.
     T& at(const std::string &key);
-
-    /// @brief Get a const reference to the value corresponding to key.
-    /// @param key Key value
-    /// @return A const reference to the value corresponding to key.
-    const T& at(const std::string& key) const;
 
     /// @brief Get all keys
     /// @return All keys in a vector
     std::vector<std::string> keys() const;
 
-    /// @brief Get a reference to the value corresponding to key.
+    /// @brief Get a reference to the value corresponding to key. Returns std::nullopt if key is not present in the hashmap.
     /// @param key Key value
     /// @return A reference to the value corresponding to key.
     T& operator[](const std::string &key);
