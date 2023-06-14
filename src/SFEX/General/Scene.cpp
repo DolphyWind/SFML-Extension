@@ -27,8 +27,7 @@
 namespace sfex
 {
 
-Scene::Scene(const std::string& name):
-    GameBehaviour(name)
+Scene::Scene()
 {
 }
 

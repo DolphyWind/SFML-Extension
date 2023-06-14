@@ -37,7 +37,7 @@ class GameComponent : public GameBehaviour
 public:
     /// @brief Default constructor. Stores a pointer for the parent game object.
     /// @param parent Parent Game Object.
-    GameComponent(GameObject* parent, const std::string& name);
+    GameComponent(GameObject* parent);
 
     /// @brief Default destructor
     virtual ~GameComponent();
@@ -65,15 +65,11 @@ public:
 
     /// @brief On Destroy should be called when the Behaviour has been destroyed.
     virtual void onDestroy() override;
-
-    /// @brief Return whether the game component is a singleton or not. A gameobject can't contain more than one singleton components.
-    /// @return True if the game component is a singleton. False otherwise.
-    virtual bool isSingleton() const;
 private:
     GameObject* m_parent;
 };
 
-typedef std::unique_ptr<GameComponent, BehaviourDeleter<GameComponent>> GameComponent_Ptr;
+typedef std::unique_ptr<GameComponent> GameComponent_Ptr;
 
 }
 

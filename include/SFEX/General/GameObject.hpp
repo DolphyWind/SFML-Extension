@@ -28,8 +28,6 @@
 #include <SFEX/General/GameBehaviour.hpp>
 #include <SFEX/General/GameComponent.hpp>
 #include <vector>
-#include <type_traits>
-#include <optional>
 
 namespace sfex
 {
@@ -40,7 +38,7 @@ class GameObject : public GameBehaviour
 public:
     /// @brief Default constructor
     /// @param parent The scene containing this Game Object
-    GameObject(ExtendedScene* parent, const std::string& name);
+    GameObject(ExtendedScene* parent);
 
     /// @brief Default destructor
     virtual ~GameObject();
@@ -55,37 +53,7 @@ public:
     template<typename T, typename... Args>
     void addComponent(Args&&... args);
 
-    /// @brief Check if the game object has a component with the given type
-    /// @tparam T Type of the component
-    /// @return True, if the game object has the component with type T. False otherwise.
-    template<typename T>
-    bool hasComponent() const;
-
-    /// @brief Get the first component with specific type.
-    /// @tparam T The type of the game component to find.
-    /// @return A pointer to the first component with specific type.
-    template<typename T>
-    T* getComponent() const;
-
-    /// @brief Get the first component with specific name.
-    /// @param name Name of the component.
-    /// @return A pointer to the first component with the given name.
-    GameComponent* getComponent(const std::string& name) const;
-
-    /// @brief Get all components with specific type.
-    /// @tparam T The type of the game components to find.
-    /// @return A vector of pointers to all components with specific type.
-    template<typename T>
-    std::vector<T*> getComponents() const;
-
-    /// @brief Get all components with specific name.
-    /// @param name Name of the components.
-    /// @return A vector of pointers to all components with the given name.
-    std::vector<GameComponent*> getComponents(const std::string& name) const;
-
-    /// @brief Remove a game component by value
-    /// @param ptr A pointer to the game component to delete
-    void removeComponent(GameComponent* ptr);
+    /// Add hasComponent, getComponent, getComponents, removeComponents
 
     /// @brief Event hadling function for a scene
     /// @param e Event to handle
@@ -112,10 +80,13 @@ private:
     std::vector<GameComponent_Ptr> m_components;
 };
 
-typedef std::unique_ptr<GameObject, BehaviourDeleter<GameObject>> GameObject_Ptr;
 
+template<typename T, typename... Args>
+void GameObject::addComponent(Args&&... args)
+{
+    // m_components.push_back(std::make_unique<T>(this, args...));
 }
 
-#include "GameObject.inl"
+}
 
 #endif // !_SFEX_GENERAL_GAMEOBJECT_HPP_
