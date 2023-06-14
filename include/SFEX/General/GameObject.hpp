@@ -59,7 +59,7 @@ public:
     /// @tparam T Type of the component
     /// @return True, if the game object has the component with type T. False otherwise.
     template<typename T>
-    bool hasComponent();
+    bool hasComponent() const;
 
     /// @brief Get the first component with specific type.
     /// @tparam T The type of the game component to find.

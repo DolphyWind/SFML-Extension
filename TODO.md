@@ -3,7 +3,7 @@
 + Update Scene tests
 + General/GameObject
 + General/GameComponent
-+ Add GameObject support for sfex::Scene
++ General/ExtendedScene (Has support for game objects etc.)
 
 # Ideas might get implemented
 + Particles and particle systems

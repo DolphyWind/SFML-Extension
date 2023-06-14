@@ -6,7 +6,7 @@ namespace sfex
 template<typename T>
 void BehaviourDeleter<T>::operator()(T* ptr) const
 {
-    // ptr->onDestroy();
+    ptr->onDestroy();
     delete ptr;
 }
 

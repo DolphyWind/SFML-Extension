@@ -57,7 +57,7 @@ void GameBehaviour::render(sf::RenderTarget &target)
 {
 }
 
-void GameBehaviour::onDestroy()
+void onDestroy()
 {
 }
 

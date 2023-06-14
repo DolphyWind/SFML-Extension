@@ -6,8 +6,7 @@ namespace sfex
 template<typename T, typename... Args>
 void GameObject::addComponent(Args&&... args)
 {
-    // GameComponent_Ptr newComponent = std::make_unique<T>(this, std::forward<Args>(args)...);
-    GameComponent_Ptr newComponent = GameComponent_Ptr(new T(this, std::forward<Args>(args)...));
+    GameComponent_Ptr newComponent = std::make_unique<T>(this, std::forward(args)...);
     if(newComponent->isSingleton() && hasComponent<T>()) return;
 
     newComponent->start();
@@ -15,11 +14,11 @@ void GameObject::addComponent(Args&&... args)
 }
 
 template<typename T>
-bool GameObject::hasComponent()
+bool GameObject::hasComponent() const
 {
     for(auto& component : m_components)
     {
-        if(dynamic_cast<T*>(component.get())) return true;
+        if(dynamic_cast<T>(component.get())) return true;
     }
     return false;
 }
@@ -29,7 +28,7 @@ T* GameObject::getComponent() const
 {
     for(auto& component : m_components)
     {
-        if(dynamic_cast<T*>(component.get())) return component.get();
+        if(dynamic_cast<T>(component.get())) return component.get();
     }
     return nullptr;
 }
@@ -40,7 +39,7 @@ std::vector<T*> GameObject::getComponents() const
     std::vector<T*> output;
     for(auto& component : m_components)
     {
-        if(dynamic_cast<T*>(component.get())) output.push_back(component.get());
+        if(dynamic_cast<T>(component.get())) output.push_back(component.get());
     }
     return output;
 }

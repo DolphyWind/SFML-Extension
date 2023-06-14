@@ -52,11 +52,6 @@ void Scene::update()
     GameBehaviour::update();
 }
 
-void Scene::lateUpdate()
-{
-    GameBehaviour::lateUpdate();
-}
-
 void Scene::render(sf::RenderTarget &target)
 {
     GameBehaviour::render(target);

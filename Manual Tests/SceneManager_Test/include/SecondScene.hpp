@@ -9,12 +9,11 @@ class SecondScene : public sfex::Scene
 public:
     SecondScene();
 
-    virtual void onEvent(const sf::Event &e) override;
-    virtual void start() override;
-    virtual void update() override;
-    virtual void lateUpdate() override;
-    virtual void render(sf::RenderTarget &target) override;
-    virtual void onDestroy() override;
+    virtual void pollEvent(const sf::Event &e);
+    virtual void start();
+    virtual void update();
+    virtual void draw(sf::RenderTarget &target);
+    virtual void destroy();
 
 private:
     sf::RectangleShape m_rectangle;

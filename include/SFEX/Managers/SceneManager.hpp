@@ -27,7 +27,6 @@
 
 #include <SFEX/Managers/ManagerBase.hpp>
 #include <SFEX/General/Scene.hpp>
-#include <SFEX/General/GameBehaviour.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <string>
@@ -37,7 +36,7 @@ namespace sfex
 {
 
 /// @brief Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase<std::shared_ptr<Scene>>.
-class SceneManager : public ManagerBase<std::shared_ptr<Scene>>, public GameBehaviour
+class SceneManager : public ManagerBase<std::shared_ptr<Scene>>
 {
 public:
     /// @brief Default constructor
@@ -58,19 +57,13 @@ public:
 
     /// @brief Call pollEvent function of the active scene. 
     /// @param e Event variable
-    virtual void onEvent(const sf::Event &e) override;
-
-    virtual void start() override;
+    void pollEvent(const sf::Event &e);
     
     /// @brief Call update() function of the active scene. 
-    virtual void update() override;
-
-    virtual void lateUpdate() override;
+    void update();
     
     /// @brief Call draw() function of the active scene. 
-    virtual void render(sf::RenderTarget &target) override;
-
-    virtual void onDestroy() const;
+    void draw(sf::RenderTarget &target);
 private:
     std::optional<std::string> m_activeKey;
 };
