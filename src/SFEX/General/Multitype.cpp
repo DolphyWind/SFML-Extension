@@ -329,22 +329,32 @@ Multitype& Multitype::reset(DataType datatype)
 
 std::string Multitype::to_string() const
 {
-    return to_string_priv();
+    return to_string_priv(false, false, 0, false);
 }
 
-std::string Multitype::serialize() const
+std::string Multitype::serialize(bool prettify) const
 {
-    return to_string_priv(true);
+    return to_string_priv(true, prettify, 0, false);
 }
 
-std::string Multitype::to_string_priv(bool serialize) const
+std::string Multitype::to_string_priv(bool serialize, bool prettify, std::size_t indent, bool special_prettify) const
 {
+    std::string indent_str;
+    if(prettify) 
+    {
+        indent_str = std::string(indent, ' ');
+        if(special_prettify)
+        {
+            if(get_datatype() != DataType::LIST && get_datatype() != DataType::MAP) indent_str = "";
+        }
+    }
+
     switch (m_datatype)
     {
         case DataType::BOOLEAN:
         {
-            if(this->as_bool()) return "true";
-            return "false";
+            if(this->as_bool()) return indent_str + "true";
+            return indent_str + "false";
         }
         case DataType::DOUBLE:
         {
@@ -353,50 +363,66 @@ std::string Multitype::to_string_priv(bool serialize) const
             {
                 while(double_as_str[double_as_str.length() - 1] == '0' && double_as_str[double_as_str.length() - 2] != '.') double_as_str.erase(double_as_str.length() - 1);
             }
-            return double_as_str;
+            return indent_str + double_as_str;
         }
         case DataType::INT:
         {
-            return std::to_string(this->as_int());
+            return indent_str + std::to_string(this->as_int());
         }
         case DataType::STRING:
         {
-            if(serialize) return "\"" + this->as_string() + "\"";
-            return this->as_string();
+            if(serialize) return indent_str + "\"" + this->as_string() + "\"";
+            return indent_str + this->as_string();
         }
         case DataType::LIST:
         {
             auto vec = this->as_list();
+            if(vec.empty())
+            {
+                if(!special_prettify) return indent_str + "[]";
+                return "[]";
+            }
             std::stringstream out;
+            if(!special_prettify) out << indent_str;
             out << "[";
+            if(prettify) out << '\n';
             for(std::size_t i = 0; i < vec.size(); i++)
             {
-                std::string stringified = vec[i].to_string_priv(false);
-                if(vec[i].get_datatype() == DataType::STRING) stringified = '\"' + stringified + '\"';
+                std::string stringified = vec[i].to_string_priv(serialize, prettify, indent + 4, false);
                 out << stringified;
 
                 if(i != vec.size() - 1) out << ", ";
+                if(prettify) out << '\n';
             }
-            out << "]";
+            out << indent_str << "]";
             return out.str();
         }
         case DataType::MAP:
         {
             MultitypeMap map = this->as_map();
+            if(map.empty())
+            {
+                if(!special_prettify) return indent_str + "{}";
+                return "{}";
+            }
             std::stringstream out;
+            if(!special_prettify) out << indent_str;
             out << "{";
+            if(prettify) out << '\n';
             std::size_t i = 0;
             for(auto &[key, value] : map)
             {
-                out << '\"' << key << "\": " << value.to_string_priv(serialize);
+                if(prettify) out << indent_str << std::string(4, ' ');
+                out << '\"' << key << "\": " << value.to_string_priv(serialize, prettify, indent + 4, true);
                 if(i != map.size() - 1) out << ", ";
+                if(prettify) out << '\n';
                 i++;
             }
-            out << "}";
+            out << indent_str << "}";
             return out.str();
         }
         default:
-            return std::string("null");
+            return indent_str + std::string("null");
             break;
     }
 }

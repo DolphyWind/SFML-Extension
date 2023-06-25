@@ -34,10 +34,12 @@
 #include <sstream>
 #include <unordered_map>
 #include <optional>
-#define MultitypeMap std::unordered_map<std::string, sfex::Multitype>
 
 namespace sfex
 {
+
+class Multitype;
+typedef std::unordered_map<std::string, sfex::Multitype> MultitypeMap;
 
 /// @brief A class for holding different types of variables under the name of one.
 class Multitype
@@ -309,7 +311,7 @@ public:
 
     /// @brief Serialize Multitype object into std::string
     /// @return Result of the serialization
-    std::string serialize() const;
+    std::string serialize(bool prettify=false) const;
 
     /// @brief Get the datatype of Multitype
     /// @return The datatype of Multitype
@@ -390,7 +392,7 @@ private:
 
     void cleanup();
     void update_value(std::size_t new_size, void* new_data, const DataType &datatype);
-    std::string to_string_priv(bool serialize=false) const;
+    std::string to_string_priv(bool serialize=false, bool prettify=false, std::size_t indent=0, bool special_prettify=false) const;
 };
 
 template<typename T>

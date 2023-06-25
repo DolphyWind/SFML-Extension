@@ -16,7 +16,6 @@ int main()
     {
         std::cout << key << ": " << value.getValue() << std::endl;
     }
-
-
+    
     return 0;
 }
