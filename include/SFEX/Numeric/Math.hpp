@@ -42,6 +42,52 @@ class Math : StaticClass
 {
 public:
 
+    /// @brief A functor that adds two different types of objects
+    /// @tparam LeftType The type of the object on the left
+    /// @tparam RightType The type of the object on the right
+    template<typename LeftType, typename RightType>
+    struct Adder
+    {
+        auto operator()(const LeftType& left, const RightType& right) -> decltype(left + right);
+    };
+
+    /// @brief A functor that subtracts two different types of objects
+    /// @tparam LeftType The type of the object on the left
+    /// @tparam RightType The type of the object on the right
+    template<typename LeftType, typename RightType>
+    struct Subtracter
+    {
+        auto operator()(const LeftType& left, const RightType& right) -> decltype(left - right);
+    };
+
+    /// @brief A functor that multiplies two different types of objects
+    /// @tparam LeftType The type of the object on the left
+    /// @tparam RightType The type of the object on the right
+    template<typename LeftType, typename RightType>
+    struct Multiplier
+    {
+        auto operator()(const LeftType& left, const RightType& right) -> decltype(left * right);
+    };
+
+    /// @brief A functor that divides two different types of objects
+    /// @tparam LeftType The type of the object on the left
+    /// @tparam RightType The type of the object on the right
+    template<typename LeftType, typename RightType>
+    struct Divider
+    {
+        auto operator()(const LeftType& left, const RightType& right) -> decltype(left / right);
+    };
+
+    /// @brief A functor that modulos two different types of objects
+    /// @tparam LeftType The type of the object on the left
+    /// @tparam RightType The type of the object on the right
+    template<typename LeftType, typename RightType>
+    struct Modulo
+    {
+        auto operator()(const LeftType& left, const RightType& right) -> decltype(left % right);
+    };
+
+
     /// @brief Half of the famous mathematical constant pi
     SFEX_MATHDEF constexpr float half_pi = 1.57079632679f;
 
@@ -170,7 +216,7 @@ public:
     /// @param time Time value
     /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
     /// @return Linear interpolation between A and B. Namely A*(1-t) + B*t
-    template<typename T>
+    template<typename T, typename AdderType=Adder<T, T>, typename MultiplierType=Multiplier<T, float>>
     SFEX_MATHDEF T lerp(const T &A, const T &B, float time, bool bounded=true);
 
     /// @brief Recursively calculates the point on the bézier curve based on give time
@@ -178,7 +224,7 @@ public:
     /// @param time Time value
     /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
     /// @return Calculated point on the bézier curve
-    template<typename T>
+    template<typename T, typename AdderType=Adder<T, T>, typename MultiplierType=Multiplier<T, T>>
     SFEX_MATHDEF T bezier(const std::vector<T> &points, float time, bool bounded=true);
 };
 

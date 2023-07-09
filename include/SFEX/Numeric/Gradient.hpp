@@ -32,7 +32,7 @@ namespace sfex
 {
 
 /// @brief A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
-template<typename T>
+template<typename T, typename AdderType=Math::Adder<T, T>, typename MultiplierType=Math::Multiplier<T, float>>
 class Gradient
 {
 public:

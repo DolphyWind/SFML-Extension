@@ -22,10 +22,42 @@
 // SOFTWARE.
 //
 
+#pragma once
 #include <SFEX/Numeric/Math.hpp>
 
 namespace sfex
 {
+
+template<typename LeftType, typename RightType>
+auto Math::Adder<LeftType, RightType>::operator()(const LeftType& left, const RightType& right) -> decltype(left + right)
+{
+    return left + right;
+}
+
+template<typename LeftType, typename RightType>
+auto Math::Subtracter<LeftType, RightType>::operator()(const LeftType& left, const RightType& right) -> decltype(left - right)
+{
+    return left - right;
+}
+
+template<typename LeftType, typename RightType>
+auto Math::Multiplier<LeftType, RightType>::operator()(const LeftType& left, const RightType& right) -> decltype(left * right)
+{
+    return left * right;
+}
+
+template<typename LeftType, typename RightType>
+auto Math::Divider<LeftType, RightType>::operator()(const LeftType& left, const RightType& right) -> decltype(left / right)
+{
+    return left / right;
+}
+
+template<typename LeftType, typename RightType>
+auto Math::Modulo<LeftType, RightType>::operator()(const LeftType& left, const RightType& right) -> decltype(left % right)
+{
+    return left % right;
+}
+
 
 template<typename T>
 int Math::sign(const T &val)
@@ -118,13 +150,13 @@ T Math::arctan2(T y, T x)
 template<typename T>
 T Math::arcsec(T value)
 {
-    return std::acos(1 / value);
+    return std::acos(1.0f / value);
 }
 
 template<typename T>
 T Math::arccsc(T value)
 {
-    return std::asin(1 / value);
+    return std::asin(1.0f / value);
 }
 
 template<typename T>
@@ -133,26 +165,29 @@ T Math::arccot(T value)
     return Math::half_pi - std::atan(value);
 }
 
-template<typename T>
+template<typename T, typename AdderType, typename MultiplierType>
 T Math::lerp(const T &A, const T &B, float time, bool bounded)
 {
+    AdderType adder;
+    MultiplierType multiplier;
+
     if(bounded) time = std::clamp(time, 0.0f, 1.0f);
-    return A * (1.0f - time) + B * time;
+    return adder(multiplier(A, 1.0f - time), multiplier(B, time)); //A * (1.0f - time) + B * time;
 }
 
-template<typename T>
+template<typename T, typename AdderType, typename MultiplierType>
 T Math::bezier(const std::vector<T> &points, float time, bool bounded)
 {
     if(points.size() == 0) return T();
     if(points.size() == 1) return points[0];
-    if(points.size() == 2) return Math::lerp(points[0], points[1], time, bounded);
-    return Math::lerp(
-        Math::bezier(
+    if(points.size() == 2) return Math::lerp<T, AdderType, MultiplierType>(points[0], points[1], time, bounded);
+    return Math::lerp<T, AdderType, MultiplierType>(
+        Math::bezier<T, AdderType, MultiplierType>(
             std::vector<T>(points.begin(), points.end() - 1),
             time,
             bounded
         ),
-        Math::bezier(
+        Math::bezier<T, AdderType, MultiplierType>(
             std::vector<T>(points.begin() + 1, points.end()),
             time,
             bounded

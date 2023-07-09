@@ -22,38 +22,39 @@
 // SOFTWARE.
 //
 
+#pragma once
 #include <SFEX/Numeric/Gradient.hpp>
 #include <iostream>
 
 namespace sfex
 {
 
-template<typename T>
-void Gradient<T>::setKey(float time, const T& key)
+template<typename T, typename AdderType, typename MultiplierType>
+void Gradient<T, AdderType, MultiplierType>::setKey(float time, const T& key)
 {
     m_gradientMap[time] = key;
 }
 
-template<typename T>
-void Gradient<T>::removeKey(const T& value)
+template<typename T, typename AdderType, typename MultiplierType>
+void Gradient<T, AdderType, MultiplierType>::removeKey(const T& value)
 {
     m_gradientMap.erase(value);
 }
 
-template<typename T>
-void Gradient<T>::removeKey(float time)
+template<typename T, typename AdderType, typename MultiplierType>
+void Gradient<T, AdderType, MultiplierType>::removeKey(float time)
 {
     m_gradientMap.erase(time);
 }
 
-template<typename T>
-std::map<float, T> Gradient<T>::getKeys()
+template<typename T, typename AdderType, typename MultiplierType>
+std::map<float, T> Gradient<T, AdderType, MultiplierType>::getKeys()
 {
     return m_gradientMap;
 }
 
-template<typename T>
-T Gradient<T>::evaluate(float time)
+template<typename T, typename AdderType, typename MultiplierType>
+T Gradient<T, AdderType, MultiplierType>::evaluate(float time)
 {
     std::pair<float, T> pairBefore, pairAfter;
     bool pairFound = false;
@@ -80,17 +81,17 @@ T Gradient<T>::evaluate(float time)
     float leftDistance = time - pairBefore.first;
     float rightDistance = pairAfter.first - time;
     float lerpTime = leftDistance / (leftDistance + rightDistance);
-    return sfex::Math::lerp(pairBefore.second, pairAfter.second, lerpTime);
+    return sfex::Math::lerp<T, AdderType, MultiplierType>(pairBefore.second, pairAfter.second, lerpTime);
 }
 
-template<typename T>
-T Gradient<T>::operator()(float time)
+template<typename T, typename AdderType, typename MultiplierType>
+T Gradient<T, AdderType, MultiplierType>::operator()(float time)
 {
     return this->evaluate(time);
 }
 
-template<typename T>
-T &Gradient<T>::operator[](float time)
+template<typename T, typename AdderType, typename MultiplierType>
+T &Gradient<T, AdderType, MultiplierType>::operator[](float time)
 {
     return m_gradientMap[time];
 }

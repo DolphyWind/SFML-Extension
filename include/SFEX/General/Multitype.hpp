@@ -301,6 +301,10 @@ public:
     template<typename T>
     Multitype& operator=(const T &other);
 
+    /////////////////////////////////////////
+    /// FUNCTIONALITIES
+    /////////////////////////////////////////
+
     /// @brief Reset the Multitype with the given datatypes
     /// @param datatype New datatype
     Multitype& reset(DataType datatype);
