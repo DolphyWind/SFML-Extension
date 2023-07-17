@@ -48,10 +48,10 @@ std::optional<std::string> SceneManager::getActiveSceneKey()
 }
 
 
-void SceneManager::pollEvent(const sf::Event &e)
+void SceneManager::handleEvent(const sf::Event &e)
 {
     if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->pollEvent(e);
+    this->at(m_activeKey.value())->handleEvent(e);
 }
 
 void SceneManager::update()

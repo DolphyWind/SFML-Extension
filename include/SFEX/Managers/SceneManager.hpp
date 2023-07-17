@@ -54,9 +54,9 @@ public:
     std::optional<std::string> getActiveSceneKey();
 
 
-    /// @brief Call pollEvent function of the active scene. 
+    /// @brief Call handleEvent function of the active scene. 
     /// @param e Event variable
-    void pollEvent(const sf::Event &e);
+    void handleEvent(const sf::Event &e);
     
     /// @brief Call update() function of the active scene. 
     void update();

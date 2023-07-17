@@ -37,7 +37,7 @@ class Scene
 public:
     /// @brief Event hadling function for a scene
     /// @param e Event to handle
-    virtual void pollEvent(const sf::Event &e) {};
+    virtual void handleEvent(const sf::Event &e) {};
     
     /// @brief Start function runs once when the scene is loaded.
     virtual void start() {};

@@ -6,5 +6,7 @@
 + Math/Vector<T, N> (N dimentional vectors)
 + Math/Matrix<T, N, M> (NxM matrices)
 + Write a documentation after everything that got implemented.
++ Add a folder for InGame Elements
++ Whene loading a scene, create a new scene object and when destroying one destroy the object
 
 # Ideas won't be implemented
