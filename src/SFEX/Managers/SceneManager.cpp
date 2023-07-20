@@ -54,10 +54,10 @@ void SceneManager::handleEvent(const sf::Event &e)
     this->at(m_activeKey.value())->handleEvent(e);
 }
 
-void SceneManager::update()
+void SceneManager::update(float deltaTime)
 {
     if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->update();
+    this->at(m_activeKey.value())->update(deltaTime);
 }
 
 void SceneManager::draw(sf::RenderTarget &target)

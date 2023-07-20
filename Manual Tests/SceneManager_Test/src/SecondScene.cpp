@@ -12,12 +12,12 @@ void SecondScene::start()
     m_rectangle.setPosition(sfex::Vec2::zero);
 }
 
-void SecondScene::pollEvent(const sf::Event &e)
+void SecondScene::handleEvent(const sf::Event &e)
 {
     
 }
 
-void SecondScene::update()
+void SecondScene::update(float deltaTime)
 {
     if(sfex::Keyboard::getKey(sfex::Keyboard::Key::D))
     {

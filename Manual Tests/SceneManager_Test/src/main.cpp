@@ -23,7 +23,7 @@ int main()
             sceneManager.handleEvent(e);
         }
 
-        sceneManager.update();
+        sceneManager.update(0.016f);
         if(sfex::Keyboard::getKeyDown(sfex::Keyboard::Key::Return))
         {
             if(sceneManager.getActiveSceneKey() == "firstscene")
