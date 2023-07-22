@@ -54,7 +54,7 @@ void SceneManager::handleEvent(const sf::Event &e)
     this->at(m_activeKey.value())->handleEvent(e);
 }
 
-void SceneManager::update(float deltaTime)
+void SceneManager::update(const sf::Time& deltaTime)
 {
     if(!m_activeKey.has_value()) return;
     this->at(m_activeKey.value())->update(deltaTime);

@@ -37,12 +37,14 @@ int main()
 
     sfex::Animation runAnimation(playerSprite, runTexture, true);
     runAnimation.autoGenerateFrames({0, 0, 614, 564}, animDuration);
-
+    
     sfex::AnimationManager playerAnimationManager;
     playerAnimationManager.addAnimation("walk", walkingAnimation);
     playerAnimationManager.addAnimation("idle", idleAnimation);
     playerAnimationManager.addAnimation("run", runAnimation);
-
+    
+    // runAnimation.play();
+    sf::Clock timer;
     while(window.isOpen())
     {
         sf::Event e;
@@ -50,9 +52,10 @@ int main()
         {
             if(e.type == sf::Event::Closed) window.close();
         }
+        sf::Time deltaTime = timer.restart();
         if(!window.hasFocus()) continue;
 
-        playerAnimationManager.update();
+        playerAnimationManager.update(deltaTime);
 
         if(sfex::Keyboard::getKey(sfex::Keyboard::Key::Right))
         {

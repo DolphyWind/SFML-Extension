@@ -27,9 +27,10 @@
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Time.hpp>
 #include <SFML/Graphics/Rect.hpp>
-#include <SFEX/General/Stopwatch.hpp>
 #include <SFEX/Numeric/Vector2.hpp>
+#include <SFEX/Numeric/Math.hpp>
 #include <memory>
 #include <algorithm>
 #include <functional>
@@ -144,7 +145,7 @@ public:
 
 
     /// @brief Update the animation. Switch to the next frame if needed.
-    void update();
+    void update(const sf::Time& deltaTime);
     
     /// @brief Pause the animation.
     void pause();
@@ -159,17 +160,26 @@ public:
     /// @brief Restart the animation
     void restart();
 
-    /// @brief Returns true if the stopwatch has been paused. Returns false otherwise.
+    /// @brief Returns true if the animation has been paused. Returns false otherwise.
     bool isPaused();
+
+    /// @brief Return true if the animation is finished. False otherwise.
+    bool isFinished();
 
 private:
     std::size_t m_currentIndex;
     bool m_loop = true;
     float m_animationSpeed = 1;
-    sfex::Stopwatch m_stopwatch;
+    sf::Time m_timer;
+    bool m_paused;
+    bool m_finished;
+
+
     sf::Sprite *m_spritePtr;
     sf::Texture *m_texturePtr;
     std::vector<Frame> m_frames;
+
+    void setFrameInternal(std::size_t index);
 };
 
 }

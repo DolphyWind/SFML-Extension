@@ -13,6 +13,8 @@ int main()
     sceneManager.insert({"firstscene", std::make_shared<FirstScene>()});
     sceneManager.insert({"secondscene", std::make_shared<SecondScene>()});
     sceneManager.setActiveScene("firstscene");
+    sf::Clock deltaTimeClock;
+    sf::Time deltaTime;
 
     while(window.isOpen())
     {
@@ -22,8 +24,9 @@ int main()
             if(e.type == sf::Event::Closed) window.close();
             sceneManager.handleEvent(e);
         }
+        deltaTime = deltaTimeClock.restart();
 
-        sceneManager.update(0.016f);
+        sceneManager.update(deltaTime);
         if(sfex::Keyboard::getKeyDown(sfex::Keyboard::Key::Return))
         {
             if(sceneManager.getActiveSceneKey() == "firstscene")

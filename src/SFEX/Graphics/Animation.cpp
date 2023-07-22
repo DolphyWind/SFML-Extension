@@ -28,11 +28,13 @@
 namespace sfex
 {
 
-Animation::Animation(): m_currentIndex(0), m_loop(true), m_animationSpeed(1.0f), m_stopwatch(), m_spritePtr(nullptr), m_texturePtr(nullptr), m_frames()
+Animation::Animation():
+    m_currentIndex(0), m_loop(true), m_animationSpeed(1.0f), m_timer(sf::Time::Zero), m_spritePtr(nullptr), m_texturePtr(nullptr), m_frames(), m_finished(false)
 {
 }
 
-Animation::Animation(sf::Sprite &targetSprite, sf::Texture &texture, bool loop): m_currentIndex(0), m_animationSpeed(1.0f), m_loop(loop), m_stopwatch(), m_spritePtr(&targetSprite), m_texturePtr(&texture), m_frames()
+Animation::Animation(sf::Sprite &targetSprite, sf::Texture &texture, bool loop):
+    m_currentIndex(0), m_animationSpeed(1.0f), m_loop(loop), m_timer(sf::Time::Zero), m_spritePtr(&targetSprite), m_texturePtr(&texture), m_frames(), m_finished(false)
 {
     pause();
     restart();
@@ -102,7 +104,7 @@ void Animation::autoGenerateFrames(const sf::IntRect &topleftRect, const sf::Tim
             insertFrame({sf::IntRect(left + x*rect_width, top + y*rect_height, rect_width, rect_height), duration});
         }
     }
-    if(clear_frames) setFrame(0);
+    if(clear_frames) setFrameInternal(0);
 }
 
 void Animation::autoGenerateFrames(const sfex::Vec2u &size, const std::vector<sfex::Vec2u> &positions, const sf::Time &duration, bool clear_frames)
@@ -116,7 +118,7 @@ void Animation::autoGenerateFrames(const sfex::Vec2u &size, const std::vector<sf
         frame.rect = sf::IntRect( p.x, p.y, size.x, size.y);
         insertFrame(frame);
     }
-    if(clear_frames) setFrame(0);
+    if(clear_frames) setFrameInternal(0);
 }
 
 void Animation::autoGenerateFrames(const std::vector<Frame> &frames, bool clear_frames)
@@ -124,7 +126,7 @@ void Animation::autoGenerateFrames(const std::vector<Frame> &frames, bool clear_
     if(clear_frames) clearFrames();
 
     for(auto& frame : frames) insertFrame(frame);
-    if(clear_frames) setFrame(0);
+    if(clear_frames) setFrameInternal(0);
 }
 
 void Animation::insertFrame(const sf::IntRect &rect, const sf::Time &duration, std::size_t index)
@@ -138,7 +140,7 @@ void Animation::insertFrame(const Frame& frame, std::size_t index)
     {
         if(m_frames.empty())
         {
-            setFrame(0);
+            setFrameInternal(0);
         }
         m_frames.push_back(frame);
     }
@@ -164,18 +166,57 @@ void Animation::setFrame(std::size_t index)
 {
     if(!m_spritePtr || !m_texturePtr) return;
     if(m_frames.empty()) return;
-
     m_spritePtr->setTexture(*m_texturePtr);
-    m_currentIndex = index;
-    m_stopwatch.restart();
-    if(m_currentIndex >= m_frames.size())
+
+    if(index >= m_frames.size())
     {
-        if(!m_loop)
+        index = m_frames.size() - 1;
+    }
+    m_currentIndex = index;
+    m_timer = sf::Time::Zero;
+
+    m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
+}
+
+void Animation::setFrameInternal(std::size_t index)
+{
+    if(!m_spritePtr || !m_texturePtr) return;
+    if(m_frames.empty()) return;
+    m_spritePtr->setTexture(*m_texturePtr);
+    
+    m_currentIndex = index;
+    m_timer = sf::Time::Zero;
+
+    if(m_loop)
+    {
+        // Allow negative indexing
+        if(m_currentIndex > (std::numeric_limits<std::size_t>::max() - m_frames.size()) )
         {
-            pause();
+            setFrameInternal(m_currentIndex + m_frames.size());
             return;
         }
-        else m_currentIndex = 0;
+        else if(m_currentIndex >= m_frames.size())
+        {
+            setFrameInternal(0);
+            return;
+        }
+    }
+    else
+    {
+        if(m_currentIndex > (std::numeric_limits<std::size_t>::max() - m_frames.size()) )
+        {
+            setFrameInternal(0);
+            pause();
+            m_finished = true;
+            return;
+        }
+        else if(m_currentIndex >= m_frames.size())
+        {
+            setFrameInternal(m_frames.size() - 1);
+            pause();
+            m_finished = true;
+            return;
+        }
     }
     
     m_spritePtr->setTextureRect(m_frames[m_currentIndex].rect);
@@ -196,53 +237,78 @@ const std::vector<Animation::Frame> Animation::getFrames() const
     return m_frames;
 }
 
-void Animation::update()
+void Animation::update(const sf::Time& deltaTime)
 {
-    if(m_frames.empty()) return;
-    if(!m_loop && m_currentIndex >= m_frames.size() - 1)
+    if(m_frames.empty() || m_paused || m_finished) return;
+    m_timer += deltaTime * sfex::Math::abs(m_animationSpeed);
+
+    if(!m_loop)
     {
-        setFrame(m_frames.size() - 1);
-        return;
+        if(m_animationSpeed <= 0 && m_currentIndex == std::numeric_limits<std::size_t>::max())
+        {
+            setFrameInternal(0);
+            return;
+        }
+        else if(m_animationSpeed >= 0 && m_currentIndex >= m_frames.size())
+        {
+            setFrameInternal(m_frames.size() - 1);
+            return;
+        }
     }
 
-    if(m_animationSpeed > 0 && m_stopwatch.getElapsedTime() * m_animationSpeed >= m_frames[m_currentIndex].duration)
+    if(m_timer >= m_frames[m_currentIndex].duration)
     {
-        setFrame(m_currentIndex + 1);
-    }
-    else if(m_animationSpeed < 0 && m_stopwatch.getElapsedTime() * -m_animationSpeed >= m_frames[m_currentIndex].duration)
-    {
-        if(m_currentIndex == 0) m_currentIndex = m_frames.size();
-        setFrame(m_currentIndex - 1);
+        if(m_animationSpeed >= 0)
+        {
+            setFrameInternal(m_currentIndex + 1);
+        }
+        else
+        {
+            setFrameInternal(m_currentIndex - 1);
+        }
     }
 }
 
 void Animation::pause()
 {
-    m_stopwatch.pause();
+    m_paused = true;
 }
 
 void Animation::resume()
 {
     if(!isPaused()) return;
-    m_stopwatch.resume();
+    m_paused = false;
 }
 
 void Animation::play()
 {
     if(!m_texturePtr || !m_spritePtr) return;
     restart();
-    m_stopwatch.resume();
+    resume();
 }
 
 void Animation::restart()
 {
-    setFrame(0);
-    m_stopwatch.restart();
+    if(m_animationSpeed >= 0)
+    {
+        setFrameInternal(0);
+    }
+    else
+    {
+        setFrameInternal(m_frames.size() - 1);
+    }
+    m_timer = sf::Time::Zero;
+    m_finished = false;
 }
 
 bool Animation::isPaused()
 {
-    return m_stopwatch.isPaused();
+    return m_paused;
+}
+
+bool Animation::isFinished()
+{
+    return m_finished;
 }
 
 }

@@ -44,8 +44,8 @@ public:
 
     /// @brief Play or resume the animation corresponding to given key. Does nothing if key is invalid.
     /// @param key Key corresponding to animation you want to play.
-    /// @param restartAnimation Restart animation if the same key is given.
-    void play(const std::string& key, bool restartAnimation=false);
+    /// @param restartIfSameKey Restart animation if the same key is given.
+    void play(const std::string& key, bool restartIfSameKey=false);
 
     /// @brief Pauses the current animation.
     void pause();
@@ -54,7 +54,7 @@ public:
     void restart();
 
     /// @brief Updates the states of the animations
-    void update();
+    void update(const sf::Time& deltaTime);
 
     
     /// @brief Get a shared pointer to the current animation. 

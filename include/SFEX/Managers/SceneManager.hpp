@@ -59,7 +59,7 @@ public:
     void handleEvent(const sf::Event &e);
     
     /// @brief Call update() function of the active scene. 
-    void update(float deltaTime);
+    void update(const sf::Time& deltaTime);
     
     /// @brief Call draw() function of the active scene. 
     void draw(sf::RenderTarget &target);

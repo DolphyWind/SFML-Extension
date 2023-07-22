@@ -31,15 +31,17 @@ AnimationManager::AnimationManager(): m_activeKey(std::nullopt)
 {
 }
 
-void AnimationManager::play(const std::string &key, bool restartAnimation)
+void AnimationManager::play(const std::string &key, bool restartIfSameKey)
 {
     if(!this->contains(key)) return;
     if(m_activeKey.has_value() && m_activeKey.value() == key)
     {
-        if(this->at(key)->isPaused() && restartAnimation) this->at(key)->play();
+        if(this->at(key)->isPaused() && restartIfSameKey) this->at(key)->play();
         else this->at(key)->resume();
         return;
     }
+    if(this->at(key)->isFinished()) this->at(key)->play();
+    
     if(m_activeKey.has_value()) this->at(m_activeKey.value())->pause();
     m_activeKey = key;
     this->at(m_activeKey.value())->play();
@@ -68,10 +70,10 @@ std::optional<std::string> AnimationManager::getCurrentAnimationKey()
     return m_activeKey;
 }
 
-void AnimationManager::update()
+void AnimationManager::update(const sf::Time& deltaTime)
 {
     if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->update();
+    this->at(m_activeKey.value())->update(deltaTime);
 }
 
 void AnimationManager::addAnimation(const std::string &key, const Animation &animation)

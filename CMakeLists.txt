@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.21.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.22.0)
 include(GNUInstallDirs)
 include(CTest)
 enable_testing()
@@ -19,79 +19,6 @@ set(SFEX_SRC_FOLDER "${CMAKE_SOURCE_DIR}/src")
 
 file(GLOB_RECURSE SFEX_HEADER_FILES "${CMAKE_SOURCE_DIR}/include/*.hpp")
 file(GLOB_RECURSE SFEX_SOURCE_FILES "${SFEX_SRC_FOLDER}/*.cpp")
-
-# set( SFEX_HEADER_FILES
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Config.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/SFEX.hpp
-
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/FilteringMethods.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Joystick.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Keyboard.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Listener.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Mouse.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Multitype.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Scene.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Singleton.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/StaticClass.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Stopwatch.hpp
-
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/AngleSystem.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Gradient.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Math.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector2.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector3.hpp
-
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Animation.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Color.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Ellipse.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/RoundedRectangle.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Squircle.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Graphics/Star.hpp
-
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/AnimationManager.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/ManagerBase.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/MusicManager.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/OptionManager.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SceneManager.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SoundManager.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/SpriteManager.hpp
-# 	${SFEX_INCLUDE_FOLDER}/SFEX/Managers/TextureManager.hpp
-# )
-# set( SFEX_SOURCE_FILES
-# 	${SFEX_SRC_FOLDER}/SFEX/General/Joystick.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/General/Keyboard.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/General/Listener.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/General/Mouse.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/General/Multitype.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/General/Singleton.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/General/Stopwatch.cpp
-
-#     ${SFEX_SRC_FOLDER}/SFEX/Numeric/AngleSystem.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Numeric/Gradient.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Numeric/Math.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Numeric/Vector2.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Numeric/Vector3.cpp
-    
-# 	${SFEX_SRC_FOLDER}/SFEX/Graphics/Animation.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Graphics/Color.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Graphics/Ellipse.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Graphics/RoundedRectangle.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Graphics/Squircle.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Graphics/Star.cpp
-    
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/AnimationManager.cpp
-# 	${SFEX_SRC_FOLDER}/SFEX/Managers/ManagerBase.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/MusicManager.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/OptionManager.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/SceneManager.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/SoundManager.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/SpriteManager.cpp
-#     ${SFEX_SRC_FOLDER}/SFEX/Managers/TextureManager.cpp
-# )
 
 # Thanks to Victoria Rudakova for the doxygen with CMake tutorial https://vicrucann.github.io/tutorials/quick-cmake-doxygen/
 option(BUILD_DOCS "Build documentation" OFF)

@@ -47,7 +47,17 @@ float AngleSystem::getPeriod() const
 
 float AngleSystem::operator()(float value) const
 {
-    return radians.getPeriod() * value / m_period;
+    return toRadians(value);
+}
+
+float AngleSystem::operator()(const AngleSystem& to, float value) const
+{
+    return convertTo(to, value);
+}
+
+float AngleSystem::toRadians(float value) const
+{
+    return convertTo(AngleSystem::radians, value);
 }
 
 float AngleSystem::convertTo(const AngleSystem &to, float value) const

@@ -51,10 +51,21 @@ public:
     /// @return Given angle converted to radians
     float operator()(float value) const;
 
-    /// @brief Convert an angle from this angle measurement system to the specified angle system
+    /// @brief Covert an angle from this angle measurement system to the specified angle measurement system
     /// @param to Angle measurement system to convert to
     /// @param value Angle to convert
-    /// @return Given value converted to given angle measurement system
+    /// @return Given angle converted to given angle measurement system
+    float operator()(const AngleSystem& to, float value) const;
+
+    /// @brief Convert an angle from this angle measurement system to radians. Shorthand for convertTo(AngleSystem::radians, value)
+    /// @param value Angle to convert
+    /// @return Given angle converted to radians
+    float toRadians(float value) const;
+
+    /// @brief Convert an angle from this angle measurement system to the specified angle measurement system
+    /// @param to Angle measurement system to convert to
+    /// @param value Angle to convert
+    /// @return Given angle converted to given angle measurement system
     float convertTo(const AngleSystem &to, float value) const;
 
     static const AngleSystem degrees;

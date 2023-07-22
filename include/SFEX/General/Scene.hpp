@@ -43,7 +43,7 @@ public:
     virtual void start() {};
 
     /// @brief Update function is for updating the scene.
-    virtual void update(float deltaTime) {};
+    virtual void update(const sf::Time& deltaTime) {};
 
     /// @brief Draw function draws the scene drawables to a target
     /// @param target Target to draw onto

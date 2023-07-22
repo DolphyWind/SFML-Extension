@@ -224,7 +224,7 @@ public:
     /// @param time Time value
     /// @param bounded If true, time is forced to be between 0 and 1 (both inclusive)
     /// @return Calculated point on the bézier curve
-    template<typename T, typename AdderType=Adder<T, T>, typename MultiplierType=Multiplier<T, T>>
+    template<typename T, typename AdderType=Adder<T, T>, typename MultiplierType=Multiplier<T, float>>
     SFEX_MATHDEF T bezier(const std::vector<T> &points, float time, bool bounded=true);
 };
 

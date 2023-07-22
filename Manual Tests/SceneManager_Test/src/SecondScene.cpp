@@ -4,7 +4,7 @@ SecondScene::SecondScene()
 {
     m_rectangle.setSize({50, 50});
     m_rectangle.setFillColor(sfex::Color::Blue);
-    m_rectangleSpeed = 10.0f;
+    m_rectangleSpeed = 500.0f;
 }
 
 void SecondScene::start()
@@ -17,23 +17,23 @@ void SecondScene::handleEvent(const sf::Event &e)
     
 }
 
-void SecondScene::update(float deltaTime)
+void SecondScene::update(const sf::Time& deltaTime)
 {
     if(sfex::Keyboard::getKey(sfex::Keyboard::Key::D))
     {
-        m_rectangle.move({m_rectangleSpeed, 0});
+        m_rectangle.move({m_rectangleSpeed * deltaTime.asSeconds(), 0});
     }
     if(sfex::Keyboard::getKey(sfex::Keyboard::Key::A))
     {
-        m_rectangle.move({-m_rectangleSpeed, 0});
+        m_rectangle.move({-m_rectangleSpeed * deltaTime.asSeconds(), 0});
     }
     if(sfex::Keyboard::getKey(sfex::Keyboard::Key::W))
     {
-        m_rectangle.move({0, -m_rectangleSpeed});
+        m_rectangle.move({0, -m_rectangleSpeed * deltaTime.asSeconds()});
     }
     if(sfex::Keyboard::getKey(sfex::Keyboard::Key::S))
     {
-        m_rectangle.move({0, m_rectangleSpeed});
+        m_rectangle.move({0, m_rectangleSpeed * deltaTime.asSeconds()});
     }
 }
 
