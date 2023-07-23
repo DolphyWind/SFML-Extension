@@ -7,5 +7,6 @@
 + Write a documentation after everything that got implemented.
 + Add a folder called InGame: Scenes, GameObjects, GameBehaviours, SceneNodes, GameComponents etc. will go there
 + When loading a scene, create a new scene object and when destroying one destroy the object
++ Rename Current Animation class to SpriteAnimation, Create a base class for Animations and add support for other types of animations
 
 # Ideas won't be implemented
