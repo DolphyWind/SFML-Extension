@@ -45,18 +45,30 @@ public:
     
     /// @brief Returns true if the given key started being held down in the current frame
     /// @param key Key to check
+    /// @see update
     /// @return True if key is started being held down in the current frame, false otherwise
     static bool getKeyDown(sfex::Keyboard::Key key);
     
     /// @brief Returns true if the given key is released in the current frame
     /// @param key Key to check
+    /// @see update
     /// @return True if key is released in the current frame, false otherwise
     static bool getKeyUp(sfex::Keyboard::Key key);
 
-private:
-    static std::unordered_map<sfex::Keyboard::Key, bool> m_keysForDown;
-    static std::unordered_map<sfex::Keyboard::Key, bool> m_keysForUp;
+    /// @brief Update the internal state of the keyboard. Does nothing if SFEX_USE_UPDATE_BASED_INPUT_HANDLING is not defined.not defined
+    /// When compiling SFEX. If the said option is not defined, getKeyDown and getKeyUp instantly update the internal state for the given key.
+    /// This means, if getKeyDown or getKeyUp is called twice consecutively, the second call will return false, if the first one returns true.
+    /// If you are 100% sure that you won't use same function call twice, you should not define the said option. Otherwise define it and call
+    /// sfex::Keyboard::update() before window.display()
+    static void update();
 
+private:
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStates;
+#else
+    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesForDown;
+    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesForUp;
+#endif
 };
 
 } // namespace sfex

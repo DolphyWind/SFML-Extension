@@ -47,14 +47,23 @@ public:
     
     /// @brief Returns true if the given mouse button started being held down in the current frame
     /// @param button Mouse button to check
+    /// @see update
     /// @return True if mouse button is started being held down in the current frame, false otherwise
     static bool getButtonDown(sfex::Mouse::Button button);
     
     /// @brief Returns true if the given mouse button is released in the current frame
     /// @param button Mouse button to check
+    /// @see update
     /// @return True if mouse button is released in the current frame, false otherwise
     static bool getButtonUp(sfex::Mouse::Button button);
 
+    /// @brief Update the internal state of the mouse. Does nothing if SFEX_USE_UPDATE_BASED_INPUT_HANDLING is not defined.
+    /// When compiling SFEX. If the said option is not defined, getButtonDown and getButtonUp instantly update the internal state for the given key.
+    /// This means, if getButtonDown or getButtonUp is called twice consecutively, the second call will return false if the first one returns true.
+    /// If you are 100% sure that you won't use same function call twice, you should not define the said option. Otherwise define it and call
+    /// sfex::Mouse::update() before window.display()
+    static void update();
+    
     
     /// @brief Get the current mouse position in window or desktop coordinates
     /// @param relativeTo Reference window
@@ -66,9 +75,12 @@ public:
     /// @param relativeTo Reference window
     static void setPosition(const sfex::Vec2i &position, const sf::Window *relativeTo=nullptr);
 private:
-    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonsForDown;
-    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonsForUp;
-
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStates;
+#else
+    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesForDown;
+    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesForUp;
+#endif
 };
 
 } // namespace sfex

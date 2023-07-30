@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.15.0)
 set(SFEX_PROJECT_NAME SFEX)
 project(${SFEX_PROJECT_NAME} VERSION 0.22.0)
 include(GNUInstallDirs)
@@ -56,10 +56,16 @@ configure_package_config_file("cmake/config.cmake.in"
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${SFEX_CONFIGVERSION_FILENAME}"
                                  COMPATIBILITY SameMajorVersion)
 
+option(SFEX_USE_UPDATE_BASED_INPUT_HANDLING "Normally, getXDown() and getXUp() functions can be called once per frame. Second and third calls will return false even if it should return true. This is because those functions update the internal state of the key. But in real world, you might need to call those functions more than once in a frame. If you enable this option, it updates internal state when the update is called." OFF)
+
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})
 target_include_directories(${SFEX_PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:${SFEX_INCLUDE_FOLDER}>)
+if(SFEX_USE_UPDATE_BASED_INPUT_HANDLING)
+target_compile_definitions(${SFEX_PROJECT_NAME} PRIVATE SFEX_USE_UPDATE_BASED_INPUT_HANDLING)    
+endif(SFEX_USE_UPDATE_BASED_INPUT_HANDLING)
+
 target_link_libraries(${SFEX_PROJECT_NAME} sfml-graphics sfml-system sfml-window sfml-audio)
 
 export(TARGETS ${SFEX_PROJECT_NAME}

@@ -83,28 +83,32 @@ public:
     /// @return Structure containing joystick information
     static Identification getIdentification(unsigned int joystick);
 
-    /// @brief Update the states of all joysticks
+    /// @brief Update the states of all joysticks. 
     static void update();
 private:
 
-    typedef std::pair<unsigned int, unsigned int> Upair;
-
-    /// @brief Hash function to for Joystick::Upair
-    struct JoystickPairHash 
+    struct JoystickButtonPair
     {
-        template <typename T1, typename T2>
-        std::size_t operator () (const std::pair<T1, T2> &p) const
-        {
-            // To make each hash unique
-            return p.first * sf::Joystick::ButtonCount + p.second;
-        }
+        unsigned int joystickId;
+        unsigned int button;
+
+        bool operator==(const JoystickButtonPair& other) const;
     };
 
-    static std::unordered_map<Upair, bool, JoystickPairHash> m_buttonsForDown;
-    static std::unordered_map<Upair, bool, JoystickPairHash> m_buttonsForUp;
+    /// @brief Hash function to for Joystick::JoystickButtonPair
+    struct JoystickPairHash 
+    {
+        std::size_t operator ()(const JoystickButtonPair& p) const;
+    };
+
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStates;
+#else
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForDown;
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForUp;
+#endif
 };
 
 } // namespace sfex
-
 
 #endif // !_SFEX_GENERAL_JOYSTICK_HPP_

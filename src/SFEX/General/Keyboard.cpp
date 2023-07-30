@@ -27,8 +27,12 @@
 namespace sfex
 {
 
-std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keysForDown;
-std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keysForUp;
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStates;
+#else
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesForDown;
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesForUp;
+#endif
 
 bool Keyboard::getKey(sfex::Keyboard::Key key)
 {
@@ -37,24 +41,50 @@ bool Keyboard::getKey(sfex::Keyboard::Key key)
 
 bool Keyboard::getKeyDown(sfex::Keyboard::Key key)
 {
-    if(Keyboard::m_keysForDown[key])
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    if(!Keyboard::m_keyStates[key] && Keyboard::getKey(key))
     {
-        Keyboard::m_keysForDown[key] = Keyboard::getKey(key);
+        return true;
+    }
+    return false;
+#else
+    if(Keyboard::m_keyStatesForDown[key])
+    {
+        Keyboard::m_keyStatesForDown[key] = Keyboard::getKey(key);
         return false;
     }
-    Keyboard::m_keysForDown[key] = Keyboard::getKey(key);
-    return sfex::Keyboard::m_keysForDown[key];
+    Keyboard::m_keyStatesForDown[key] = Keyboard::getKey(key);
+    return sfex::Keyboard::m_keyStatesForDown[key];
+#endif
 }
 
 bool Keyboard::getKeyUp(sfex::Keyboard::Key key)
 {
-    if(Keyboard::m_keysForUp[key])
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    if(Keyboard::m_keyStates[key] && !Keyboard::getKey(key))
     {
-        Keyboard::m_keysForUp[key] = Keyboard::getKey(key);
-        return !Keyboard::m_keysForUp[key];
+        return true;
     }
-    Keyboard::m_keysForUp[key] = Keyboard::getKey(key);
     return false;
+#else
+    if(Keyboard::m_keyStatesForUp[key])
+    {
+        Keyboard::m_keyStatesForUp[key] = Keyboard::getKey(key);
+        return !Keyboard::m_keyStatesForUp[key];
+    }
+    Keyboard::m_keyStatesForUp[key] = Keyboard::getKey(key);
+    return false;
+#endif
+}
+
+void Keyboard::update()
+{
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    for(auto&[key, state] : m_keyStates)
+    {
+        m_keyStates[key] = Keyboard::getKey(key);
+    }
+#endif
 }
 
 } // namespace sfex

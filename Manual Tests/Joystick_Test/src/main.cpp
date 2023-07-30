@@ -29,6 +29,11 @@ int main()
             std::cout << "0 button is down!" << std::endl;
         }
 
+        if(sfex::Joystick::getButtonDown(0, 0))
+        {
+            std::cout << "0 button is down! You are using update based input handling." << std::endl;
+        }
+
         if(sfex::Joystick::getButton(0, 0))
         {
             std::cout << "0 button is preessed!" << std::endl;
@@ -44,10 +49,9 @@ int main()
         
         rectangle.move({horizontal, vertical});
 
+        sfex::Joystick::update();
         window.clear();
-
         window.draw(rectangle);
-
         window.display();
     }
 

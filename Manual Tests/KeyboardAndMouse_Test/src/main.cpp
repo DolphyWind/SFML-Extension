@@ -21,6 +21,11 @@ int main()
         {
             std::cout << "Space key pressed!" << std::endl;
         }
+        
+        if(sfex::Keyboard::getKeyDown(sfex::Keyboard::Key::Space))
+        {
+            std::cout << "Space key pressed! You are using update based input handling." << std::endl;
+        }
 
         if(sfex::Keyboard::getKeyUp(sfex::Keyboard::Key::Space))
         {
@@ -34,23 +39,26 @@ int main()
 
         if(sfex::Mouse::getButtonDown(sfex::Mouse::Button::Left))
         {
-            std::cout << "Left button pressed!" << std::endl;
+            std::cout << "Left mouse button pressed!" << std::endl;
+        }
+        if(sfex::Mouse::getButtonDown(sfex::Mouse::Button::Left))
+        {
+            std::cout << "Left mouse button pressed! You are using update based input handling." << std::endl;
         }
 
         if(sfex::Mouse::getButtonUp(sfex::Mouse::Button::Left))
         {
-            std::cout << "Left button released!" << std::endl;
+            std::cout << "Left mouse button released!" << std::endl;
         }
 
         if(sfex::Mouse::getButton(sfex::Mouse::Button::Left))
         {
-            std::cout << "Left button is being held down!" << std::endl;
+            std::cout << "Left mouse button is being held down!" << std::endl;
         }
 
-        window.clear();
-
-        window.display();
-
+        sfex::Keyboard::update();
+        sfex::Mouse::update();
+        
         if(one_time)
         {
             one_time = false;
@@ -62,6 +70,10 @@ int main()
             std::cout << "Global mouse position: (" << pos_global.x << ", " << pos_global.y << ")" << std::endl;
             std::cout << "Mouse position relative to window: (" << pos_relative.x << ", " << pos_relative.y << ")" << std::endl;
         }
+
+        window.clear();
+
+        window.display();
     }
 
     return 0;

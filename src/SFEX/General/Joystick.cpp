@@ -27,9 +27,23 @@
 namespace sfex
 {
 
-struct JoystickPairHash;
-std::unordered_map<Joystick::Upair, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForDown;
-std::unordered_map<Joystick::Upair, bool, Joystick::JoystickPairHash> Joystick::m_buttonsForUp;
+
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStates;
+#else
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForDown;
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForUp;
+#endif
+
+std::size_t Joystick::JoystickPairHash::operator()(const JoystickButtonPair& p) const
+{
+    return std::hash<std::size_t>()(p.joystickId * sf::Joystick::ButtonCount + p.button);
+}
+
+bool Joystick::JoystickButtonPair::operator==(const JoystickButtonPair& other) const
+{
+    return (this->joystickId == other.joystickId) && (this->button == other.button);
+}
 
 bool Joystick::isConnected(unsigned int joystick)
 {
@@ -53,24 +67,40 @@ bool Joystick::getButton(unsigned int joystick, unsigned int button)
 
 bool Joystick::getButtonDown(unsigned int joystick, unsigned int button)
 {
-    if(Joystick::m_buttonsForDown[{joystick, button}])
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    if(!m_buttonStates[{joystick, button}] && Joystick::getButton(joystick, button))
     {
-        Joystick::m_buttonsForDown[{joystick, button}] = Joystick::getButton(joystick, button);
+        return true;
+    }
+    return false;
+#else
+    if(Joystick::m_buttonStatesForDown[{joystick, button}])
+    {
+        Joystick::m_buttonStatesForDown[{joystick, button}] = Joystick::getButton(joystick, button);
         return false;
     }
-    Joystick::m_buttonsForDown[{joystick, button}] = Joystick::getButton(joystick, button);
-    return Joystick::m_buttonsForDown[{joystick, button}];
+    Joystick::m_buttonStatesForDown[{joystick, button}] = Joystick::getButton(joystick, button);
+    return Joystick::m_buttonStatesForDown[{joystick, button}];
+#endif
 }
 
 bool Joystick::getButtonUp(unsigned int joystick, unsigned int button)
 {
-    if(Joystick::m_buttonsForUp[{joystick, button}])
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    if(m_buttonStates[{joystick, button}] && !Joystick::getButton(joystick, button))
     {
-        Joystick::m_buttonsForUp[{joystick, button}] = Joystick::getButton(joystick, button);
-        return !Joystick::m_buttonsForUp[{joystick, button}];
+        return true;
     }
-    Joystick::m_buttonsForUp[{joystick, button}] = Joystick::getButton(joystick, button);
     return false;
+#else
+    if(Joystick::m_buttonStatesForUp[{joystick, button}])
+    {
+        Joystick::m_buttonStatesForUp[{joystick, button}] = Joystick::getButton(joystick, button);
+        return !Joystick::m_buttonStatesForUp[{joystick, button}];
+    }
+    Joystick::m_buttonStatesForUp[{joystick, button}] = Joystick::getButton(joystick, button);
+    return false;
+#endif
 }
 
 float Joystick::getAxisPosition(unsigned int joystick, Axis axis, float minSensitivity)
@@ -89,6 +119,12 @@ Joystick::Identification Joystick::getIdentification(unsigned int joystick)
 void Joystick::update()
 {
     sf::Joystick::update();
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    for(auto&[idButtonPair, info] : m_buttonStates)
+    {
+        m_buttonStates[idButtonPair] = Joystick::getButton(idButtonPair.joystickId, idButtonPair.button);
+    }
+#endif
 }
 
 } // namespace sfex

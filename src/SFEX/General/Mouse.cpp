@@ -27,8 +27,13 @@
 namespace sfex
 {
 
-std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonsForDown;
-std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonsForUp;
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStates;
+#else
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesForDown;
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesForUp;
+#endif
+
 
 bool Mouse::getButton(sfex::Mouse::Button button)
 {
@@ -37,24 +42,50 @@ bool Mouse::getButton(sfex::Mouse::Button button)
 
 bool Mouse::getButtonDown(sfex::Mouse::Button button)
 {
-    if(Mouse::m_buttonsForDown[button])
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    if(!m_buttonStates[button] && sfex::Mouse::getButton(button))
     {
-        Mouse::m_buttonsForDown[button] = Mouse::getButton(button);
+        return true;
+    }
+    return false;
+#else
+    if(Mouse::m_buttonStatesForDown[button])
+    {
+        Mouse::m_buttonStatesForDown[button] = Mouse::getButton(button);
         return false;
     }
-    Mouse::m_buttonsForDown[button] = Mouse::getButton(button);
-    return Mouse::m_buttonsForDown[button];
+    Mouse::m_buttonStatesForDown[button] = Mouse::getButton(button);
+    return Mouse::m_buttonStatesForDown[button];
+#endif
 }
 
 bool Mouse::getButtonUp(sfex::Mouse::Button button)
 {
-    if(Mouse::m_buttonsForUp[button])
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    if(m_buttonStates[button] && !sfex::Mouse::getButton(button))
     {
-        Mouse::m_buttonsForUp[button] = Mouse::getButton(button);
-        return !Mouse::m_buttonsForUp[button];
+        return true;
     }
-    Mouse::m_buttonsForUp[button] = Mouse::getButton(button);
     return false;
+#else
+    if(Mouse::m_buttonStatesForUp[button])
+    {
+        Mouse::m_buttonStatesForUp[button] = Mouse::getButton(button);
+        return !Mouse::m_buttonStatesForUp[button];
+    }
+    Mouse::m_buttonStatesForUp[button] = Mouse::getButton(button);
+    return false;
+#endif
+}
+
+void Mouse::update()
+{
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    for(auto&[button, state] : m_buttonStates)
+    {
+        m_buttonStates[button] = sfex::Mouse::getButton(button);
+    }
+#endif
 }
 
 
