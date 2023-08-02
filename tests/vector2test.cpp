@@ -12,7 +12,9 @@ int main(int argc, char* argv[])
     v1.setMagnitude(10);
     assert(v1 == sfex::Vec2(6, 8));
     assert(v1.normalized() == sfex::Vec2(0.6f, 0.8f));
-    
+ 
+    assert(sfex::Vec2i(v1) == sfex::Vec2i(v1.x, v1.y));
+
     v1 = sfex::Vec2(3, 4);
     sfex::Vec2 v2 = v1;
     assert(v1.dot(v2) == 25);

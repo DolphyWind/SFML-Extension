@@ -35,7 +35,16 @@ Vector3<T>::Vector3(): sf::Vector3<T>(T(), T(), T())
 }
 
 template<typename T>
-Vector3<T>::Vector3(const sf::Vector3<T> &sfVec): sf::Vector3<T>(sfVec)
+template<typename V>
+Vector3<T>::Vector3(const sf::Vector3<V> &sfVec):
+    sf::Vector3<T>(sfVec)
+{
+}
+
+template<typename T>
+template<typename V>
+Vector3<T>::Vector3(const sfex::Vector3<V> &otherVec):
+    sf::Vector3<T>(otherVec)
 {
 }
 

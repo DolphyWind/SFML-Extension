@@ -5,6 +5,8 @@
 int main(int argc, char** argv)
 {
     sfex::Vec3 v1(1, 2, 2);
+    assert(sfex::Vec3i(v1) == sfex::Vec3i(v1.x, v1.y, v1.z));
+
     assert(v1.magnitude() == 3);
     v1.setMagnitude(6);
     assert(v1 == sfex::Vec3(2, 4, 4));

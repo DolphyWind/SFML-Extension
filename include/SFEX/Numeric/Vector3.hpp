@@ -46,8 +46,14 @@ public:
 
     /// @brief Creates a sfex::Vector3<T> from SFML vector
     /// @param sfVec SFML vector
-    Vector3(const sf::Vector3<T> &sfVec);
-    
+    template<typename V>
+    Vector3(const sf::Vector3<V> &sfVec);
+
+    /// @brief Creates a sfex::Vector3<T> from another sfex::Vector3<V>
+    /// @param otherVec 
+    template<typename V>
+    Vector3(const sfex::Vector3<V>& otherVec);
+
     /// @brief Creates a vector with components x, y and z
     Vector3(const T &x, const T &y, const T &z);
 
