@@ -130,7 +130,7 @@ configure_package_config_file("cmake/config.cmake.in"
 write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/${SFEX_CONFIGVERSION_FILENAME}"
                                  COMPATIBILITY SameMajorVersion)
 
-option(SFEX_USE_UPDATE_BASED_INPUT_HANDLING "Normally, getXDown() and getXUp() functions can be called once per frame. Second and third calls will return false even if it should return true. This is because those functions update the internal state of the key. But in real world, you might need to call those functions more than once in a frame. If you enable this option, it updates internal state when the update is called." OFF)
+option(SFEX_USE_UPDATE_BASED_INPUT_HANDLING "Normally, getXDown() and getXUp() functions can be called once per frame. Second and third calls will return false even if it should return true. This is because those functions update the internal state of the key. But in real world, you might need to call those functions more than once in a frame. If you enable this option, it updates internal state when the update is called." ON)
 
 add_library(${SFEX_PROJECT_NAME} STATIC ${SFEX_SOURCE_FILES})
 target_include_directories(${SFEX_PROJECT_NAME} PUBLIC
