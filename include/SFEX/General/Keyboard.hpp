@@ -28,6 +28,7 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFEX/General/StaticClass.hpp>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace sfex
 {
@@ -65,7 +66,8 @@ public:
 private:
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStates;
-    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesNew;
+    static std::unordered_set<sfex::Keyboard::Key> m_newKeyStatesForDown;
+    static std::unordered_set<sfex::Keyboard::Key> m_newKeyStatesForUp;
 #else
     static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesForDown;
     static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesForUp;

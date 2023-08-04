@@ -29,6 +29,7 @@
 #include <SFEX/Numeric/Vector2.hpp>
 #include <SFEX/General/StaticClass.hpp>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace sfex
 {
@@ -77,7 +78,8 @@ public:
 private:
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStates;
-    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesNew;
+    static std::unordered_set<sfex::Mouse::Button> m_newButtonStatesForDown;
+    static std::unordered_set<sfex::Mouse::Button> m_newButtonStatesForUp;
 #else
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesForDown;
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesForUp;

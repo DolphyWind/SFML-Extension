@@ -28,6 +28,7 @@
 #include <SFML/Window/Joystick.hpp>
 #include <SFEX/General/StaticClass.hpp>
 #include <unordered_map>
+#include <unordered_set>
 
 namespace sfex
 {
@@ -108,7 +109,8 @@ private:
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStates;
-    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesNew;
+    static std::unordered_set<JoystickButtonPair, JoystickPairHash> m_newButtonStatesForDown;
+    static std::unordered_set<JoystickButtonPair, JoystickPairHash> m_newButtonStatesForUp;
 #else
     static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForDown;
     static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForUp;

@@ -30,7 +30,8 @@ namespace sfex
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
 std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStates;
-std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesNew;
+std::unordered_set<Joystick::JoystickButtonPair, Joystick::JoystickPairHash> Joystick::m_newButtonStatesForDown;
+std::unordered_set<Joystick::JoystickButtonPair, Joystick::JoystickPairHash> Joystick::m_newButtonStatesForUp;
 #else
 std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForDown;
 std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForUp;
@@ -71,7 +72,7 @@ bool Joystick::getButtonDown(unsigned int joystick, unsigned int button)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(!m_buttonStates[{joystick, button}] && Joystick::getButton(joystick, button))
     {
-        m_buttonStatesNew[{joystick, button}] = true;
+        m_newButtonStatesForDown.insert({joystick, button});
         return true;
     }
     return false;
@@ -91,7 +92,7 @@ bool Joystick::getButtonUp(unsigned int joystick, unsigned int button)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(m_buttonStates[{joystick, button}] && !Joystick::getButton(joystick, button))
     {
-        m_buttonStatesNew[{joystick, button}] = false;
+        m_newButtonStatesForUp.insert({joystick, button});
         return true;
     }
     return false;
@@ -123,10 +124,21 @@ void Joystick::update()
 {
     sf::Joystick::update();
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto&[idButtonPair, state] : m_buttonStatesNew)
+    for(auto& idButtonPair : m_newButtonStatesForDown)
     {
-        m_buttonStates[idButtonPair] = state;
+        m_buttonStates[idButtonPair] = true;
     }
+    for(auto& idButtonPair: m_newButtonStatesForUp)
+    {
+        m_buttonStates[idButtonPair] = false;
+    }
+
+    for(auto&[idButtonPair, state] : m_buttonStates)
+    {
+        if(!sfex::Joystick::getButton(idButtonPair.joystickId, idButtonPair.button)) m_buttonStates[idButtonPair] = false;
+    }
+    m_newButtonStatesForDown.clear();
+    m_newButtonStatesForUp.clear();
 #endif
 }
 
