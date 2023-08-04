@@ -29,6 +29,7 @@ namespace sfex
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
 std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStates;
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesNew;
 #else
 std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesForDown;
 std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesForUp;
@@ -45,6 +46,7 @@ bool Mouse::getButtonDown(sfex::Mouse::Button button)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(!m_buttonStates[button] && sfex::Mouse::getButton(button))
     {
+        m_buttonStatesNew[button] = true;
         return true;
     }
     return false;
@@ -64,6 +66,7 @@ bool Mouse::getButtonUp(sfex::Mouse::Button button)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(m_buttonStates[button] && !sfex::Mouse::getButton(button))
     {
+        m_buttonStatesNew[button] = false;
         return true;
     }
     return false;
@@ -81,9 +84,9 @@ bool Mouse::getButtonUp(sfex::Mouse::Button button)
 void Mouse::update()
 {
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto&[button, state] : m_buttonStates)
+    for(auto&[button, state] : m_buttonStatesNew)
     {
-        m_buttonStates[button] = sfex::Mouse::getButton(button);
+        m_buttonStates[button] = state;
     }
 #endif
 }

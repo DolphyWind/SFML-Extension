@@ -83,7 +83,12 @@ public:
     /// @return Structure containing joystick information
     static Identification getIdentification(unsigned int joystick);
 
-    /// @brief Update the states of all joysticks. 
+    /// @brief Update the states of all joysticks.
+    /// @brief Update the internal button states of all jostrics. Only calls sf::Joystick::update() if SFEX_USE_UPDATE_BASED_INPUT_HANDLING is not defined.
+    /// When compiling SFEX. If the said option is not defined, getButtonDown and getButtonUp instantly update the internal state for the given key.
+    /// This means, if getButtonDown or getButtonUp is called twice consecutively, the second call will return false if the first one returns true.
+    /// If you are 100% sure that you won't use same function call twice, you may not define the said option. If it is not defined,
+    /// sfex::Joystick::update() only calls sf::Joystick::update()
     static void update();
 private:
 
@@ -103,6 +108,7 @@ private:
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStates;
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesNew;
 #else
     static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForDown;
     static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForUp;

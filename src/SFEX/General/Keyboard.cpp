@@ -29,6 +29,7 @@ namespace sfex
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
 std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStates;
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesNew;
 #else
 std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesForDown;
 std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesForUp;
@@ -44,6 +45,7 @@ bool Keyboard::getKeyDown(sfex::Keyboard::Key key)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(!Keyboard::m_keyStates[key] && Keyboard::getKey(key))
     {
+        Keyboard::m_keyStatesNew[key] = true;
         return true;
     }
     return false;
@@ -63,6 +65,7 @@ bool Keyboard::getKeyUp(sfex::Keyboard::Key key)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(Keyboard::m_keyStates[key] && !Keyboard::getKey(key))
     {
+        m_keyStatesNew[key] = false;
         return true;
     }
     return false;
@@ -80,10 +83,11 @@ bool Keyboard::getKeyUp(sfex::Keyboard::Key key)
 void Keyboard::update()
 {
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto&[key, state] : m_keyStates)
+    for(auto&[key, state] : m_keyStatesNew)
     {
-        m_keyStates[key] = Keyboard::getKey(key);
+        m_keyStates[key] = state;
     }
+    m_keyStatesNew.clear();
 #endif
 }
 

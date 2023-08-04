@@ -57,11 +57,11 @@ public:
     /// @return True if mouse button is released in the current frame, false otherwise
     static bool getButtonUp(sfex::Mouse::Button button);
 
-    /// @brief Update the internal state of the mouse. Does nothing if SFEX_USE_UPDATE_BASED_INPUT_HANDLING is not defined.
+    /// @brief Update the internal button states of the mouse. Does nothing if SFEX_USE_UPDATE_BASED_INPUT_HANDLING is not defined.
     /// When compiling SFEX. If the said option is not defined, getButtonDown and getButtonUp instantly update the internal state for the given key.
     /// This means, if getButtonDown or getButtonUp is called twice consecutively, the second call will return false if the first one returns true.
-    /// If you are 100% sure that you won't use same function call twice, you should not define the said option. Otherwise define it and call
-    /// sfex::Mouse::update() before window.display()
+    /// If you are 100% sure that you won't use same function call twice, you may not define the said option. Otherwise define it and call
+    /// sfex::Mouse::update() on each update
     static void update();
     
     
@@ -77,6 +77,7 @@ public:
 private:
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStates;
+    static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesNew;
 #else
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesForDown;
     static std::unordered_map<sfex::Mouse::Button, bool> m_buttonStatesForUp;

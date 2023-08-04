@@ -30,6 +30,7 @@ namespace sfex
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
 std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStates;
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesNew;
 #else
 std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForDown;
 std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForUp;
@@ -70,6 +71,7 @@ bool Joystick::getButtonDown(unsigned int joystick, unsigned int button)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(!m_buttonStates[{joystick, button}] && Joystick::getButton(joystick, button))
     {
+        m_buttonStatesNew[{joystick, button}] = true;
         return true;
     }
     return false;
@@ -89,6 +91,7 @@ bool Joystick::getButtonUp(unsigned int joystick, unsigned int button)
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
     if(m_buttonStates[{joystick, button}] && !Joystick::getButton(joystick, button))
     {
+        m_buttonStatesNew[{joystick, button}] = false;
         return true;
     }
     return false;
@@ -120,9 +123,9 @@ void Joystick::update()
 {
     sf::Joystick::update();
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto&[idButtonPair, info] : m_buttonStates)
+    for(auto&[idButtonPair, state] : m_buttonStatesNew)
     {
-        m_buttonStates[idButtonPair] = Joystick::getButton(idButtonPair.joystickId, idButtonPair.button);
+        m_buttonStates[idButtonPair] = state;
     }
 #endif
 }
