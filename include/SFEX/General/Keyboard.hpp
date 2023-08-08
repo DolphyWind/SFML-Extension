@@ -64,13 +64,11 @@ public:
     static void update();
 
 private:
+    static std::unordered_map<sfex::Keyboard::Key, bool> keyStatesForKeyDown;
+    static std::unordered_map<sfex::Keyboard::Key, bool> keyStatesForKeyUp;
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStates;
-    static std::unordered_set<sfex::Keyboard::Key> m_newKeyStatesForDown;
-    static std::unordered_set<sfex::Keyboard::Key> m_newKeyStatesForUp;
-#else
-    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesForDown;
-    static std::unordered_map<sfex::Keyboard::Key, bool> m_keyStatesForUp;
+    static std::unordered_map<sfex::Keyboard::Key, bool> deltaStatesForDownPress;
+    static std::unordered_map<sfex::Keyboard::Key, bool> deltaStatesForUpPress;
 #endif
 };
 

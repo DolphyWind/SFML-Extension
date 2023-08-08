@@ -40,6 +40,13 @@ public:
     typedef sf::Joystick::Axis Axis;
     typedef sf::Joystick::Identification Identification;
 
+    enum 
+    {
+        Count = sf::Joystick::Count,
+        AxisCount = sf::Joystick::AxisCount,
+        ButtonCount = sf::Joystick::ButtonCount,
+    };
+
     /// @brief Check if a joystick is connected
     /// @return True if a joystick is connected, false otherwise
     static bool isConnected(unsigned int id);
@@ -107,13 +114,12 @@ private:
         std::size_t operator ()(const JoystickButtonPair& p) const;
     };
 
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> buttonStatesForButtonDown;
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> buttonStatesForButtonUp;
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStates;
-    static std::unordered_set<JoystickButtonPair, JoystickPairHash> m_newButtonStatesForDown;
-    static std::unordered_set<JoystickButtonPair, JoystickPairHash> m_newButtonStatesForUp;
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> deltaButtonStatesForButtonDown;
+    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> deltaButtonStatesForButtonUp;
 #else
-    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForDown;
-    static std::unordered_map<JoystickButtonPair, bool, JoystickPairHash> m_buttonStatesForUp;
 #endif
 };
 

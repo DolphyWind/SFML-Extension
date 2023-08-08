@@ -28,13 +28,11 @@ namespace sfex
 {
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStates;
-std::unordered_set<sfex::Keyboard::Key> Keyboard::m_newKeyStatesForDown;
-std::unordered_set<sfex::Keyboard::Key> Keyboard::m_newKeyStatesForUp;
-#else
-std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesForDown;
-std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::m_keyStatesForUp;
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::deltaStatesForDownPress;
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::deltaStatesForUpPress;
 #endif
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::keyStatesForKeyDown;
+std::unordered_map<sfex::Keyboard::Key, bool> Keyboard::keyStatesForKeyUp;
 
 bool Keyboard::getKey(sfex::Keyboard::Key key)
 {
@@ -43,62 +41,56 @@ bool Keyboard::getKey(sfex::Keyboard::Key key)
 
 bool Keyboard::getKeyDown(sfex::Keyboard::Key key)
 {
-#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    if(!Keyboard::m_keyStates[key] && Keyboard::getKey(key))
+    if(keyStatesForKeyDown[key])
     {
-        Keyboard::m_newKeyStatesForDown.insert(key);
+        keyStatesForKeyDown[key] = Keyboard::getKey(key);
+        return false;
+    }
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    deltaStatesForDownPress[key] = Keyboard::getKey(key);
+    if(!keyStatesForKeyDown[key] && deltaStatesForDownPress[key])
+    {
         return true;
     }
     return false;
 #else
-    if(Keyboard::m_keyStatesForDown[key])
-    {
-        Keyboard::m_keyStatesForDown[key] = Keyboard::getKey(key);
-        return false;
-    }
-    Keyboard::m_keyStatesForDown[key] = Keyboard::getKey(key);
-    return sfex::Keyboard::m_keyStatesForDown[key];
+    keyStatesForKeyDown[key] = Keyboard::getKey(key);
+    return keyStatesForKeyDown[key];
 #endif
 }
 
 bool Keyboard::getKeyUp(sfex::Keyboard::Key key)
 {
-#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    if(Keyboard::m_keyStates[key] && !Keyboard::getKey(key))
+    if(keyStatesForKeyUp[key])
     {
-        Keyboard::m_newKeyStatesForUp.insert(key);
+        keyStatesForKeyUp[key] = Keyboard::getKey(key);
+        return !keyStatesForKeyUp[key];
+    }
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    deltaStatesForUpPress[key] = Keyboard::getKey(key);
+    if(keyStatesForKeyUp[key] && !deltaStatesForUpPress[key])
+    {
         return true;
     }
-    return false;
 #else
-    if(Keyboard::m_keyStatesForUp[key])
-    {
-        Keyboard::m_keyStatesForUp[key] = Keyboard::getKey(key);
-        return !Keyboard::m_keyStatesForUp[key];
-    }
-    Keyboard::m_keyStatesForUp[key] = Keyboard::getKey(key);
-    return false;
+    keyStatesForKeyUp[key] = Keyboard::getKey(key);
 #endif
+    return false;
 }
 
 void Keyboard::update()
 {
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto& key : m_newKeyStatesForDown)
+    for(auto&[key, state] : deltaStatesForDownPress)
     {
-        m_keyStates[key] = true;
+        keyStatesForKeyDown[key] = state;
     }
-    for(auto& key : m_newKeyStatesForUp)
+    for(auto&[key, state] : deltaStatesForUpPress)
     {
-        m_keyStates[key] = false;
+        keyStatesForKeyUp[key] = state;
     }
-
-    for(auto&[key, state] : m_keyStates)
-    {
-        if(!sfex::Keyboard::getKey(key)) m_keyStates[key] = false;
-    }
-    m_newKeyStatesForDown.clear();
-    m_newKeyStatesForUp.clear();
+    deltaStatesForDownPress.clear();
+    deltaStatesForUpPress.clear();
 #endif
 }
 

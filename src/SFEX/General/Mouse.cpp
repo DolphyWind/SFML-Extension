@@ -28,13 +28,11 @@ namespace sfex
 {
 
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStates;
-std::unordered_set<sfex::Mouse::Button> Mouse::m_newButtonStatesForDown;
-std::unordered_set<sfex::Mouse::Button> Mouse::m_newButtonStatesForUp;
-#else
-std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesForDown;
-std::unordered_map<sfex::Mouse::Button, bool> Mouse::m_buttonStatesForUp;
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::deltaButtonStatesForButtonDown;
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::deltaButtonStatesForButtonUp;
 #endif
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::buttonStatesForButtonDown;
+std::unordered_map<sfex::Mouse::Button, bool> Mouse::buttonStatesForButtonUp;
 
 
 bool Mouse::getButton(sfex::Mouse::Button button)
@@ -44,62 +42,56 @@ bool Mouse::getButton(sfex::Mouse::Button button)
 
 bool Mouse::getButtonDown(sfex::Mouse::Button button)
 {
-#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    if(!m_buttonStates[button] && sfex::Mouse::getButton(button))
+    if(buttonStatesForButtonDown[button])
     {
-        m_newButtonStatesForDown.insert(button);
+        buttonStatesForButtonDown[button] = Mouse::getButton(button);
+        return false;
+    }
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    deltaButtonStatesForButtonDown[button] = Mouse::getButton(button);
+    if(!buttonStatesForButtonDown[button] && deltaButtonStatesForButtonDown[button])
+    {
         return true;
     }
     return false;
 #else
-    if(Mouse::m_buttonStatesForDown[button])
-    {
-        Mouse::m_buttonStatesForDown[button] = Mouse::getButton(button);
-        return false;
-    }
-    Mouse::m_buttonStatesForDown[button] = Mouse::getButton(button);
-    return Mouse::m_buttonStatesForDown[button];
+    buttonStatesForButtonDown[button] = Mouse::getButton(button);
+    return buttonStatesForButtonDown[button];
 #endif
 }
 
 bool Mouse::getButtonUp(sfex::Mouse::Button button)
 {
-#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    if(m_buttonStates[button] && !sfex::Mouse::getButton(button))
+    if(buttonStatesForButtonUp[button])
     {
-        m_newButtonStatesForUp.insert(button);
+        buttonStatesForButtonUp[button] = Mouse::getButton(button);
+        return !buttonStatesForButtonUp[button];
+    }
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    deltaButtonStatesForButtonUp[button] = Mouse::getButton(button);
+    if(buttonStatesForButtonUp[button] && !deltaButtonStatesForButtonUp[button])
+    {
         return true;
     }
-    return false;
 #else
-    if(Mouse::m_buttonStatesForUp[button])
-    {
-        Mouse::m_buttonStatesForUp[button] = Mouse::getButton(button);
-        return !Mouse::m_buttonStatesForUp[button];
-    }
-    Mouse::m_buttonStatesForUp[button] = Mouse::getButton(button);
-    return false;
+    buttonStatesForButtonUp[button] = Mouse::getButton(button);
 #endif
+    return false;
 }
 
 void Mouse::update()
 {
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto& button : m_newButtonStatesForDown)
+    for(auto&[key, state] : deltaButtonStatesForButtonDown)
     {
-        m_buttonStates[button] = true;
+        buttonStatesForButtonDown[key] = state;
     }
-    for(auto& button: m_newButtonStatesForUp)
+    for(auto&[key, state] : deltaButtonStatesForButtonUp)
     {
-        m_buttonStates[button] = false;
+        buttonStatesForButtonUp[key] = state;
     }
-
-    for(auto&[button, state] : m_buttonStates)
-    {
-        if(!sfex::Mouse::getButton(button)) m_buttonStates[button] = false;
-    }
-    m_newButtonStatesForDown.clear();
-    m_newButtonStatesForUp.clear();
+    deltaButtonStatesForButtonDown.clear();
+    deltaButtonStatesForButtonUp.clear();
 #endif
 }
 

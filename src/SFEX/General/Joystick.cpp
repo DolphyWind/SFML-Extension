@@ -28,13 +28,11 @@ namespace sfex
 {
 
 
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::buttonStatesForButtonDown;
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::buttonStatesForButtonUp;
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStates;
-std::unordered_set<Joystick::JoystickButtonPair, Joystick::JoystickPairHash> Joystick::m_newButtonStatesForDown;
-std::unordered_set<Joystick::JoystickButtonPair, Joystick::JoystickPairHash> Joystick::m_newButtonStatesForUp;
-#else
-std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForDown;
-std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::m_buttonStatesForUp;
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::deltaButtonStatesForButtonDown;
+std::unordered_map<Joystick::JoystickButtonPair, bool, Joystick::JoystickPairHash> Joystick::deltaButtonStatesForButtonUp;
 #endif
 
 std::size_t Joystick::JoystickPairHash::operator()(const JoystickButtonPair& p) const
@@ -69,42 +67,41 @@ bool Joystick::getButton(unsigned int joystick, unsigned int button)
 
 bool Joystick::getButtonDown(unsigned int joystick, unsigned int button)
 {
-#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    if(!m_buttonStates[{joystick, button}] && Joystick::getButton(joystick, button))
+    if(buttonStatesForButtonDown[{joystick, button}])
     {
-        m_newButtonStatesForDown.insert({joystick, button});
+        buttonStatesForButtonDown[{joystick, button}] = Joystick::getButton(joystick, button);
+        return false;
+    }
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    deltaButtonStatesForButtonDown[{joystick, button}] = Joystick::getButton(joystick, button);
+    if(!buttonStatesForButtonDown[{joystick, button}] && deltaButtonStatesForButtonDown[{joystick, button}])
+    {
         return true;
     }
     return false;
 #else
-    if(Joystick::m_buttonStatesForDown[{joystick, button}])
-    {
-        Joystick::m_buttonStatesForDown[{joystick, button}] = Joystick::getButton(joystick, button);
-        return false;
-    }
-    Joystick::m_buttonStatesForDown[{joystick, button}] = Joystick::getButton(joystick, button);
-    return Joystick::m_buttonStatesForDown[{joystick, button}];
+    buttonStatesForButtonDown[{joystick, button}] = Joystick::getButton(joystick, button);
+    return buttonStatesForButtonDown[{joystick, button}];
 #endif
 }
 
 bool Joystick::getButtonUp(unsigned int joystick, unsigned int button)
 {
-#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    if(m_buttonStates[{joystick, button}] && !Joystick::getButton(joystick, button))
+    if(buttonStatesForButtonUp[{joystick, button}])
     {
-        m_newButtonStatesForUp.insert({joystick, button});
+        buttonStatesForButtonUp[{joystick, button}] = Joystick::getButton(joystick, button);
+        return !buttonStatesForButtonUp[{joystick, button}];
+    }
+#ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
+    deltaButtonStatesForButtonUp[{joystick, button}] = Joystick::getButton(joystick, button);
+    if(buttonStatesForButtonUp[{joystick, button}] && !deltaButtonStatesForButtonUp[{joystick, button}])
+    {
         return true;
     }
-    return false;
 #else
-    if(Joystick::m_buttonStatesForUp[{joystick, button}])
-    {
-        Joystick::m_buttonStatesForUp[{joystick, button}] = Joystick::getButton(joystick, button);
-        return !Joystick::m_buttonStatesForUp[{joystick, button}];
-    }
-    Joystick::m_buttonStatesForUp[{joystick, button}] = Joystick::getButton(joystick, button);
-    return false;
+    buttonStatesForButtonUp[{joystick, button}] = Joystick::getButton(joystick, button);
 #endif
+    return false;
 }
 
 float Joystick::getAxisPosition(unsigned int joystick, Axis axis, float minSensitivity)
@@ -124,21 +121,17 @@ void Joystick::update()
 {
     sf::Joystick::update();
 #ifdef SFEX_USE_UPDATE_BASED_INPUT_HANDLING
-    for(auto& idButtonPair : m_newButtonStatesForDown)
+    for(auto& [idButtonPair, state] : deltaButtonStatesForButtonDown)
     {
-        m_buttonStates[idButtonPair] = true;
+        buttonStatesForButtonDown[idButtonPair] = state;
     }
-    for(auto& idButtonPair: m_newButtonStatesForUp)
+    for(auto& [idButtonPair, state] : deltaButtonStatesForButtonUp)
     {
-        m_buttonStates[idButtonPair] = false;
+        buttonStatesForButtonUp[idButtonPair] = state;
     }
 
-    for(auto&[idButtonPair, state] : m_buttonStates)
-    {
-        if(!sfex::Joystick::getButton(idButtonPair.joystickId, idButtonPair.button)) m_buttonStates[idButtonPair] = false;
-    }
-    m_newButtonStatesForDown.clear();
-    m_newButtonStatesForUp.clear();
+    deltaButtonStatesForButtonDown.clear();
+    deltaButtonStatesForButtonUp.clear();
 #endif
 }
 
