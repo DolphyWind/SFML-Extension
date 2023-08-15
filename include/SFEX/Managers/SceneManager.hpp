@@ -61,8 +61,8 @@ public:
     /// @brief Call update() function of the active scene. 
     void update(const sf::Time& deltaTime);
     
-    /// @brief Call draw() function of the active scene. 
-    void draw(sf::RenderTarget &target);
+    /// @brief Call render() function of the active scene. 
+    void render(sf::RenderTarget &target);
 private:
     std::optional<std::string> m_activeKey;
 };

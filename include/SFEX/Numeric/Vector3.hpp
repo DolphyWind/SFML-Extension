@@ -79,31 +79,57 @@ public:
     /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
     /// @return Result of this . rhs
+    template<typename V>
+    auto dot(const Vector3<V> &rhs) const -> typename std::common_type<T, V>::type;
+
+    /// @brief Computates the dot product between this and rhs 
+    /// @param rhs rhs vector
+    /// @return Result of this . rhs
     T dot(const Vector3<T> &rhs) const;
+
+    /// @brief Computates cross product between this and rhs
+    /// @param rhs rhs vector
+    /// @return Result of this x rhs
+    template<typename V>
+    auto cross(const Vector3<V> &rhs) const -> Vector3<typename std::common_type<T, V>::type>;
 
     /// @brief Computates cross product between this and rhs
     /// @param rhs rhs vector
     /// @return Result of this x rhs
     Vector3<T> cross(const Vector3<T> &rhs) const;
 
-    /// @brief Computates component-wise product aka hadamard product between two vectors
+    /// @brief Computates component-wise product aka the hadamard product between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise multiplication.
+    template<typename V>
+    auto cwiseMul(const Vector3<V> &rhs) const -> Vector3<typename std::common_type<T, V>::type>;
+
+    /// @brief Computates component-wise product aka the hadamard product between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise multiplication.
     Vector3<T> cwiseMul(const Vector3<T> &rhs) const;
 
-    /// @brief Computates component-wise division aka hadamard division between two vectors
+    /// @brief Computates component-wise division aka the hadamard division between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise division.
+    template<typename V>
+    auto cwiseDiv(const Vector3<V> &rhs) const -> Vector3<typename std::common_type<T, V>::type>;
+
+    /// @brief Computates component-wise division aka the hadamard division between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise division.
     Vector3<T> cwiseDiv(const Vector3<T> &rhs) const;
 
     /// @brief Scales the vector with a scalar
     /// @param scalar scalar
-    void scale(const T &scalar);
+    template<typename V>
+    void scale(const V &scalar);
 
     /// @brief Returns a scaled version of the vector
     /// @param scalar scalar
     /// @return Scaled version of the vector
-    Vector3<T> scaled(const T &scalar) const;
+    template<typename V>
+    auto scaled(const V &scalar) const -> Vector3<typename std::common_type<T, V>::type>;
 
     /// @brief Rotates the vector around "rotateAround" by given Euler angles.
     /// @param x_angle rotation in x axis (Euler angles)
@@ -129,8 +155,8 @@ public:
     /// @param rhs rhs vector
     void projectOnto(const Vector3<T> &rhs);
 
-    /// @brief Projects this vector onto plane ax + by + cz = 0
     /// @param a coefficent of x
+    /// @brief Projects this vector onto plane that is parameterized like this: a*x + b*y + c*z = 0
     /// @param b coefficent of y
     /// @param c coefficent of z
     void projectOntoPlane(float a, float b, float c);
@@ -144,7 +170,7 @@ public:
     /// @return Projected vector
     Vector3<T> projectedOnto(const Vector3<T> &rhs) const;
 
-    /// @brief Returns projected version of this vector onto plane ax + by + cz = 0
+    /// @brief Returns projected version of this vector onto plane that is parameterized like this: a*x + b*y + c*z = 0
     /// @param a coefficent of x
     /// @param b coefficent of y
     /// @param c coefficent of z

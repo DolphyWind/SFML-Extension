@@ -77,31 +77,57 @@ public:
     /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
     /// @return Result of this . rhs
-    T dot(const Vector2<T> &rhs);
+    template<typename V>
+    auto dot(const Vector2<V> &rhs) const -> typename std::common_type<T, V>::type;
+
+    /// @brief Computates the dot product between this and rhs 
+    /// @param rhs rhs vector
+    /// @return Result of this . rhs
+    T dot(const Vector2<T> &rhs) const;
 
     /// @brief Treats the vectors as three dimentional with z being equal to zero vectors and Computates the cross product between them. Returns the z component of the reult since x and y components are zero.
     /// @param rhs rhs vector
     /// @return Result of this x rhs
-    T cross(const Vector2<T> &rhs);
-
-    /// @brief Computates component-wise product aka hadamard product between two vectors
+    template<typename V>
+    auto cross(const Vector2<V> &rhs) const -> typename std::common_type<T, V>::type;
+    
+    /// @brief Treats the vectors as three dimentional with z being equal to zero vectors and Computates the cross product between them. Returns the z component of the reult since x and y components are zero.
+    /// @param rhs rhs vector
+    /// @return Result of this x rhs
+    T cross(const Vector2<T> &rhs) const;
+    
+    /// @brief Computates component-wise product aka the hadamard product between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise multiplication.
-    Vector2<T> cwiseMul(const Vector2<T> &rhs);
+    template<typename V>
+    auto cwiseMul(const Vector2<V> &rhs) const -> Vector2<typename std::common_type<T, V>::type>;
 
-    /// @brief Computates component-wise division aka hadamard division between two vectors
+    /// @brief Computates component-wise product aka the hadamard product between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise multiplication.
+    Vector2<T> cwiseMul(const Vector2<T> &rhs) const;
+
+    /// @brief Computates component-wise division aka the hadamard division between two vectors
     /// @param rhs rhs vector
     /// @return Result of component-wise division.
-    Vector2<T> cwiseDiv(const Vector2<T> &rhs);
+    template<typename V>
+    auto cwiseDiv(const Vector2<V> &rhs) const -> Vector2<typename std::common_type<T, V>::type>;
+
+    /// @brief Computates component-wise division aka the hadamard division between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise division.
+    Vector2<T> cwiseDiv(const Vector2<T> &rhs) const;
 
     /// @brief Scales the vector with a scalar
     /// @param scalar scalar
-    void scale(const T &scalar);
+    template<typename V>
+    void scale(const V &scalar);
 
     /// @brief Returns a scaled version of the vector
     /// @param scalar scalar
     /// @return Scaled version of the vector
-    Vector2<T> scaled(const T &scalar) const;
+    template<typename V>
+    auto scaled(const V &scalar) const -> Vector2<typename std::common_type<T, V>::type>;
 
     /// @brief Rotates the vector around "rotateAround" vector by given angle.
     /// @param angle angle in radians

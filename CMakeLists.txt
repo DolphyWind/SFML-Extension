@@ -72,10 +72,6 @@ set( SFEX_SOURCE_FILES
     ${SFEX_SRC_FOLDER}/SFEX/General/Stopwatch.cpp
 
     ${SFEX_SRC_FOLDER}/SFEX/Numeric/AngleSystem.cpp
-    ${SFEX_SRC_FOLDER}/SFEX/Numeric/Gradient.cpp
-    ${SFEX_SRC_FOLDER}/SFEX/Numeric/Math.cpp
-    ${SFEX_SRC_FOLDER}/SFEX/Numeric/Vector2.cpp
-    ${SFEX_SRC_FOLDER}/SFEX/Numeric/Vector3.cpp
     
 	${SFEX_SRC_FOLDER}/SFEX/Graphics/Animation.cpp
     ${SFEX_SRC_FOLDER}/SFEX/Graphics/Color.cpp

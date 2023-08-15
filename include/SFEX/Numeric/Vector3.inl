@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
+#ifndef _SFEX_NUMERIC_VECTOR3_INL_
+#define _SFEX_NUMERIC_VECTOR3_INL_
 
 // Headers
 #include <SFEX/Numeric/Vector3.hpp>
@@ -89,9 +91,27 @@ Vector3<T> Vector3<T>::normalized() const
 }
 
 template<typename T>
+template<typename V>
+auto Vector3<T>::dot(const Vector3<V> &rhs) const -> typename std::common_type<T, V>::type
+{
+    return this->x * rhs.x + this->y * rhs.y + this->z * rhs.z;
+}
+
+template<typename T>
 T Vector3<T>::dot(const Vector3<T> &rhs) const
 {
     return this->x * rhs.x + this->y * rhs.y + this->z * rhs.z;
+}
+
+template<typename T>
+template<typename V>
+auto Vector3<T>::cross(const Vector3<V> &rhs) const -> Vector3<typename std::common_type<T, V>::type>
+{
+    return {
+        this->y * rhs.z - this->z * rhs.y,
+        this->z * rhs.x - this->x * rhs.z,
+        this->x * rhs.y - this->y * rhs.x,
+    };
 }
 
 template<typename T>
@@ -105,9 +125,23 @@ Vector3<T> Vector3<T>::cross(const Vector3<T> &rhs) const
 }
 
 template<typename T>
+template<typename V>
+auto Vector3<T>::cwiseMul(const Vector3<V> &rhs) const -> Vector3<typename std::common_type<T, V>::type>
+{
+    return {this->x * rhs.x, this->y * rhs.y, this->z * rhs.z};
+}
+
+template<typename T>
 Vector3<T> Vector3<T>::cwiseMul(const Vector3<T> &rhs) const
 {
     return {this->x * rhs.x, this->y * rhs.y, this->z * rhs.z};
+}
+
+template<typename T>
+template<typename V>
+auto Vector3<T>::cwiseDiv(const Vector3<V> &rhs) const -> Vector3<typename std::common_type<T, V>::type>
+{
+    return {this->x / rhs.x, this->y / rhs.y, this->z / rhs.z};
 }
 
 template<typename T>
@@ -117,15 +151,17 @@ Vector3<T> Vector3<T>::cwiseDiv(const Vector3<T> &rhs) const
 }
 
 template<typename T>
-void Vector3<T>::scale(const T &scalar)
+template<typename V>
+void Vector3<T>::scale(const V &scalar)
 {
     *this = this->cwiseMul({scalar, scalar, scalar});
 }
 
 template<typename T>
-Vector3<T> Vector3<T>::scaled(const T &scalar) const 
+template<typename V>
+auto Vector3<T>::scaled(const V &scalar) const -> Vector3<typename std::common_type<T, V>::type>
 {
-    Vector3<T> resultVector = *this;
+    Vector3<typename std::common_type<T, V>::type> resultVector = *this;
     resultVector.scale(scalar);
     return resultVector;
 }
@@ -406,3 +442,5 @@ template<typename T>
 const Vector3<T> Vector3<T>::back = {0, 0, -1};
 
 } // namespace sfex
+
+#endif // !_SFEX_NUMERIC_VECTOR3_INL_

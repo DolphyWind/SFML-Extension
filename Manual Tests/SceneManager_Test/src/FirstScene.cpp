@@ -37,7 +37,7 @@ void FirstScene::update(const sf::Time& deltaTime)
     }
 }
 
-void FirstScene::draw(sf::RenderTarget &target)
+void FirstScene::render(sf::RenderTarget &target)
 {
     target.draw(m_rectangle);
 }

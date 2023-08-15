@@ -21,6 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 //
+#ifndef _SFEX_NUMERIC_VECTOR2_INL_
+#define _SFEX_NUMERIC_VECTOR2_INL_
 
 // Headers
 #include <SFEX/Numeric/Vector2.hpp>
@@ -88,39 +90,70 @@ Vector2<T> Vector2<T>::normalized() const
 }
 
 template<typename T>
-T Vector2<T>::dot(const Vector2<T> &rhs)
+template<typename V>
+auto Vector2<T>::dot(const Vector2<V> &rhs) const -> typename std::common_type<T, V>::type
 {
     return this->x * rhs.x + this->y * rhs.y;
 }
 
 template<typename T>
-T Vector2<T>::cross(const Vector2<T> &rhs)
+T Vector2<T>::dot(const Vector2<T> &rhs) const
+{
+    return this->x * rhs.x + this->y * rhs.y;
+}
+
+template<typename T>
+template<typename V>
+auto Vector2<T>::cross(const Vector2<V> &rhs) const -> typename std::common_type<T, V>::type
 {
     return this->x * rhs.y - this->y * rhs.x;
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::cwiseMul(const Vector2<T> &rhs)
+T Vector2<T>::cross(const Vector2<T> &rhs) const
+{
+    return this->x * rhs.y - this->y * rhs.x;
+}
+
+template<typename T>
+template<typename V>
+auto Vector2<T>::cwiseMul(const Vector2<V> &rhs) const -> Vector2<typename std::common_type<T, V>::type>
 {
     return {this->x * rhs.x, this->y * rhs.y};
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::cwiseDiv(const Vector2<T> &rhs)
+Vector2<T> Vector2<T>::cwiseMul(const Vector2<T> &rhs) const
+{
+    return {this->x * rhs.x, this->y * rhs.y};
+}
+
+template<typename T>
+template<typename V>
+auto Vector2<T>::cwiseDiv(const Vector2<V> &rhs) const -> Vector2<typename std::common_type<T, V>::type>
 {
     return {this->x / rhs.x, this->y / rhs.y};
 }
 
 template<typename T>
-void Vector2<T>::scale(const T &scalar)
+Vector2<T> Vector2<T>::cwiseDiv(const Vector2<T> &rhs) const
+{
+    return {this->x / rhs.x, this->y / rhs.y};
+}
+
+
+template<typename T>
+template<typename V>
+void Vector2<T>::scale(const V &scalar)
 {
     *this = this->cwiseMul({scalar, scalar});
 }
 
 template<typename T>
-Vector2<T> Vector2<T>::scaled(const T &scalar) const 
+template<typename V>
+auto Vector2<T>::scaled(const V &scalar) const -> Vector2<typename std::common_type<T, V>::type>
 {
-    Vector2<T> resultVector = *this;
+    Vector2<typename std::common_type<T, V>::type> resultVector = *this;
     resultVector.scale(scalar);
     return resultVector;
 }
@@ -340,3 +373,5 @@ template<typename T>
 const Vector2<T> Vector2<T>::right = {1, 0};
 
 } // namespace sfex
+
+#endif // !_SFEX_NUMERIC_VECTOR3_INL_

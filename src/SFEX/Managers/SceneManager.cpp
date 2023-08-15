@@ -60,10 +60,10 @@ void SceneManager::update(const sf::Time& deltaTime)
     this->at(m_activeKey.value())->update(deltaTime);
 }
 
-void SceneManager::draw(sf::RenderTarget &target)
+void SceneManager::render(sf::RenderTarget &target)
 {
     if(!m_activeKey.has_value()) return;
-    this->at(m_activeKey.value())->draw(target);
+    this->at(m_activeKey.value())->render(target);
 }
 
 } // namespace sfex

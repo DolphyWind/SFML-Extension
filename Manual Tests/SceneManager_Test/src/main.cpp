@@ -37,9 +37,10 @@ int main()
 
         window.clear();
 
-        sceneManager.draw(window);
+        sceneManager.render(window);
 
         window.display();
+        sfex::Keyboard::update();
     }
 
     return 0;
