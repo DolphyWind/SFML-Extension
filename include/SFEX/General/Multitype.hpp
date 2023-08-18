@@ -88,11 +88,27 @@ public:
     Multitype(bool bool_val);
 
     /// @brief Construct a new Multitype object as a list
-    /// @param vec_val Vector value
+    /// @param vec_val A vector containing multitype values
     Multitype(const std::vector<Multitype> &vec_val);
 
+    /// @brief Construct a new Multitype object as a list of integers
+    /// @param int_vector A vector containing integers
+    Multitype(const std::vector<int>& int_vector);
+
+    /// @brief Construct a new Multitype object as a list of doubles
+    /// @param double_vector A vector containing doubles
+    Multitype(const std::vector<double>& double_vector);
+
+    /// @brief Construct a new Multitype object as a list of booleans
+    /// @param bool_vector A vector containing booleans
+    Multitype(const std::vector<bool>& bool_vector);
+
+    /// @brief Construct a new Multitype object as a list of strings
+    /// @param string_vector A vector containing strings
+    Multitype(const std::vector<std::string>& string_vector);
+
     /// @brief Construct a new Multitype object as a list
-    /// @param list_val Initializer list
+    /// @param list_val Initializer list containing Multitype objects
     Multitype(const std::initializer_list<Multitype> &list_val);
 
     /// @brief Construct a new Multitype object as a map

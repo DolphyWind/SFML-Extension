@@ -82,6 +82,47 @@ Multitype::Multitype(const std::vector<Multitype> &vec_val): m_datatype(DataType
     update_value(m_size, values.release(), m_datatype);
 }
 
+Multitype::Multitype(const std::vector<int>& int_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(int_vector.size() * sizeof(Multitype))
+{
+    std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(int_vector.size());
+    for(std::size_t i = 0 ; i < int_vector.size(); ++i)
+    {
+        *(values.get() + i) = int_vector[i];
+    }
+    update_value(m_size, values.release(), m_datatype);
+}
+
+
+Multitype::Multitype(const std::vector<double>& double_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(double_vector.size() * sizeof(Multitype))
+{
+    std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(double_vector.size());
+    for(std::size_t i = 0 ; i < double_vector.size(); ++i)
+    {
+        *(values.get() + i) = double_vector[i];
+    }
+    update_value(m_size, values.release(), m_datatype);
+}
+
+Multitype::Multitype(const std::vector<bool>& bool_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(bool_vector.size() * sizeof(Multitype))
+{
+    std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(bool_vector.size());
+    for(std::size_t i = 0 ; i < bool_vector.size(); ++i)
+    {
+        *(values.get() + i) = bool_vector[i];
+    }
+    update_value(m_size, values.release(), m_datatype);
+}
+
+Multitype::Multitype(const std::vector<std::string>& string_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(string_vector.size() * sizeof(Multitype))
+{
+    std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(string_vector.size());
+    for(std::size_t i = 0 ; i < string_vector.size(); ++i)
+    {
+        *(values.get() + i) = string_vector[i];
+    }
+    update_value(m_size, values.release(), m_datatype);
+}
+
 Multitype::Multitype(const std::initializer_list<Multitype> &list_val)
 {
     *this = Multitype(std::vector<Multitype>(list_val.begin(), list_val.end()));
