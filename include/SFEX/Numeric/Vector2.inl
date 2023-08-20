@@ -341,7 +341,7 @@ template<typename T>
 template<typename T2>
 Vector2<T> Vector2<T>::operator=(const sf::Vector2<T2> &rhs)
 {
-    (*this) = {rhs.x, rhs.y};
+    (*this) = {static_cast<T>(rhs.x), static_cast<T>(rhs.y)};
     return *this;
 }
 
