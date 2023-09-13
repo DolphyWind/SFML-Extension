@@ -34,6 +34,17 @@
 #include <sstream>
 #include <unordered_map>
 #include <optional>
+#include <type_traits>
+
+namespace impl
+{
+    // https://stackoverflow.com/questions/16337610/how-to-know-if-a-type-is-a-specialization-of-stdvector by Databyte
+    template<typename Type, template<typename...> class Ref>
+    struct is_specialization : std::false_type {};
+
+    template<template<typename...> class Ref, typename... Args>
+    struct is_specialization<Ref<Args...>, Ref>: std::true_type {};
+}
 
 namespace sfex
 {
@@ -114,6 +125,11 @@ public:
     /// @brief Construct a new Multitype object as a map
     /// @param map_val Map value
     Multitype(const MultitypeMap &map_val);
+
+    /// @brief Construct a new Multitype object as a map
+    /// @param map_val Map value
+    template<typename T>
+    Multitype(const std::unordered_map<std::string, T>& map_val);
 
     /// @brief Construct a new Multitype object as a map
     /// @param pair_list_val Pair Initializer list
@@ -318,33 +334,53 @@ public:
     Multitype& operator=(const T &other);
 
     /////////////////////////////////////////
+    /// BRACKET OPERATORS
+    /////////////////////////////////////////
+
+    /// @brief Interpret the multitype object as a list and get an element from it.
+    /// @param index Index of the element to get
+    /// @return The element with the given index
+    const sfex::Multitype operator[](std::size_t index);
+
+    /// @brief Interpret the multitype object as a map and get an element from it
+    /// @param key Key of the element to get
+    /// @return The element that corresponds to the given key
+    const sfex::Multitype operator[](const std::string& key);
+
+    /////////////////////////////////////////
     /// FUNCTIONALITIES
     /////////////////////////////////////////
 
-    /// @brief Reset the Multitype with the given datatypes
+    /// @brief Reset the Multitype with the given datatype
     /// @param datatype New datatype
     Multitype& reset(DataType datatype);
 
-    /// @brief Convert Multitype object to std::string
+    /// @brief Convert the Multitype object to std::string
     /// @return Result of the conversion
     std::string to_string() const;
 
-    /// @brief Serialize Multitype object into std::string
+    /// @brief Serialize the Multitype object into std::string
     /// @return Result of the serialization
     std::string serialize(bool prettify=false) const;
 
-    /// @brief Get the datatype of Multitype
-    /// @return The datatype of Multitype
+    /// @brief Get the datatype of the Multitype object
+    /// @return The datatype of Multitype object
     DataType get_datatype() const;
 
-    /// @brief Get the datatype as std::string
-    /// @return Datatype as std::string
+    /// @brief Get the datatype as a std::string
+    /// @return Datatype as a std::string
     std::string get_datatype_as_string() const;
 
     /// @brief Convert string to datatype object
     /// @param str String to convert to DataType object
     /// @return String converted to DataType object
     static DataType string_to_datatype(const std::string &str);
+
+    /// @brief Convert given type to a datatype object
+    /// @tparam T Type to convert
+    /// @return The type converted to a datatype object. DataType::NONE is returned if type is not supported.
+    template<typename T>
+    static DataType typeToDatatype();
 
     /// @brief Parses a string to a Multitype
     /// @param str String to parse
@@ -388,6 +424,11 @@ public:
     /// @return Get Multitype as std::vector<Multitype>. If the m_datatype is not DataType::LIST an empty vector will be returned.
     std::vector<Multitype> as_list() const;
 
+    /// @brief Convert Multitye object to std::vector<T>
+    /// @return Get Multitype as std::vector<T>. If the m_datatype is not DataType::LIST an empty vector will be returned.
+    template<typename T>
+    std::vector<T> as_list() const;
+
     /// @brief Convert Multitype object to std::vector<Multitype>
     /// @return Get Multitype as std::vector<Multitype>. If the m_datatype is not DataType::LIST an empty vector will be returned.
     operator std::vector<Multitype>() const;
@@ -396,11 +437,16 @@ public:
     /// @return Get Multitype as std::unordered_map<std::string, Multitype>. If the m_datatype is not DataType::MAP an empty map will be returned.
     MultitypeMap as_map() const;
 
+    /// @brief Covert Multitype object to std::unordered_map<std::string, T>
+    /// @return Get Multitype as std::unordered_map<std::string, T>. If the m_datatype is not DataType::MAP an empty map will be returned.
+    template<typename T>
+    std::unordered_map<std::string, T> as_map() const;
+
     /// @brief Convert Multitype object to std::unordered_map<std::string, Multitype>
     /// @return Get Multitype as std::unordered_map<std::string, Multitype>. If the m_datatype is not DataType::MAP an empty map will be returned.
     operator MultitypeMap() const;
 
-    /// @brief << operator for printing Multitype to screen.
+    /// @brief << operator for printing Multitype to an ostream.
     friend std::ostream& operator<<(std::ostream &left, const Multitype &right);
 
     static const Multitype null;
@@ -414,6 +460,48 @@ private:
     void update_value(std::size_t new_size, void* new_data, const DataType &datatype);
     std::string to_string_priv(bool serialize=false, bool prettify=false, std::size_t indent=0, bool special_prettify=false) const;
 };
+
+template<typename T>
+Multitype::Multitype(const std::unordered_map<std::string, T>& map_val): m_datatype(DataType::MAP), m_data(nullptr), m_size((sizeof(Multitype)+sizeof(char*))*map_val.size())
+{
+    struct Pair
+    {
+        std::unique_ptr<char[]> char_ptr;
+        Multitype multitype;
+    };
+
+    std::unique_ptr<Pair[]> values = std::make_unique<Pair[]>(map_val.size());
+    
+    std::size_t i = 0;
+    for(auto&[key, value] : map_val)
+    {
+        Pair p;
+        p.char_ptr = std::make_unique<char[]>(0);
+        std::memcpy(p.char_ptr.get(), key.c_str(), key.length()+1);
+        p.multitype = value;
+        *(values.get() + i) = std::move(p);
+        i++;
+    }
+    update_value(m_size, values.release(), m_datatype);
+}
+
+template<typename T>
+Multitype::DataType Multitype::typeToDatatype()
+{
+    if constexpr(std::is_same<bool, T>::value) return DataType::BOOLEAN;
+    if constexpr(std::is_integral<T>::value) return DataType::INT;
+    if constexpr(std::is_floating_point<T>::value) return DataType::DOUBLE;
+    if constexpr(std::is_same<T, std::string>::value || 
+                 std::is_same<T, std::wstring>::value ||
+                 std::is_same<T, std::u16string>::value ||
+                 std::is_same<T, std::u32string>::value ||
+                 std::is_same<T, char**>::value
+    ) return DataType::STRING;
+    if constexpr(impl::is_specialization<T, std::unordered_map>::value) return DataType::MAP;
+    if constexpr(impl::is_specialization<T, std::vector>::value) return DataType::LIST;
+
+    return DataType::NONE;
+}
 
 template<typename T>
 bool Multitype::operator==(const T &other) const
@@ -505,6 +593,39 @@ Multitype& Multitype::operator=(const T &other)
     return (*this = Multitype(other));
 }
 
+template<typename T>
+std::vector<T> Multitype::as_list() const
+{
+    std::vector<Multitype> this_as_list = this->as_list();
+
+    DataType targetType = Multitype::typeToDatatype<T>();
+    std::vector<T> resultVector;
+    resultVector.reserve(this_as_list.size());
+
+    for(auto& item : this_as_list)
+    {
+        resultVector.push_back((T)item);
+    }
+
+    return resultVector;
+}
+
+template<typename T>
+std::unordered_map<std::string, T> Multitype::as_map() const
+{
+    MultitypeMap this_as_map = this->as_map();
+
+    DataType targetType = Multitype::typeToDatatype<T>();
+    std::unordered_map<std::string, T> resultMap;
+    resultMap.reserve(this_as_map.size());
+
+    for(auto&[key, value] : this_as_map)
+    {
+        resultMap[key] = (T)value;
+    }
+
+    return resultMap;
+}
 
 }
 

@@ -331,6 +331,16 @@ Multitype& Multitype::operator=(const Multitype &other)
     return *this;
 }
 
+const Multitype Multitype::operator[](std::size_t index)
+{
+    return this->as_list()[index];
+}
+
+const Multitype Multitype::operator[](const std::string& key)
+{
+    return this->as_map()[key];
+}
+
 Multitype& Multitype::reset(DataType datatype)
 {
     switch (datatype)

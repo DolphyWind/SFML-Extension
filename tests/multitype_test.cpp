@@ -1,3 +1,4 @@
+#include "SFEX/General/Multitype.hpp"
 #include <iostream>
 #include <cassert>
 #include <SFEX/Managers/OptionManager.hpp>
@@ -59,6 +60,24 @@ int main()
     {
         assert(true);
     }
+
+    std::vector<int> initial_list = {
+        0, 1, 2, 3
+    };
+    sfex::Multitype list = initial_list;
+
+    std::vector<int> l = list.as_list<int>();
+    assert(l == initial_list);
+    
+    std::unordered_map<std::string, int> initial_map = {
+        {"item0", 0},
+        {"item1", 123},
+        {"item2", 42},
+    };
+    sfex::Multitype map = initial_map;
+
+    std::unordered_map<std::string, int> m = map.as_map<int>();
+    assert(m == initial_map);
 
     return 0;
 }
