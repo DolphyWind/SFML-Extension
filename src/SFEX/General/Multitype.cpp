@@ -341,6 +341,11 @@ const Multitype Multitype::operator[](const std::string& key)
     return this->as_map()[key];
 }
 
+const Multitype Multitype::operator[](const char* key)
+{
+    return this->as_map()[key];
+}
+
 Multitype& Multitype::reset(DataType datatype)
 {
     switch (datatype)

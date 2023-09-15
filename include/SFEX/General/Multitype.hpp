@@ -347,6 +347,11 @@ public:
     /// @return The element that corresponds to the given key
     const sfex::Multitype operator[](const std::string& key);
 
+    /// @brief Interpret the multitype object as a map and get an element from it
+    /// @param key Key of the element to get
+    /// @return The element that corresponds to the given key
+    const sfex::Multitype operator[](const char* key);
+
     /////////////////////////////////////////
     /// FUNCTIONALITIES
     /////////////////////////////////////////
