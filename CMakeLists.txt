@@ -36,6 +36,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Mouse.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Multitype.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Scene.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/General/Scheduler.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Singleton.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/StaticClass.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/General/Stopwatch.hpp
