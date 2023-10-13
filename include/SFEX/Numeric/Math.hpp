@@ -87,6 +87,13 @@ public:
         auto operator()(const LeftType& left, const RightType& right) -> decltype(left % right);
     };
 
+    /// @brief A functor that takes the square root of given object
+    /// @tparam Type Type of the object you want to take the square root of
+    template<typename Type>
+    struct SqrtTaker
+    {
+        auto operator()(const Type& input) -> decltype(std::sqrt(input));
+    };
 
     /// @brief Half of the famous mathematical constant pi
     SFEX_MATHDEF constexpr float half_pi = 1.57079632679f;
