@@ -44,6 +44,7 @@ set( SFEX_HEADER_FILES
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/AngleSystem.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Gradient.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Math.hpp
+	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector2.hpp
 	${SFEX_INCLUDE_FOLDER}/SFEX/Numeric/Vector3.hpp
 

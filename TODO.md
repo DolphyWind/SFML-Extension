@@ -9,7 +9,7 @@
 + [] Rename Current Animation class to SpriteAnimation, Create a base class for Animations and add support for other types of animations
 + [] Make manager base inherit form std::unordered_map
 + [] Add typedefs to templated classes
-+ [] Add sfex::Math::SqrtTaker and various other functors to make Numeric classes and functions more flexible
++ [X] Add sfex::Math::SqrtTaker and various other functors to make Numeric classes and functions more flexible
 
 # Future Plans
 + [] Make renderer backend-agnostic

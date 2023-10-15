@@ -56,34 +56,23 @@ Vector2<T>::Vector2(const T &_x, const T &_y): sf::Vector2<T>(_x, _y)
 }
 
 template<typename T>
-template<typename AdderType, typename MultiplierType, typename SqrtTakerType>
-auto Vector2<T>::magnitude() const
+float Vector2<T>::magnitude() const
 {
-    SqrtTakerType sqrtTaker;
-    return sqrtTaker(this->magnitude2<AdderType, MultiplierType>());
+    return std::sqrt(this->magnitude2());
 }
 
 template<typename T>
-template<typename AdderType, typename MultiplierType>
-auto Vector2<T>::magnitude2() const
+float Vector2<T>::magnitude2() const
 {
-    AdderType adder;
-    MultiplierType multiplier;
-
-    return adder(multiplier(this->x, this->x), multiplier(this->y, this->y));
+    return (this->x*this->x + this->y*this->y);
 }
 
 template<typename T>
-template<typename MagnitudeType, typename AdderType, typename MultiplierType, typename DividerType>
-void Vector2<T>::setMagnitude(const MagnitudeType& magnitude)
+void Vector2<T>::setMagnitude(float magnitude)
 {
-    AdderType adder;
-    MultiplierType multiplier;
-    DividerType divider;
-
-    auto mag = this->magnitude();
-    this->x = multiplier(this->x, divider(magnitude, mag));
-    this->y = multiplier(this->y, divider(magnitude, mag));
+    float mag = this->magnitude();
+    this->x *= (magnitude / mag);
+    this->y *= (magnitude / mag);
 }
 
 template<typename T>

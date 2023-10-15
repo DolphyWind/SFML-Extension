@@ -28,9 +28,8 @@
 // Headers
 #include <array>
 #include <cmath>
-#include <ostream>
 #include <SFML/System/Vector2.hpp>
-#include <SFEX/Numeric/Math.hpp>
+#include <ostream>
 
 namespace sfex
 {
@@ -40,7 +39,6 @@ template<typename T>
 class Vector2 : public sf::Vector2<T>
 {
 public:
-
     /// @brief Default constructor. Creates a zero vector.
     Vector2();
 
@@ -59,18 +57,15 @@ public:
 
     /// @brief Returns the magnitude (length) of the vector
     /// @return Magnitude of the vector
-    template<typename AdderType=Math::Adder<T, T>, typename MultiplierType=Math::Multiplier<T, T>, typename SqrtTakerType=Math::SqrtTaker<T>>
-    auto magnitude() const;
+    float magnitude() const;
 
     /// @brief Returns the magnitude (length) of the vector squared. Use this to avoid sqrt operation when magnitude squared gets the job done.
     /// @return Magnitude squared.
-    template<typename AdderType=Math::Adder<T, T>, typename MultiplierType=Math::Multiplier<T, T>>
-    auto magnitude2() const;
+    float magnitude2() const;
     
     /// @brief Changes the vector's magnitude while keeping its direction same
     /// @param magnitude Target magnitude
-    template<typename MagnitudeType=float, typename AdderType=Math::Adder<T, T>, typename MultiplierType=Math::Multiplier<T, T>, typename DividerType=Math::Divider<T, T>>
-    void setMagnitude(const MagnitudeType& magnitude);
+    void setMagnitude(float magnitude);
 
     /// @brief Sets the vector's length to 1. Shorthand for setMagnitude(1) 
     void normalize();

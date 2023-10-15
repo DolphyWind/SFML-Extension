@@ -48,6 +48,10 @@ public:
     template<typename LeftType, typename RightType>
     struct Adder
     {
+        using left_type = LeftType;
+        using right_type = RightType;
+        using output_type = decltype(std::declval<left_type>() + std::declval<right_type>());
+
         auto operator()(const LeftType& left, const RightType& right) -> decltype(left + right);
     };
 
@@ -57,6 +61,10 @@ public:
     template<typename LeftType, typename RightType>
     struct Subtracter
     {
+        using left_type = LeftType;
+        using right_type = RightType;
+        using output_type = decltype(std::declval<left_type>() - std::declval<right_type>());
+
         auto operator()(const LeftType& left, const RightType& right) -> decltype(left - right);
     };
 
@@ -66,6 +74,10 @@ public:
     template<typename LeftType, typename RightType>
     struct Multiplier
     {
+        using left_type = LeftType;
+        using right_type = RightType;
+        using output_type = decltype(std::declval<left_type>() * std::declval<right_type>());
+
         auto operator()(const LeftType& left, const RightType& right) -> decltype(left * right);
     };
 
@@ -75,6 +87,10 @@ public:
     template<typename LeftType, typename RightType>
     struct Divider
     {
+        using left_type = LeftType;
+        using right_type = RightType;
+        using output_type = decltype(std::declval<left_type>() / std::declval<right_type>());
+
         auto operator()(const LeftType& left, const RightType& right) -> decltype(left / right);
     };
 
@@ -84,6 +100,10 @@ public:
     template<typename LeftType, typename RightType>
     struct Modulo
     {
+        using left_type = LeftType;
+        using right_type = RightType;
+        using output_type = decltype(std::declval<left_type>() % std::declval<right_type>());
+
         auto operator()(const LeftType& left, const RightType& right) -> decltype(left % right);
     };
 

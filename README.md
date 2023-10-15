@@ -42,6 +42,7 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - AngleSystem - A class for representing angle measurement systems.
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
     - Math - A math class that contains some math constants and functions. Only contains static methods and constants so it doesn't meant to be instantiated.
+    - Vector - N-Dimensional Vector class that aims to be compatable with every data structure. Uses functors to achieve this.
     - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
     - Vector3 - 3D Vector class that adds some linear algebra functions and operators to sf::Vector3\<T\>
 
