@@ -45,3 +45,5 @@ uninstall.sh
 
 # Idea folder
 .idea/
+
+cmake-build-debug/

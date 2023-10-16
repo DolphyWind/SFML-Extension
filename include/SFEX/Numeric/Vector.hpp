@@ -29,6 +29,7 @@
 
 #define VECTOR_TEMPLATE template<std::size_t N, class T, class AdderType, class SubtracterType, class MultiplierType, class DividerType, class SqrtTakerType>
 #define VECTOR_TEMPLATE_ARGS N, T, AdderType, SubtracterType, MultiplierType, DividerType, SqrtTakerType
+#define MINSIZE(x, y) (((x) < (y)) ? (x) : (y))
 
 namespace sfex
 {
@@ -48,6 +49,7 @@ public:
     using subtracter_type = SubtracterType;
     using multiplier_type = MultiplierType;
     using divider_type = DividerType;
+    using sqrt_taker_type = SqrtTakerType;
     using component_type = T;
 
     /// @brief Copy constructor for Vectors.
@@ -86,8 +88,26 @@ public:
     /// @return A pointer to the beggining of the array holding the components of the vector
     [[nodiscard]] T* getComponentsPtr() noexcept;
 
+    /// @brief Returns the magnitude of the vector squared
+    /// @return The magnitude of the vector squared
+    [[nodiscard]] typename multiplier_type::output_type magnitude2() const noexcept;
+
+    /// @brief Returns the magnitude of the vector
+    /// @return The magnitude of the vector
+    [[nodiscard]] typename sqrt_taker_type::output_type magnitude() const noexcept;
+
+
+    template<std::size_t M, typename U, typename... Functors>
+    [[nodiscard]] typename adder_type::output_type dot(const Vector<M, U, Functors...>& other) const noexcept;
+
 private:
     std::array<T, N> m_components;
+
+    static adder_type adder;
+    static subtracter_type subtracter;
+    static multiplier_type multiplier;
+    static divider_type divider;
+    static sqrt_taker_type sqrt_taker;
 };
 
 

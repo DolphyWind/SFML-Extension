@@ -109,10 +109,13 @@ public:
 
     /// @brief A functor that takes the square root of given object
     /// @tparam Type Type of the object you want to take the square root of
-    template<typename Type>
+    template<typename InputType>
     struct SqrtTaker
     {
-        auto operator()(const Type& input) -> decltype(std::sqrt(input));
+        using input_type = InputType;
+        using output_type = decltype(std::sqrt(std::declval<input_type>()));
+
+        auto operator()(const InputType& input) -> decltype(std::sqrt(input));
     };
 
     /// @brief Half of the famous mathematical constant pi

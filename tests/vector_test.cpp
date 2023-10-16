@@ -25,6 +25,12 @@ std::string arrayToString(const std::array<T, N>& arr)
     return ss.str();
 }
 
+bool is_close(double left, double right, double abs_tol)
+{
+    double abs_diff = std::abs(right - left);
+    return (abs_diff < abs_tol);
+}
+
 int main(int argc, char* argv[])
 {
     sfex::Vector<2, int> intVec2_1;
@@ -38,6 +44,10 @@ int main(int argc, char* argv[])
     
     sfex::Vector<3, int> intVec3_1(intVec2_2);
     assert( (arrayToString(intVec3_1.getComponents()) == "[1, 2, 0]") && "Different dimensional copy constructor error!" );
+
+    assert( intVec2_3.magnitude2() == 5 && "Magnitude2() error!" );
+    assert( is_close(intVec2_3.magnitude(), std::sqrt(5), 0.1) && "Magnitude() error!" );
+    assert( intVec2_1.dot(intVec2_3) == 0 && "Dot product error!" );
 
     return 0;
 }

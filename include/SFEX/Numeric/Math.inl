@@ -58,8 +58,8 @@ auto Math::Modulo<LeftType, RightType>::operator()(const LeftType& left, const R
     return left % right;
 }
 
-template<typename Type>
-auto Math::SqrtTaker<Type>::operator()(const Type& input) -> decltype(std::sqrt(input))
+template<typename InputType>
+auto Math::SqrtTaker<InputType>::operator()(const InputType& input) -> decltype(std::sqrt(input))
 {
     return std::sqrt(input);
 }

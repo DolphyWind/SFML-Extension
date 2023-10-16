@@ -30,6 +30,24 @@ namespace sfex
 {
 
 VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::adder_type Vector<VECTOR_TEMPLATE_ARGS>::adder;
+
+VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::subtracter_type Vector<VECTOR_TEMPLATE_ARGS>::subtracter;
+
+VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::multiplier_type Vector<VECTOR_TEMPLATE_ARGS>::multiplier;
+
+VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::divider_type Vector<VECTOR_TEMPLATE_ARGS>::divider;
+
+VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::sqrt_taker_type Vector<VECTOR_TEMPLATE_ARGS>::sqrt_taker;
+
+
+
+
+VECTOR_TEMPLATE
 template<typename U, typename... Functors>
 Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<N, U, Functors...>& source) noexcept: m_components(source.getComponents())
 {
@@ -39,7 +57,7 @@ VECTOR_TEMPLATE
 template<std::size_t M, typename U, typename... Functors>
 Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<M, U, Functors...>& source) noexcept: m_components()
 {
-    std::size_t minSize = (M < N) ? (M) : (N);
+    std::size_t minSize = MINSIZE(M, N);
     for(unsigned int i = 0; i < minSize; ++i)
     {
         m_components.at(i) = static_cast<T>(source.getComponents()[i]);
@@ -88,6 +106,33 @@ VECTOR_TEMPLATE
 T* Vector<VECTOR_TEMPLATE_ARGS>::getComponentsPtr() noexcept
 {
     return m_components.data();
+}
+
+
+VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::multiplier_type::output_type Vector<VECTOR_TEMPLATE_ARGS>::magnitude2() const noexcept
+{
+    return this->dot(*this);
+}
+
+VECTOR_TEMPLATE
+typename Vector<VECTOR_TEMPLATE_ARGS>::sqrt_taker_type::output_type Vector<VECTOR_TEMPLATE_ARGS>::magnitude() const noexcept
+{
+    return sqrt_taker( this->magnitude2() );
+}
+
+VECTOR_TEMPLATE
+template<std::size_t M, typename U, typename... Functors>
+typename Vector<VECTOR_TEMPLATE_ARGS>::adder_type::output_type Vector<VECTOR_TEMPLATE_ARGS>::dot(const Vector<M, U, Functors...>& other) const noexcept
+{
+    typename adder_type::output_type sum = typename adder_type::output_type();
+    std::size_t minSize = MINSIZE(N, M);
+    for(std::size_t i = 0; i < minSize; ++i)
+    {
+        sum +=  multiplier( this->getComponents()[i], other.getComponents()[i] );
+    }
+
+    return sum;
 }
 
 }
