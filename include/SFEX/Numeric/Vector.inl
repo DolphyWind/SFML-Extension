@@ -30,32 +30,14 @@ namespace sfex
 {
 
 VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::adder_type Vector<VECTOR_TEMPLATE_ARGS>::adder;
-
-VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::subtracter_type Vector<VECTOR_TEMPLATE_ARGS>::subtracter;
-
-VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::multiplier_type Vector<VECTOR_TEMPLATE_ARGS>::multiplier;
-
-VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::divider_type Vector<VECTOR_TEMPLATE_ARGS>::divider;
-
-VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::sqrt_taker_type Vector<VECTOR_TEMPLATE_ARGS>::sqrt_taker;
-
-
-
-
-VECTOR_TEMPLATE
-template<typename U, typename... Functors>
-Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<N, U, Functors...>& source) noexcept: m_components(source.getComponents())
+template<typename U>
+Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<N, U>& source) noexcept: m_components(source.getComponents())
 {
 }
 
 VECTOR_TEMPLATE
-template<std::size_t M, typename U, typename... Functors>
-Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<M, U, Functors...>& source) noexcept: m_components()
+template<std::size_t M, typename U>
+Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<M, U>& source) noexcept: m_components()
 {
     std::size_t minSize = MINSIZE(M, N);
     for(unsigned int i = 0; i < minSize; ++i)
@@ -67,8 +49,6 @@ Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<M, U, Functors...>& source) no
 VECTOR_TEMPLATE
 Vector<VECTOR_TEMPLATE_ARGS>::Vector(std::initializer_list<T> components) noexcept: m_components()
 {
-    const std::size_t componentsSize = components.size();
-
     std::size_t i = 0;
     for(auto& component : components)
     {
@@ -108,34 +88,113 @@ T* Vector<VECTOR_TEMPLATE_ARGS>::getComponentsPtr() noexcept
     return m_components.data();
 }
 
+VECTOR_TEMPLATE
+const T& Vector<VECTOR_TEMPLATE_ARGS>::operator[](std::size_t index) const noexcept
+{
+    return m_components[index];
+}
 
 VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::multiplier_type::output_type Vector<VECTOR_TEMPLATE_ARGS>::magnitude2() const noexcept
+T& Vector<VECTOR_TEMPLATE_ARGS>::operator[](std::size_t index) noexcept
+{
+    return m_components[index];
+}
+
+VECTOR_TEMPLATE
+T Vector<VECTOR_TEMPLATE_ARGS>::magnitude2() const noexcept
 {
     return this->dot(*this);
 }
 
 VECTOR_TEMPLATE
-typename Vector<VECTOR_TEMPLATE_ARGS>::sqrt_taker_type::output_type Vector<VECTOR_TEMPLATE_ARGS>::magnitude() const noexcept
+T Vector<VECTOR_TEMPLATE_ARGS>::magnitude() const noexcept
 {
-    return sqrt_taker( this->magnitude2() );
+    return std::sqrt( this->magnitude2() );
 }
 
 VECTOR_TEMPLATE
-template<std::size_t M, typename U, typename... Functors>
-typename Vector<VECTOR_TEMPLATE_ARGS>::adder_type::output_type Vector<VECTOR_TEMPLATE_ARGS>::dot(const Vector<M, U, Functors...>& other) const noexcept
+void Vector<VECTOR_TEMPLATE_ARGS>::setMagnitude(const T& newMag)
 {
-    typename adder_type::output_type sum = typename adder_type::output_type();
-    std::size_t minSize = MINSIZE(N, M);
+    // Replace with this
+    // this->scale(newMag / magnitude());
+
+    T mag = this->magnitude();
+
+    for(auto& component : m_components)
+    {
+        component *= (newMag / mag);
+    }
+}
+
+VECTOR_TEMPLATE
+template<std::size_t M, typename U>
+T Vector<VECTOR_TEMPLATE_ARGS>::dot(const Vector<M, U>& other) const noexcept
+{
+    T sum = 0;
+    std::size_t minSize = MINSIZE(N, other.size);
+
     for(std::size_t i = 0; i < minSize; ++i)
     {
-        sum +=  multiplier( this->getComponents()[i], other.getComponents()[i] );
+        sum +=  this->getComponents()[i] * other.getComponents()[i];
     }
 
     return sum;
 }
 
+VECTOR_TEMPLATE
+void Vector<VECTOR_TEMPLATE_ARGS>::normalize() noexcept
+{
+    this->setMagnitude(1);
 }
 
+VECTOR_TEMPLATE
+Vector<VECTOR_TEMPLATE_ARGS> Vector<VECTOR_TEMPLATE_ARGS>::normalized() const noexcept
+{
+    Vector<VECTOR_TEMPLATE_ARGS> copy = *this;
+    copy.normalize();
+    return copy;
+}
+
+VECTOR_TEMPLATE
+template<typename U>
+std::enable_if_t<N==2, std::common_type_t<T, U>> Vector<VECTOR_TEMPLATE_ARGS>::cross(const Vector<2, U>& other) const noexcept
+{
+    return ( (*this)[0] * other[1] - (*this)[1] * other[0] );
+}
+
+VECTOR_TEMPLATE
+template<typename U>
+std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> Vector<VECTOR_TEMPLATE_ARGS>::cross(const Vector<3, U>& other) const noexcept
+{
+    return {
+        (*this)[1] * other[2] - (*this)[2] * other[1],
+        (*this)[2] * other[0] - (*this)[0] * other[2],
+        (*this)[0] * other[1] - (*this)[1] * other[0]
+    };
+}
+
+VECTOR_TEMPLATE
+template<std::size_t M, typename U>
+bool Vector<N, T>::operator==(const Vector<M, U>& other) const noexcept
+{
+    if constexpr (N != M) return false;
+
+    for(std::size_t i = 0; i < N; ++i)
+    {
+        if((*this)[i] != other[i]) return false;
+    }
+    return true;
+}
+
+VECTOR_TEMPLATE
+template<std::size_t M, typename U>
+bool Vector<N, T>::operator!=(const Vector<M, U>& other) const noexcept
+{
+    return !(*this == other);
+}
+
+
+
+}
 
 #endif // !_SFEX_NUMERIC_VECTOR2_INL_

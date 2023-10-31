@@ -27,8 +27,8 @@
 #include <array>
 #include <SFEX/Numeric/Math.hpp>
 
-#define VECTOR_TEMPLATE template<std::size_t N, class T, class AdderType, class SubtracterType, class MultiplierType, class DividerType, class SqrtTakerType>
-#define VECTOR_TEMPLATE_ARGS N, T, AdderType, SubtracterType, MultiplierType, DividerType, SqrtTakerType
+#define VECTOR_TEMPLATE template<std::size_t N, typename T>
+#define VECTOR_TEMPLATE_ARGS N, T
 #define MINSIZE(x, y) (((x) < (y)) ? (x) : (y))
 
 namespace sfex
@@ -37,33 +37,25 @@ namespace sfex
 /// @brief A class that represents N-Dimesional mathematical vectors.
 /// @tparam N The dimension count of the vector
 /// @tparam T Type of the components of the vector
-/// @tparam AdderType An adder functor for type T
-/// @tparam SubtracterType A subtracter functor for type T
-/// @tparam MultiplierType A multiplier functor for type T
-/// @tparam DividerType A divider functor for type T
-template<std::size_t N, class T, class AdderType=Math::Adder<T, T>, class SubtracterType=Math::Subtracter<T, T>, class MultiplierType=Math::Multiplier<T, T>, class DividerType=Math::Divider<T, T>, class SqrtTakerType=Math::SqrtTaker<T>>
+template<std::size_t N, class T>
 class Vector
 {
 public:
-    using adder_type = AdderType;
-    using subtracter_type = SubtracterType;
-    using multiplier_type = MultiplierType;
-    using divider_type = DividerType;
-    using sqrt_taker_type = SqrtTakerType;
     using component_type = T;
+    static const std::size_t size = N;
 
     /// @brief Copy constructor for Vectors.
     /// @tparam U The component type of the source vector
     /// @param source Vector to copy
-    template<typename U, typename... Functors>
-    Vector(const Vector<N, U, Functors...>& source) noexcept;
+    template<typename U>
+    Vector(const Vector<N, U>& source) noexcept;
 
     /// @brief Copy constructor for Vectors
     /// @tparam M The dimension count of the source vector
     /// @tparam U The component type of the source vector
     /// @param source Vector to copy
-    template<std::size_t M, typename U, typename... Functors>
-    Vector(const Vector<M, U, Functors...>& source) noexcept;
+    template<std::size_t M, typename U>
+    Vector(const Vector<M, U>& source) noexcept;
 
     /// @brief Create a vector with initial values.
     /// @param components Components of the vector
@@ -88,29 +80,63 @@ public:
     /// @return A pointer to the beggining of the array holding the components of the vector
     [[nodiscard]] T* getComponentsPtr() noexcept;
 
+    /// @brief Returns a const reference to the component that corresponds to given index.
+    /// @param index Index of the component that you want to get.
+    /// @return Const reference to the component that corresponds to given index.
+    [[nodiscard]] const T& operator[](std::size_t index) const noexcept;
+
+    /// @brief Returns a const reference to the component that corresponds to given index.
+    /// @param index Index of the component that you want to get.
+    /// @return Const reference to the component that corresponds to given index.
+    [[nodiscard]] T& operator[](std::size_t index) noexcept;
+
     /// @brief Returns the magnitude of the vector squared
     /// @return The magnitude of the vector squared
-    [[nodiscard]] typename multiplier_type::output_type magnitude2() const noexcept;
+    [[nodiscard]] T magnitude2() const noexcept;
 
     /// @brief Returns the magnitude of the vector
     /// @return The magnitude of the vector
-    [[nodiscard]] typename sqrt_taker_type::output_type magnitude() const noexcept;
+    [[nodiscard]] T magnitude() const noexcept;
 
+    /// @brief Sets the magnitude of the vector to given magnitude.
+    /// @param newMag New magnitude.
+    void setMagnitude(const T& newMag);
 
-    template<std::size_t M, typename U, typename... Functors>
-    [[nodiscard]] typename adder_type::output_type dot(const Vector<M, U, Functors...>& other) const noexcept;
+    /// @brief Computes the dot product between this vector and the given vector. It dots first min(this->size(), other.size()) dimensions since the other ones will result zero.
+    /// @param other Vector to dot.
+    /// @return Result of the dot product between this and other.
+    template<std::size_t M, typename U>
+    [[nodiscard]] T dot(const Vector<M, U>& other) const noexcept;
+
+    /// @brief Normalizes the vector.
+    void normalize() noexcept;
+
+    /// @brief Returns the normalized version of the vector.
+    [[nodiscard]] Vector<N, T> normalized() const noexcept;
+
+    /// @brief Computes the cross product between two 2D vectors. Interprets them as 3D vector, computes the cross product and returns the z component of the resulting vector.
+    /// @param other Other vector.
+    /// @return Result of the cross product.
+    template<typename U>
+    [[nodiscard]] std::enable_if_t<N==2, std::common_type_t<T, U>> cross(const Vector<2, U>& other) const noexcept;
+
+    /// @brief Computes the cross product between two 3D vectors.
+    /// @param other Other vector.
+    /// @return Result of the cross product.
+    template<typename U>
+    [[nodiscard]] std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> cross(const Vector<3, U>& other) const noexcept;
+
+    // TODO: Add 7D cross product
+
+    template<std::size_t M, typename U>
+    bool operator==(const Vector<M, U>& other) const noexcept;
+
+    template<std::size_t M, typename U>
+    bool operator!=(const Vector<M, U>& other) const noexcept;
 
 private:
     std::array<T, N> m_components;
-
-    static adder_type adder;
-    static subtracter_type subtracter;
-    static multiplier_type multiplier;
-    static divider_type divider;
-    static sqrt_taker_type sqrt_taker;
 };
-
-
 
 }
 

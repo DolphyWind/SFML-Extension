@@ -4,6 +4,7 @@
 #include <SFEX/Numeric/Vector.hpp>
 #include <sstream>
 #include <cassert>
+#define SFEX_ASSERT(condition, message) assert((condition) && (message))
 
 template<typename T, std::size_t N>
 std::string arrayToString(const std::array<T, N>& arr)
@@ -33,21 +34,47 @@ bool is_close(double left, double right, double abs_tol)
 
 int main(int argc, char* argv[])
 {
-    sfex::Vector<2, int> intVec2_1;
-    assert( (arrayToString(intVec2_1.getComponents()) == "[0, 0]") && "Default constructor error!" );
+    sfex::Vector<2, float> floatVec2_1;
+    SFEX_ASSERT((arrayToString(floatVec2_1.getComponents()) == "[0, 0]"), "Default constructor error!" );
 
-    sfex::Vector<2, int> intVec2_2{1, 2, 3};
-    assert( (arrayToString(intVec2_2.getComponents()) == "[1, 2]") && "Initializer list constructor error!" );
+    sfex::Vector<2, float> floatVec2_2{1, 2, 3};
+    SFEX_ASSERT((arrayToString(floatVec2_2.getComponents()) == "[1, 2]"), "Initializer list constructor error!" );
     
-    sfex::Vector<2, int> intVec2_3(intVec2_2);
-    assert( (arrayToString(intVec2_3.getComponents()) == "[1, 2]") && "Same dimensional copy constructor error!" );
+    sfex::Vector<2, float> floatVec2_3(floatVec2_2);
+    SFEX_ASSERT((arrayToString(floatVec2_3.getComponents()) == "[1, 2]"), "Same dimensional copy constructor error!" );
     
-    sfex::Vector<3, int> intVec3_1(intVec2_2);
-    assert( (arrayToString(intVec3_1.getComponents()) == "[1, 2, 0]") && "Different dimensional copy constructor error!" );
+    sfex::Vector<3, float> floatVec3_1(floatVec2_2);
+    SFEX_ASSERT((arrayToString(floatVec3_1.getComponents()) == "[1, 2, 0]"), "Different dimensional copy constructor error!" );
 
-    assert( intVec2_3.magnitude2() == 5 && "Magnitude2() error!" );
-    assert( is_close(intVec2_3.magnitude(), std::sqrt(5), 0.1) && "Magnitude() error!" );
-    assert( intVec2_1.dot(intVec2_3) == 0 && "Dot product error!" );
+    SFEX_ASSERT(floatVec2_3.magnitude2() == 5, "Magnitude2() error!" );
+    SFEX_ASSERT(is_close(floatVec2_3.magnitude(), std::sqrt(5), 0.1), "Magnitude() error!" );
+    SFEX_ASSERT(floatVec2_1.dot(floatVec2_3) == 0, "Dot product error!" );
+
+    floatVec2_3.setMagnitude(5);
+    SFEX_ASSERT(is_close(floatVec2_3.magnitude(), 5, 0.1f), "setMagnitude() error!" );
+
+    // Normalize test
+    SFEX_ASSERT(is_close(floatVec2_3.normalized().magnitude(), 1, 0.1f), "Normalized error!");
+    floatVec2_3.normalize();
+    SFEX_ASSERT(is_close(floatVec2_3.magnitude(), 1, 0.1f), "Normalized error!");
+
+    SFEX_ASSERT(floatVec2_1 == floatVec2_1, "== operator error!");
+    SFEX_ASSERT(floatVec2_1 != floatVec2_3, "!= operator error!");
+    SFEX_ASSERT(floatVec2_1 != floatVec3_1, "!= operator error!");
+
+    const sfex::Vector<2, float> i_hat_2d{1, 0};
+    const sfex::Vector<2, float> j_hat_2d{0, 1};
+
+    SFEX_ASSERT(i_hat_2d.cross(j_hat_2d) == 1, "2D Cross product error!");
+    SFEX_ASSERT(j_hat_2d.cross(i_hat_2d) == -1, "2D Cross product error!");
+
+    const sfex::Vector<3, float> i_hat_3d{1, 0, 0};
+    const sfex::Vector<3, float> j_hat_3d{0, 1, 0};
+    const sfex::Vector<3, float> k_hat_3d{0, 0, 1};
+    const sfex::Vector<3, float> zero_vec_3d;
+
+    SFEX_ASSERT(i_hat_3d.cross(j_hat_3d) == k_hat_3d, "3D Cross product error!");
+    SFEX_ASSERT(j_hat_3d.cross(j_hat_3d) == zero_vec_3d, "3D Cross product error!");
 
     return 0;
 }
