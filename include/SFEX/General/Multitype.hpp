@@ -457,13 +457,13 @@ public:
     static const Multitype null;
 
 private:
-    DataType m_datatype;
-    std::unique_ptr<char[]> m_data;
-    std::size_t m_size;
+    DataType m_datatype{DataType::NONE};
+    std::unique_ptr<char[]> m_data{nullptr};
+    std::size_t m_size{0};
 
     void cleanup();
     void update_value(std::size_t new_size, void* new_data, const DataType &datatype);
-    std::string to_string_priv(bool serialize=false, bool prettify=false, std::size_t indent=0, bool special_prettify=false) const;
+    [[nodiscard]] std::string to_string_priv(bool serialize=false, bool prettify=false, std::size_t indent=0, bool special_prettify=false) const;
 };
 
 template<typename T>

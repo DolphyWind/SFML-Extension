@@ -29,7 +29,7 @@ namespace sfex
 
 const Multitype Multitype::null = Multitype();
 
-Multitype::Multitype(Multitype::DataType datatype): m_datatype(DataType::NONE), m_data(nullptr), m_size(0)
+Multitype::Multitype(Multitype::DataType datatype)
 {
     if(datatype == DataType::NONE) return;
     reset(datatype);
@@ -46,32 +46,32 @@ Multitype::Multitype(Multitype&& other)
     other.cleanup();
 }
 
-Multitype::Multitype(int int_val): m_datatype(DataType::INT), m_data(nullptr), m_size(sizeof(int))
+Multitype::Multitype(int int_val)
 {
-    update_value(m_size, &int_val, m_datatype);
+    update_value(sizeof(int), &int_val, DataType::INT);
 }
 
-Multitype::Multitype(double double_val): m_datatype(DataType::DOUBLE), m_data(nullptr), m_size(sizeof(double))
+Multitype::Multitype(double double_val)
 {
-    update_value(m_size, &double_val, m_datatype);
+    update_value(sizeof(double), &double_val, DataType::DOUBLE);
 }
 
-Multitype::Multitype(const char* charptr_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(std::strlen(charptr_val)+1)
+Multitype::Multitype(const char* charptr_val)
 {
-    update_value(m_size, (void*)charptr_val, DataType::STRING);
+    update_value(1 + std::strlen(charptr_val), (void*)charptr_val, DataType::STRING);
 }
 
-Multitype::Multitype(const std::string &string_val): m_datatype(DataType::STRING), m_data(nullptr), m_size(string_val.size() + 1)
+Multitype::Multitype(const std::string &string_val)
 {
-    update_value(m_size, (void*)string_val.c_str(), m_datatype);
+    update_value(1 + string_val.size(), (void*)string_val.c_str(), DataType::STRING);
 }
 
-Multitype::Multitype(bool bool_val): m_datatype(DataType::BOOLEAN), m_data(nullptr), m_size(sizeof(bool))
+Multitype::Multitype(bool bool_val)
 {
-    update_value(m_size, &bool_val, m_datatype);
+    update_value(sizeof(bool), &bool_val, DataType::BOOLEAN);
 }
 
-Multitype::Multitype(const std::vector<Multitype> &vec_val): m_datatype(DataType::LIST), m_data(nullptr), m_size(vec_val.size() * sizeof(Multitype))
+Multitype::Multitype(const std::vector<Multitype> &vec_val)
 {
     // Convert option value vector into an array
     std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(vec_val.size());
@@ -79,48 +79,48 @@ Multitype::Multitype(const std::vector<Multitype> &vec_val): m_datatype(DataType
     {
         *(values.get() + i) = vec_val[i];
     }
-    update_value(m_size, values.release(), m_datatype);
+    update_value(vec_val.size() * sizeof(Multitype), values.release(), DataType::LIST);
 }
 
-Multitype::Multitype(const std::vector<int>& int_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(int_vector.size() * sizeof(Multitype))
+Multitype::Multitype(const std::vector<int>& int_vector)
 {
     std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(int_vector.size());
     for(std::size_t i = 0 ; i < int_vector.size(); ++i)
     {
         *(values.get() + i) = int_vector[i];
     }
-    update_value(m_size, values.release(), m_datatype);
+    update_value(int_vector.size() * sizeof(Multitype), values.release(), DataType::LIST);
 }
 
 
-Multitype::Multitype(const std::vector<double>& double_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(double_vector.size() * sizeof(Multitype))
+Multitype::Multitype(const std::vector<double>& double_vector)
 {
     std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(double_vector.size());
     for(std::size_t i = 0 ; i < double_vector.size(); ++i)
     {
         *(values.get() + i) = double_vector[i];
     }
-    update_value(m_size, values.release(), m_datatype);
+    update_value(double_vector.size() * sizeof(Multitype), values.release(), DataType::LIST);
 }
 
-Multitype::Multitype(const std::vector<bool>& bool_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(bool_vector.size() * sizeof(Multitype))
+Multitype::Multitype(const std::vector<bool>& bool_vector)
 {
     std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(bool_vector.size());
     for(std::size_t i = 0 ; i < bool_vector.size(); ++i)
     {
         *(values.get() + i) = bool_vector[i];
     }
-    update_value(m_size, values.release(), m_datatype);
+    update_value(bool_vector.size() * sizeof(Multitype), values.release(), DataType::LIST);
 }
 
-Multitype::Multitype(const std::vector<std::string>& string_vector): m_datatype(DataType::LIST), m_data(nullptr), m_size(string_vector.size() * sizeof(Multitype))
+Multitype::Multitype(const std::vector<std::string>& string_vector)
 {
     std::unique_ptr<Multitype[]> values = std::make_unique<Multitype[]>(string_vector.size());
     for(std::size_t i = 0 ; i < string_vector.size(); ++i)
     {
         *(values.get() + i) = string_vector[i];
     }
-    update_value(m_size, values.release(), m_datatype);
+    update_value(string_vector.size() * sizeof(Multitype), values.release(), DataType::LIST);
 }
 
 Multitype::Multitype(const std::initializer_list<Multitype> &list_val)
@@ -128,7 +128,7 @@ Multitype::Multitype(const std::initializer_list<Multitype> &list_val)
     *this = Multitype(std::vector<Multitype>(list_val.begin(), list_val.end()));
 }
 
-Multitype::Multitype(const MultitypeMap &map_val): m_datatype(DataType::MAP), m_data(nullptr), m_size((sizeof(Multitype)+sizeof(char*))*map_val.size())
+Multitype::Multitype(const MultitypeMap &map_val)
 {
     struct Pair
     {
@@ -148,7 +148,7 @@ Multitype::Multitype(const MultitypeMap &map_val): m_datatype(DataType::MAP), m_
         *(values.get() + i) = std::move(p);
         i++;
     }
-    update_value(m_size, values.release(), m_datatype);
+    update_value((sizeof(Multitype) + sizeof(char*)) * map_val.size(), values.release(), DataType::MAP);
 }
 
 Multitype::Multitype(const std::initializer_list<std::pair<std::string, Multitype>> &pair_initializer_list)
@@ -536,14 +536,14 @@ Multitype Multitype::parse(const std::string &str)
         auto end = std::find_if(str.rbegin(), str.rend(), [](char ch){
             return !std::isspace(ch) && ch != '\t' && ch != '\n';
         }).base();
-        if(end < start) return std::string();
-        return std::string(start, end);
+        if(end < start) return {};
+        return {start, end};
     };
 
     // First, strip string.
     std::string str_to_parse = strip(str);
 
-    auto parse_integer = [](const std::string& str)->std::optional<int>{
+    constexpr auto parse_integer = [](const std::string& str)->std::optional<int>{
         try
         {
             std::size_t pos = 0;
@@ -716,8 +716,8 @@ Multitype::operator bool() const
 
 std::string Multitype::as_string() const
 {
-    if(m_datatype != DataType::STRING) return std::string();
-    return std::string(m_data.get());
+    if(m_datatype != DataType::STRING) return {};
+    return {m_data.get()};
 }
 
 Multitype::operator std::string() const
@@ -727,7 +727,7 @@ Multitype::operator std::string() const
 
 std::vector<Multitype> Multitype::as_list() const
 {
-    if(m_datatype != DataType::LIST) return std::vector<Multitype>();
+    if(m_datatype != DataType::LIST) return std::vector<Multitype>{};
 
     return std::vector<Multitype>(reinterpret_cast<Multitype*>(m_data.get()), reinterpret_cast<Multitype*>(m_data.get()) + m_size / sizeof(Multitype));
 }
