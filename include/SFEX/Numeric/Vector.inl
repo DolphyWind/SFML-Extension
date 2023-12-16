@@ -39,7 +39,7 @@ VECTOR_TEMPLATE
 template<std::size_t M, typename U>
 Vector<VECTOR_TEMPLATE_ARGS>::Vector(const Vector<M, U>& source) noexcept: m_components()
 {
-    std::size_t minSize = MINSIZE(M, N);
+    std::size_t minSize = impl::MinValue<N, M>::value;
     for(unsigned int i = 0; i < minSize; ++i)
     {
         m_components.at(i) = static_cast<T>(source.getComponents()[i]);
@@ -101,13 +101,13 @@ T& Vector<VECTOR_TEMPLATE_ARGS>::operator[](std::size_t index) noexcept
 }
 
 VECTOR_TEMPLATE
-T Vector<VECTOR_TEMPLATE_ARGS>::magnitude2() const noexcept
+T Vector<VECTOR_TEMPLATE_ARGS>::magnitude2() const
 {
     return this->dot(*this);
 }
 
 VECTOR_TEMPLATE
-T Vector<VECTOR_TEMPLATE_ARGS>::magnitude() const noexcept
+T Vector<VECTOR_TEMPLATE_ARGS>::magnitude() const
 {
     return std::sqrt( this->magnitude2() );
 }
@@ -128,10 +128,10 @@ void Vector<VECTOR_TEMPLATE_ARGS>::setMagnitude(const T& newMag)
 
 VECTOR_TEMPLATE
 template<std::size_t M, typename U>
-T Vector<VECTOR_TEMPLATE_ARGS>::dot(const Vector<M, U>& other) const noexcept
+T Vector<VECTOR_TEMPLATE_ARGS>::dot(const Vector<M, U>& other) const
 {
     T sum = 0;
-    std::size_t minSize = MINSIZE(N, other.size);
+    std::size_t minSize = impl::MinValue<N, other.size>::value;
 
     for(std::size_t i = 0; i < minSize; ++i)
     {
@@ -142,13 +142,13 @@ T Vector<VECTOR_TEMPLATE_ARGS>::dot(const Vector<M, U>& other) const noexcept
 }
 
 VECTOR_TEMPLATE
-void Vector<VECTOR_TEMPLATE_ARGS>::normalize() noexcept
+void Vector<VECTOR_TEMPLATE_ARGS>::normalize()
 {
     this->setMagnitude(1);
 }
 
 VECTOR_TEMPLATE
-Vector<VECTOR_TEMPLATE_ARGS> Vector<VECTOR_TEMPLATE_ARGS>::normalized() const noexcept
+Vector<VECTOR_TEMPLATE_ARGS> Vector<VECTOR_TEMPLATE_ARGS>::normalized() const
 {
     Vector<VECTOR_TEMPLATE_ARGS> copy = *this;
     copy.normalize();
@@ -157,14 +157,14 @@ Vector<VECTOR_TEMPLATE_ARGS> Vector<VECTOR_TEMPLATE_ARGS>::normalized() const no
 
 VECTOR_TEMPLATE
 template<typename U>
-std::enable_if_t<N==2, std::common_type_t<T, U>> Vector<VECTOR_TEMPLATE_ARGS>::cross(const Vector<2, U>& other) const noexcept
+std::enable_if_t<N==2, std::common_type_t<T, U>> Vector<VECTOR_TEMPLATE_ARGS>::cross(const Vector<2, U>& other) const
 {
     return ( (*this)[0] * other[1] - (*this)[1] * other[0] );
 }
 
 VECTOR_TEMPLATE
 template<typename U>
-std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> Vector<VECTOR_TEMPLATE_ARGS>::cross(const Vector<3, U>& other) const noexcept
+std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> Vector<VECTOR_TEMPLATE_ARGS>::cross(const Vector<3, U>& other) const
 {
     return {
         (*this)[1] * other[2] - (*this)[2] * other[1],
@@ -175,7 +175,56 @@ std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> Vector<VECTOR_TEMPLA
 
 VECTOR_TEMPLATE
 template<std::size_t M, typename U>
-bool Vector<N, T>::operator==(const Vector<M, U>& other) const noexcept
+Vector<impl::MinValue<N, M>::value, std::common_type_t<T, U>> Vector<VECTOR_TEMPLATE_ARGS>::cwiseMul(const Vector<M, U>& rhs) const
+{
+    constexpr std::size_t minSize = impl::MinValue<N, M>::value;
+
+    Vector<minSize, std::common_type_t<T, U>> result;
+    for(std::size_t i = 0; i < minSize; ++i)
+    {
+        result[i] = (*this)[i] * rhs[i];
+    }
+
+    return result;
+}
+
+VECTOR_TEMPLATE
+template<std::size_t M, typename U>
+Vector<impl::MinValue<N, M>::value, std::common_type_t<T, U>> Vector<VECTOR_TEMPLATE_ARGS>::cwiseDiv(const Vector<M, U>& rhs) const
+{
+    constexpr std::size_t minSize = impl::MinValue<N, M>::value;
+
+    Vector<minSize, std::common_type_t<T, U>> result;
+    for(std::size_t i = 0; i < minSize; ++i)
+    {
+        result[i] = (*this)[i] / rhs[i];
+    }
+
+    return result;
+}
+
+VECTOR_TEMPLATE
+template<typename V>
+void Vector<VECTOR_TEMPLATE_ARGS>::scale(const V &scalar)
+{
+    for(auto& item : m_components)
+    {
+        item *= scalar;
+    }
+}
+
+VECTOR_TEMPLATE
+template<typename V>
+Vector<VECTOR_TEMPLATE_ARGS> Vector<VECTOR_TEMPLATE_ARGS>::scaled(const V &scalar) const
+{
+    Vector<VECTOR_TEMPLATE_ARGS> result = *this;
+    result.scale(scalar);
+    return result;
+}
+
+VECTOR_TEMPLATE
+template<std::size_t M, typename U>
+bool Vector<VECTOR_TEMPLATE_ARGS>::operator==(const Vector<M, U>& other) const noexcept
 {
     if constexpr (N != M) return false;
 
@@ -188,7 +237,7 @@ bool Vector<N, T>::operator==(const Vector<M, U>& other) const noexcept
 
 VECTOR_TEMPLATE
 template<std::size_t M, typename U>
-bool Vector<N, T>::operator!=(const Vector<M, U>& other) const noexcept
+bool Vector<VECTOR_TEMPLATE_ARGS>::operator!=(const Vector<M, U>& other) const noexcept
 {
     return !(*this == other);
 }

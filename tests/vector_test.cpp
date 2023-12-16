@@ -76,5 +76,11 @@ int main(int argc, char* argv[])
     SFEX_ASSERT(i_hat_3d.cross(j_hat_3d) == k_hat_3d, "3D Cross product error!");
     SFEX_ASSERT(j_hat_3d.cross(j_hat_3d) == zero_vec_3d, "3D Cross product error!");
 
+    const sfex::Vector<3, int> vec_to_scale{1, 2, 3};
+    SFEX_ASSERT((vec_to_scale.scaled(2) == sfex::Vector<3, int>{2, 4, 6}), "Scale error!");
+
+    SFEX_ASSERT((sfex::Vector<3, int>{1, 2, 3}.cwiseMul(sfex::Vector<3, int>{9, 8, 7}) == sfex::Vector<3, int>{9, 16, 21}), "CWise mul error");
+    SFEX_ASSERT((sfex::Vector<3, int>{16, 25, 9}.cwiseDiv(sfex::Vector<3, int>{4, 5, 3}) == sfex::Vector<3, int>{4, 5, 3}), "CWise div error");
+
     return 0;
 }

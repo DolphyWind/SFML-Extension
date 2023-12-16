@@ -78,7 +78,7 @@ public:
     /// @param rhs rhs vector
     /// @return Result of this . rhs
     template<typename V>
-    auto dot(const Vector2<V> &rhs) const -> typename std::common_type<T, V>::type;
+    auto dot(const Vector2<V> &rhs) const -> typename std::common_type_t<T, V>;
 
     /// @brief Computates the dot product between this and rhs 
     /// @param rhs rhs vector
@@ -89,7 +89,7 @@ public:
     /// @param rhs rhs vector
     /// @return Result of this x rhs
     template<typename V>
-    auto cross(const Vector2<V> &rhs) const -> typename std::common_type<T, V>::type;
+    auto cross(const Vector2<V> &rhs) const -> typename std::common_type_t<T, V>;
     
     /// @brief Treats the vectors as three dimentional with z being equal to zero vectors and Computates the cross product between them. Returns the z component of the reult since x and y components are zero.
     /// @param rhs rhs vector
@@ -100,7 +100,7 @@ public:
     /// @param rhs rhs vector
     /// @return Result of component-wise multiplication.
     template<typename V>
-    auto cwiseMul(const Vector2<V> &rhs) const -> Vector2<typename std::common_type<T, V>::type>;
+    auto cwiseMul(const Vector2<V> &rhs) const -> Vector2<typename std::common_type_t<T, V>>;
 
     /// @brief Computates component-wise product aka the hadamard product between two vectors
     /// @param rhs rhs vector
@@ -111,7 +111,7 @@ public:
     /// @param rhs rhs vector
     /// @return Result of component-wise division.
     template<typename V>
-    auto cwiseDiv(const Vector2<V> &rhs) const -> Vector2<typename std::common_type<T, V>::type>;
+    auto cwiseDiv(const Vector2<V> &rhs) const -> Vector2<typename std::common_type_t<T, V>>;
 
     /// @brief Computates component-wise division aka the hadamard division between two vectors
     /// @param rhs rhs vector
@@ -127,7 +127,7 @@ public:
     /// @param scalar scalar
     /// @return Scaled version of the vector
     template<typename V>
-    auto scaled(const V &scalar) const -> Vector2<typename std::common_type<T, V>::type>;
+    auto scaled(const V &scalar) const -> Vector2<typename std::common_type_t<T, V>>;
 
     /// @brief Rotates the vector around "rotateAround" vector by given angle.
     /// @param angle angle in radians

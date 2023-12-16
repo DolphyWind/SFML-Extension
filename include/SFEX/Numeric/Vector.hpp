@@ -29,10 +29,17 @@
 
 #define VECTOR_TEMPLATE template<std::size_t N, typename T>
 #define VECTOR_TEMPLATE_ARGS N, T
-#define MINSIZE(x, y) (((x) < (y)) ? (x) : (y))
 
 namespace sfex
 {
+
+namespace impl
+{
+    template <std::size_t A, std::size_t B>
+    struct MinValue {
+        static constexpr std::size_t value = std::conditional<(A < B), std::integral_constant<int, A>, std::integral_constant<int, B>>::type::value;
+    };
+}
 
 /// @brief A class that represents N-Dimesional mathematical vectors.
 /// @tparam N The dimension count of the vector
@@ -92,11 +99,11 @@ public:
 
     /// @brief Returns the magnitude of the vector squared
     /// @return The magnitude of the vector squared
-    [[nodiscard]] T magnitude2() const noexcept;
+    [[nodiscard]] T magnitude2() const;
 
     /// @brief Returns the magnitude of the vector
     /// @return The magnitude of the vector
-    [[nodiscard]] T magnitude() const noexcept;
+    [[nodiscard]] T magnitude() const;
 
     /// @brief Sets the magnitude of the vector to given magnitude.
     /// @param newMag New magnitude.
@@ -106,27 +113,48 @@ public:
     /// @param other Vector to dot.
     /// @return Result of the dot product between this and other.
     template<std::size_t M, typename U>
-    [[nodiscard]] T dot(const Vector<M, U>& other) const noexcept;
+    [[nodiscard]] T dot(const Vector<M, U>& other) const;
 
     /// @brief Normalizes the vector.
-    void normalize() noexcept;
+    void normalize();
 
     /// @brief Returns the normalized version of the vector.
-    [[nodiscard]] Vector<N, T> normalized() const noexcept;
+    [[nodiscard]] Vector<N, T> normalized() const;
 
     /// @brief Computes the cross product between two 2D vectors. Interprets them as 3D vector, computes the cross product and returns the z component of the resulting vector.
     /// @param other Other vector.
     /// @return Result of the cross product.
     template<typename U>
-    [[nodiscard]] std::enable_if_t<N==2, std::common_type_t<T, U>> cross(const Vector<2, U>& other) const noexcept;
+    [[nodiscard]] std::enable_if_t<N==2, std::common_type_t<T, U>> cross(const Vector<2, U>& other) const;
 
     /// @brief Computes the cross product between two 3D vectors.
     /// @param other Other vector.
     /// @return Result of the cross product.
     template<typename U>
-    [[nodiscard]] std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> cross(const Vector<3, U>& other) const noexcept;
+    [[nodiscard]] std::enable_if_t<N==3, Vector<3, std::common_type_t<T, U>>> cross(const Vector<3, U>& other) const;
 
-    // TODO: Add 7D cross product
+    /// @brief Computates component-wise multiplication aka the hadamard multiplication between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise multiplication.
+    template<std::size_t M, typename U>
+    [[nodiscard]] Vector<impl::MinValue<N, M>::value, std::common_type_t<T, U>> cwiseMul(const Vector<M, U>& rhs) const;
+
+    /// @brief Computates component-wise division aka the hadamard division between two vectors
+    /// @param rhs rhs vector
+    /// @return Result of component-wise division.
+    template<std::size_t M, typename U>
+    [[nodiscard]] Vector<impl::MinValue<N, M>::value, std::common_type_t<T, U>> cwiseDiv(const Vector<M, U>& rhs) const;
+
+    /// @brief Scales the vector with a scalar
+    /// @param scalar scalar
+    template<typename V>
+    void scale(const V& scalar);
+
+    /// @brief Returns a scaled version of the vector
+    /// @param scalar scalar
+    /// @return Scaled version of the vector
+    template<typename V>
+    Vector<VECTOR_TEMPLATE_ARGS> scaled(const V& scalar) const;
 
     template<std::size_t M, typename U>
     bool operator==(const Vector<M, U>& other) const noexcept;
