@@ -1,5 +1,5 @@
 # Important
-I am thinking to develop my own game engine. So some I removed a lot of stuff from the list below.  
+I am thinking to develop my own game engine. So I removed a lot of stuff from the list below. I may add new features and do bug fixes but I'll more focus on my own game engine.  
 
 # TODO
 + [X] Redefine some constructors of sfex::Multitype
