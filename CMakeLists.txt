@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15.0)
 set(SFEX_PROJECT_NAME SFEX)
-project(${SFEX_PROJECT_NAME} VERSION 0.22.0)
+project(${SFEX_PROJECT_NAME} VERSION 0.24.0)
 include(GNUInstallDirs)
 include(CTest)
 enable_testing()
