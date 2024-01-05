@@ -29,13 +29,13 @@ namespace sfex
 
 void SpriteManager::createEmpty(const std::string &key)
 {
-    m_hashmap[key] = sf::Sprite();
+    (*this)[key] = sf::Sprite();
 }
 
 void SpriteManager::setTexture(const std::string &key, const sf::Texture& texture)
 {
-    if(this->contains(key)) m_hashmap[key].setTexture(texture);
-    else m_hashmap[key] = sf::Sprite(texture);
+    if(this->contains(key)) (*this)[key].setTexture(texture);
+    else (*this)[key] = sf::Sprite(texture);
 }
 
 } // namespace sfex

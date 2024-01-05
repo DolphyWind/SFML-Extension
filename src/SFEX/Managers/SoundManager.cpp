@@ -32,7 +32,7 @@ bool SoundManager::loadFromFile(const std::string &key, const std::string &filen
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromFile(filename)) return false;
 
-    m_hashmap[key] = sf::Sound(m_buffers[key]);
+    (*this)[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -41,7 +41,7 @@ bool SoundManager::loadFromMemory(const std::string &key, const void *data, std:
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromMemory(data, size)) return false;
 
-    m_hashmap[key] = sf::Sound(m_buffers[key]);
+    (*this)[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -50,7 +50,7 @@ bool SoundManager::loadFromStream(const std::string &key, sf::InputStream &strea
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromStream(stream)) return false;
 
-    m_hashmap[key] = sf::Sound(m_buffers[key]);
+    (*this)[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
@@ -59,38 +59,38 @@ bool SoundManager::loadFromSamples(const std::string &key, const sf::Int16 *samp
     m_buffers[key] = sf::SoundBuffer();
     if(!m_buffers[key].loadFromSamples(sample, sampleCount, channelCount, sampleRate)) return false;
 
-    m_hashmap[key] = sf::Sound(m_buffers[key]);
+    (*this)[key] = sf::Sound(m_buffers[key]);
     return true;
 }
 
 void SoundManager::play(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap[key].play();
+    (*this)[key].play();
 }
 
 void SoundManager::pause(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap[key].pause();
+    (*this)[key].pause();
 }
 
 void SoundManager::stop(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap[key].stop();
+    (*this)[key].stop();
 }
 
 sf::Time SoundManager::getDuration(const std::string &key)
 {
     if(!this->contains(key)) return sf::Time::Zero;
-    return m_hashmap[key].getBuffer()->getDuration();
+    return (*this)[key].getBuffer()->getDuration();
 }
 
 sf::Sound::Status SoundManager::getStatus(const std::string &key)
 {
     if(!this->contains(key)) return sf::Sound::Status::Stopped;
-    return m_hashmap[key].getStatus();
+    return (*this)[key].getStatus();
 }
 
 } // namespace sfex

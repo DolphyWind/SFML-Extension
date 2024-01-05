@@ -32,7 +32,7 @@ bool MusicManager::openFromFile(const std::string &key, const std::string &filen
     sf::Music music;
     if(!music.openFromFile(filename)) return false;
 
-    m_hashmap[key].openFromFile(filename);
+    (*this)[key].openFromFile(filename);
     return true;
 }
 
@@ -41,7 +41,7 @@ bool MusicManager::openFromMemory(const std::string &key, const void *data, std:
     sf::Music music;
     if(!music.openFromMemory(data, size)) return false;
 
-    m_hashmap[key].openFromMemory(data, size);
+    (*this)[key].openFromMemory(data, size);
     return true;
 }
 
@@ -50,38 +50,38 @@ bool MusicManager::openFromStream(const std::string &key, sf::InputStream &strea
     sf::Music music;
     if(!music.openFromStream(stream)) return false;
 
-    m_hashmap[key].openFromStream(stream);
+    (*this)[key].openFromStream(stream);
     return true;
 }
 
 void MusicManager::play(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap[key].play();
+    (*this)[key].play();
 }
 
 void MusicManager::pause(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap[key].pause();
+    (*this)[key].pause();
 }
 
 void MusicManager::stop(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap[key].stop();
+    (*this)[key].stop();
 }
 
 sf::Time MusicManager::getDuration(const std::string &key)
 {
     if(!this->contains(key)) return sf::Time::Zero;
-    return m_hashmap[key].getDuration();
+    return (*this)[key].getDuration();
 }
 
 sf::Music::Status MusicManager::getStatus(const std::string &key)
 {
     if(!this->contains(key)) return sf::Music::Status::Stopped;
-    return m_hashmap[key].getStatus();
+    return (*this)[key].getStatus();
 }
 
 } // namespace sfex

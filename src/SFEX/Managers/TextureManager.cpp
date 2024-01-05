@@ -32,7 +32,7 @@ bool TextureManager::create(const std::string &key, unsigned int width, unsigned
     sf::Texture fooTexture;
     if(!fooTexture.create(width, height)) return false;
     
-    this->m_hashmap[key] = std::move(fooTexture);
+    (*this)[key] = std::move(fooTexture);
     return true;
 }
 
@@ -41,7 +41,7 @@ bool TextureManager::loadFromFile(const std::string &key, const std::string &fil
     sf::Texture fooTexture;
     if(!fooTexture.loadFromFile(filename, area)) return false;
 
-    this->m_hashmap[key] = std::move(fooTexture);
+    (*this)[key] = std::move(fooTexture);
     return true;
 }
 
@@ -50,7 +50,7 @@ bool TextureManager::loadFromMemory(const std::string &key, const void *data, st
     sf::Texture fooTexture;
     if(!fooTexture.loadFromMemory(data, size)) return false;
 
-    this->m_hashmap[key] = std::move(fooTexture);
+    (*this)[key] = std::move(fooTexture);
     return true;
 }
 
@@ -59,7 +59,7 @@ bool TextureManager::loadFromStream(const std::string &key, sf::InputStream &str
     sf::Texture fooTexture;
     if(!fooTexture.loadFromStream(stream, area)) return false;
 
-    this->m_hashmap[key] = std::move(fooTexture);
+    (*this)[key] = std::move(fooTexture);
     return true;
 }
 
@@ -68,7 +68,7 @@ bool TextureManager::loadFromImage(const std::string &key, const sf::Image &imag
     sf::Texture fooTexture;
     if(!fooTexture.loadFromImage(image, area)) return false;
 
-    this->m_hashmap[key] = std::move(fooTexture);
+    (*this)[key] = std::move(fooTexture);
     return true;
 }
 

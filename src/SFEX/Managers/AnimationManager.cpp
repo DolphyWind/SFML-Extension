@@ -78,7 +78,7 @@ void AnimationManager::update(const sf::Time& deltaTime)
 
 void AnimationManager::addAnimation(const std::string &key, const Animation &animation)
 {
-    this->m_hashmap.insert({key, std::make_unique<sfex::Animation>(animation)});
+    this->insert({key, std::make_unique<sfex::Animation>(animation)});
 }
 
 }

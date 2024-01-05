@@ -35,7 +35,7 @@ namespace sfex
 
 /// @brief Base manager class. Stores <std::string, T> pairs in a hashmap aka std::unordered_map
 template<typename T>
-class ManagerBase
+class ManagerBase : public std::unordered_map<std::string, T>
 {
 public:
 
@@ -46,52 +46,15 @@ public:
         Contains,
         Does_not_contain,
     };
-
-    typedef typename std::unordered_map<std::string, T>::iterator iterator;
-    typedef typename std::unordered_map<std::string, T>::const_iterator const_iterator;
-
+    
     /// @brief A function to check if the key is present in the hashmap
     /// @param key Key to check
     /// @return true if the key is present in the hashmap
     bool contains(const std::string &key) const;
 
-    /// @brief Get number of values stored
-    /// @return Number of values stored
-    std::size_t size() const;
-
-    /// @brief Checks whether the hashmap is empty
-    /// @return True if the hashmap is empty, false otherwise
-    bool empty() const;
-
-    /// @brief Returns an iterator to the beginning of the hashmap
-    /// @return An iterator to the beginning of the hashmap
-    iterator begin();
-
-    /// @brief Returns an iterator to the end of the hashmap
-    /// @return An iterator to the end of the hashmap
-    iterator end();
-
-    /// @brief Returns a constant iterator to the beginning of the hashmap
-    /// @return A constant iterator to the beginning of the hashmap
-    const_iterator cbegin();
-
-    /// @brief Returns a constant iterator to the end of the hashmap
-    /// @return A constant iterator to the end of the hashmap
-    const_iterator cend();
-
-    /// @brief Get a reference to the value corresponding to key. Returns std::nullopt if key is not present in the hashmap.
-    /// @param key Key value
-    /// @return A reference to the value corresponding to key.
-    T& at(const std::string &key);
-
     /// @brief Get all keys
     /// @return All keys in a vector
     std::vector<std::string> keys() const;
-
-    /// @brief Get a reference to the value corresponding to key. Returns std::nullopt if key is not present in the hashmap.
-    /// @param key Key value
-    /// @return A reference to the value corresponding to key.
-    T& operator[](const std::string &key);
 
     /// @brief Filter each key by pattern and method then return matching keys
     /// @param pattern Pattern to look for while filtering
@@ -106,20 +69,6 @@ public:
     /// @brief Remove multiple keys from the hashmap
     /// @param keys Keys to remove
     void remove(const std::vector<std::string> &keys);
-
-    /// @brief Clear the entire hashmap
-    void clear();
-
-    /// @brief Insert a pair to hashmap
-    /// @param pair Pair to insert
-    void insert(const std::pair<std::string, T> &pair);
-
-    /// @brief Insert multiple paris to hashmap
-    /// @param pairs Pairs to insert
-    void insert(const std::vector<std::pair<std::string, T>> &pairs);
-
-protected:
-    std::unordered_map<std::string, T> m_hashmap;
 };
 
 } // namespace sfex

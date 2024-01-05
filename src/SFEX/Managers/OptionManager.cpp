@@ -108,7 +108,7 @@ bool OptionManager::saveToFile_JSON(const std::string &filename)
 Multitype OptionManager::to_multitype() const
 {
     MultitypeMap map;
-    for(auto &[key, value] : this->m_hashmap)
+    for(auto &[key, value] : *this)
     {
         map.insert({key, value.getValue()});
     }

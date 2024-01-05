@@ -30,56 +30,14 @@ namespace sfex
 template<typename T>
 bool ManagerBase<T>::contains(const std::string &key) const
 {
-    return (m_hashmap.find(key) != m_hashmap.end());
-}
-
-template<typename T>
-std::size_t ManagerBase<T>::size() const
-{
-    return m_hashmap.size();
-}
-
-template<typename T>
-bool ManagerBase<T>::empty() const
-{
-    return m_hashmap.empty();
-}
-
-template<typename T>
-typename ManagerBase<T>::iterator ManagerBase<T>::begin()
-{
-    return m_hashmap.begin();
-}
-
-template<typename T>
-typename ManagerBase<T>::iterator ManagerBase<T>::end()
-{
-    return m_hashmap.end();
-}
-
-template<typename T>
-typename ManagerBase<T>::const_iterator ManagerBase<T>::cbegin()
-{
-    return m_hashmap.cbegin();
-}
-
-template<typename T>
-typename ManagerBase<T>::const_iterator ManagerBase<T>::cend()
-{
-    return m_hashmap.cend();
-}
-
-template<typename T>
-T& ManagerBase<T>::at(const std::string &key)
-{
-    return m_hashmap.at(key);
+    return (this->find(key) != this->end());
 }
 
 template<typename T>
 std::vector<std::string> ManagerBase<T>::keys() const
 {
     std::vector<std::string> result;
-    for(auto &p : m_hashmap)
+    for(auto &p : *this)
     {
         result.push_back(p.first);
     }
@@ -87,16 +45,10 @@ std::vector<std::string> ManagerBase<T>::keys() const
 }
 
 template<typename T>
-T& ManagerBase<T>::operator[](const std::string& key)
-{
-    return m_hashmap[key];
-}
-
-template<typename T>
 std::vector<std::string> ManagerBase<T>::filter(std::string pattern, ManagerBase<T>::FilterType method)
 {
     std::vector<std::string> result;
-    for(auto &p : m_hashmap)
+    for(auto &p : *this)
     {
         bool filtered = false;
         switch (method)
@@ -134,7 +86,7 @@ template<typename T>
 void ManagerBase<T>::remove(const std::string &key)
 {
     if(!this->contains(key)) return;
-    m_hashmap.erase(key);
+    this->erase(key);
 }
 
 template<typename T>
@@ -142,28 +94,7 @@ void ManagerBase<T>::remove(const std::vector<std::string> &keys)
 {
     for(auto &key : keys)
     {
-        m_hashmap.erase(key);
-    }
-}
-
-template<typename T>
-void ManagerBase<T>::clear()
-{
-    m_hashmap.clear();  
-}
-
-template<typename T>
-void ManagerBase<T>::insert(const std::pair<std::string, T> &pair)
-{
-    m_hashmap.insert(pair);
-}
-
-template<typename T>
-void ManagerBase<T>::insert(const std::vector<std::pair<std::string, T>> &pairs)
-{
-    for(auto &pair : pairs)
-    {
-        m_hashmap.insert(pair);
+        this->erase(key);
     }
 }
 

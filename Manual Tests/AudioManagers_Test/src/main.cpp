@@ -57,6 +57,7 @@ int main()
         window.clear();
 
         window.display();
+        sfex::Keyboard::update();
     }
 
     return 0;
