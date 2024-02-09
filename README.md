@@ -1,13 +1,13 @@
 **THIS LIBRARY IS WORK IN PROGRESS. ANY FEATURE CAN CHANGE IN ANYTIME.**
 
-# SFEX - SFML Extended
-SFML Extended is a set of classes/functions to speed up SFML Game development.
+# SFEX - SFML Extension
+SFML Extension is a set of classes/functions to speed up SFML Game development.
 
 # Build Status
-[![Linux Build](https://github.com/DolphyWind/SFML-Extended/actions/workflows/linux_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/linux_build.yml)  
-[![Windows Build](https://github.com/DolphyWind/SFML-Extended/actions/workflows/windows_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/windows_build.yml)  
-[![MacOS build](https://github.com/DolphyWind/SFML-Extended/actions/workflows/mac_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/mac_build.yml)  
-[![Building Documentation](https://github.com/DolphyWind/SFML-Extended/actions/workflows/build_docs.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extended/actions/workflows/build_docs.yml)
+[![Linux Build](https://github.com/DolphyWind/SFML-Extension/actions/workflows/linux_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extension/actions/workflows/linux_build.yml)  
+[![Windows Build](https://github.com/DolphyWind/SFML-Extension/actions/workflows/windows_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extension/actions/workflows/windows_build.yml)  
+[![MacOS build](https://github.com/DolphyWind/SFML-Extension/actions/workflows/mac_build.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extension/actions/workflows/mac_build.yml)  
+[![Building Documentation](https://github.com/DolphyWind/SFML-Extension/actions/workflows/build_docs.yml/badge.svg)](https://github.com/DolphyWind/SFML-Extension/actions/workflows/build_docs.yml)
 
 # What This Library Provides
 SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
@@ -21,39 +21,39 @@ SFEX currently contains 4 modules: General, Graphics, Managers and Numeric.
     - Scene - Base scene class.
     - Singleton - A singleton base class. 
     - StaticClass - A base class for static classes like sfex::Joystick, sfex::Keyboard, sfex::Mouse, sfex::Math.
-    - Stopwatch - A stopwatch class. Acts like sf::Clock but can be paused and resumed.
+    - Stopwatch - Measures the elapsed time. Can be paused and resumed.
 - **Graphics:** Classes that are related to graphics.
-    - Animation - Animation class for sprite sheet animations.
+    - Animation - A class for sprite sheet animations.
     - Color - A color class.
     - Ellipse - An ellipse shape class.
-    - RoundedRectangle - A class for rectangles whose corners are rounded.
+    - RoundedRectangle - A class for rectangles with smoothed out corners.
     - Squircle - A squircle shape class based on x^4 + y^4 = r^4 definition.
-    - Star - A cstar shape class.
+    - Star - A star shape class.
 - **Managers:** Managers for various Game Development related objects.
-    - AnimationManager - Manages animations for one sprite. Makes animations really easy to implement for SFML. Inherits from ManagerBase\<Animation\>
+    - AnimationManager - Manages animations for one sprite. Makes animations really easy to implement for SFML. Inherits from `ManagerBase<Animation>`
     - ManagerBase - Base manager class. All the other managers classes are derived from this class.
-    - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from ManagerBase\<sf::Music\>
-    - OptionManager - Simple OptionManager that stores Options in a hashmap. It also support JSON format. Inherits from ManagerBase\<sfex::Option\>
-    - SceneManager - Simple scene manager class. Stores shared pointers to Scene objects. Inherits from ManagerBase\<std::shared_ptr\<Scene\>\>
-    - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from ManagerBase\<sf::Sound\>
-    - SpriteManager - Simple SpriteManager class. Inherits from ManagerBase\<sf::Sprite\>
-    - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from ManagerBase\<sf::Texture\>
+    - MusicManager - Simple music manager class that stores musics in a hashmap and can play them. Inherits from `ManagerBase<sf::Music>`
+    - OptionManager - Simple OptionManager that stores Options in a hashmap. It also support JSON format. Inherits from `ManagerBase<sfex::Option>`
+    - SceneManager - Simple scene manager class. Stores shared pointers to Scene objects. Inherits from `ManagerBase<std::shared_ptr<Scene>>`
+    - SoundManager - Simple sound manager class that stores sounds and their buffers into seperate hashmaps. Inherits from `ManagerBase<sf::Sound>`
+    - SpriteManager - Simple SpriteManager class. Inherits from `ManagerBase<sf::Sprite>`
+    - TextureManager - Loads textures from various resources and stores them in a hashmap. Inherits from `ManagerBase<sf::Texture>`
 - **Numeric:** Classes that are related to math.
     - AngleSystem - A class for representing angle measurement systems.
     - Gradient - A gradient class that allows you to create gradients between anything that supports addition and multiplication operators.
     - Math - A math class that contains some math constants and functions. Only contains static methods and constants so it doesn't meant to be instantiated.
-    - Vector - N-Dimensional Vector class that aims to be compatable with every data structure. Uses functors to achieve this.
-    - Vector2 - 2D Vector class that adds some linear algebra functions and operators to sf::Vector2\<T\>
-    - Vector3 - 3D Vector class that adds some linear algebra functions and operators to sf::Vector3\<T\>
+    - `Vector<N, T>` - N-Dimensional Vector class.
+    - `Vector2<T>` - 2D Vector class that adds some linear algebra functions and operators to `sf::Vector2<T>`
+    - `Vector3<T>` - 3D Vector class that adds some linear algebra functions and operators to `sf::Vector3<T>`
 
 # Building SFEX
 
 To build SFEX from source, make sure that you have cmake and make installed. Then, open up a terminal and run these commands.
 ```bash
 # Clone the git repository
-git clone https://github.com/DolphyWind/SFML-Extended
+git clone https://github.com/DolphyWind/SFML-Extension
 # Change your directory
-cd SFML-Extended
+cd SFML-Extension
 # Create build folder and move into it
 mkdir build
 cd build
